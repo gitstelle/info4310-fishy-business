@@ -80,13 +80,16 @@
         border: 2px dashed black;
     }
 
+    .receipt p:first-child {
+        margin-top: 30px;
+    }
+
 
     .receipt p {
         text-align: center;
         color: black;
-        font-size: 2rem;
+        font-size: 1.5rem;
         margin: 3px;
-        margin-top: 30px;
     }
 
     .step {
@@ -128,6 +131,7 @@
     <article>
         <div class="step water" data-step="1">
             <p> Chart 1 </p>
+            <svg id="bar1" height="400" width="400"></svg>
         </div>
         <div class="step land" data-step="2">
             <p> Chart 2 </p>
@@ -144,9 +148,17 @@
 <body>
     <script>
         const getData = async function () {
+            const chart1 = d3.select("#bar1");
+            const width1 = chart1.attr("width");
+            const height1 = chart1.attr("height");
+            const margin1 = { top: 40, right: 10, bottom: 50, left:80};
+            const chartWidth1 = width1 - margin1.left - margin1.right;
+            const chartHeight1 = height1 - margin1.top - margin1.bottom;
+            let annotations1 = chart1.append("g").attr("id","annotations");
+            const chartArea1 = chart1.append("g")
+                                        .attr("transform","translate("+margin1.left+","+margin1.top+")");
 
             let water_use = await d3.csv("data/freshwater-use-seafood.csv", d3.autotype);
-
             let land_use = await d3.csv("data/land-use-seafood.csv", d3.autotype);
             let nitrogen_emissions = await d3.csv("data/nitrogen-emissions-seafood.csv", d3.autotype);
             let phos_emissions = await d3.csv("data/phosphorous-emissions-seafood.csv", d3.autotype);
@@ -218,6 +230,12 @@
                     return i === response.index;
                 });
 
+
+
+
+
+                // chart = d3.select(".step.is-active").append('svg')
+                //             .attr("class", "chart")
 
                 // Get selected fish's water, land, nitrogen, phosphorous data
                 // using salmon data as example for now

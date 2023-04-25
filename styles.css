@@ -1,0 +1,12 @@
+
+.land-outline {
+    stroke: white;
+    stroke-width: .5px;
+    fill: gray;
+}
+
+.country-outline {
+    stroke: white;
+    stroke-width: .5px;
+    fill: #EEEEEE;
+}

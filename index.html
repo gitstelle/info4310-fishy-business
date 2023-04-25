@@ -146,17 +146,36 @@
 </section>
 
 <body>
+
+    <svg id="choropleth" height="600" width="900" style="background: #EEEEEE; margin-top:50px">
+
+    </svg>
     <script>
+
+        const map_svg = d3.select("#choropleth");
+        const map_width = map_svg.attr("width");
+        const map_height = map_svg.attr("height");
+        const map_margin = { top: 20, right: 20, bottom: 20, left: 20 };
+        const mapWidth = map_width - map_margin.left - map_margin.right;
+        const mapHeight = map_height - map_margin.top - map_margin.bottom;
+        const map = map_svg.append("g")
+            .attr("transform", "translate(" + map_margin.left + "," + map_margin.top + ")");
+
+
+
         const getData = async function () {
+
+
+
             const chart1 = d3.select("#bar1");
             const width1 = chart1.attr("width");
             const height1 = chart1.attr("height");
-            const margin1 = { top: 40, right: 10, bottom: 50, left:80};
+            const margin1 = { top: 40, right: 10, bottom: 50, left: 80 };
             const chartWidth1 = width1 - margin1.left - margin1.right;
             const chartHeight1 = height1 - margin1.top - margin1.bottom;
-            let annotations1 = chart1.append("g").attr("id","annotations");
+            let annotations1 = chart1.append("g").attr("id", "annotations");
             const chartArea1 = chart1.append("g")
-                                        .attr("transform","translate("+margin1.left+","+margin1.top+")");
+                .attr("transform", "translate(" + margin1.left + "," + margin1.top + ")");
 
             let water_use = await d3.csv("data/freshwater-use-seafood.csv", d3.autotype);
             let land_use = await d3.csv("data/land-use-seafood.csv", d3.autotype);
@@ -312,6 +331,40 @@
 
             // kick things off
             init();
+
+
+            // world map of fish production
+
+            const world_data = await d3.json("countries-110m.json");
+
+
+            var countries = topojson.feature(world_data, world_data.objects.countries);
+            var countriesMesh = topojson.mesh(world_data, world_data.objects.countries);
+
+            var land = topojson.feature(world_data, world_data.objects.land)
+            var landMesh = topojson.feature(world_data, world_data.objects.land)
+
+            var projection = d3.geoNaturalEarth1().fitSize([mapWidth, mapHeight], countries);
+            var path = d3.geoPath().projection(projection);
+
+            map.append("path")
+                .datum(countriesMesh)
+                .attr("class", "country-outline")
+                .attr("d", path);
+
+            map.selectAll(".countries").data(countries.features)
+                .join("path")
+                .attr("class", "countries")
+                .attr("d", path);
+
+            map.append("path")
+                .datum(landMesh)
+                .attr("class", "land-outline")
+                .attr("d", path);
+
+
+
+
         }
         getData();
     </script>

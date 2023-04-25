@@ -365,8 +365,8 @@
             //I placed all the functions in an array. Each function corresponds to a different change in the visualisation. One may change the graph into a scatter plot, and another may initiate a force simulation.
             let activationFunctions = [redrawDefault,
                 drawInitial,
-                draw2
-                // draw2,
+                draw2,
+                draw3,
                 // draw3,
                 // draw4,
                 // draw5,
@@ -377,7 +377,6 @@
 
 
             function redrawDefault() {
-                s
                 chartArea1.selectAll('rect.bar').data(water_use)
                     .join(enter => enter.append('rect')
                         .attr('class', 'bar')
@@ -481,7 +480,7 @@
                         .attr("x", d => barscale(0))
                         .attr("y", d => leftaxisscale(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
                         .attr("height", leftaxisscale.bandwidth())
-                        .attr("width", d => barscale(Number(d[column])) - barscale(0))
+                        .attr("width", d => barscale(parseFloat(d[column])) - barscale(0))
                         .attr("opacity", 0)
                         .call(enter => enter.transition()
                             .attr('opacity', 1)),
@@ -490,7 +489,7 @@
                             .attr("x", d => barscale(0))
                             .attr("y", d => leftaxisscale(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
                             .attr("height", leftaxisscale.bandwidth())
-                            .attr("width", d => barscale(Number(d[column])) - barscale(0))),
+                            .attr("width", d => barscale(parseFloat(d[column])) - barscale(0))),
                         exit => exit.call(exit => exit.transition().attr('opacity', 0).remove()));
             }
 

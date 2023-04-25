@@ -208,7 +208,23 @@
             <svg id="bar1" height="500" width="600"></svg>
         </div>
     </div>
+
+    <svg id="choropleth" height="600" width="900" style="background: #EEEEEE; margin-top:50px">
+
+    </svg>
     <script>
+
+        const map_svg = d3.select("#choropleth");
+        const map_width = map_svg.attr("width");
+        const map_height = map_svg.attr("height");
+        const map_margin = { top: 20, right: 20, bottom: 20, left: 20 };
+        const mapWidth = map_width - map_margin.left - map_margin.right;
+        const mapHeight = map_height - map_margin.top - map_margin.bottom;
+        const map = map_svg.append("g")
+            .attr("transform", "translate(" + map_margin.left + "," + map_margin.top + ")");
+
+
+
         const getData = async function () {
 
 

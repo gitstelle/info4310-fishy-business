@@ -229,16 +229,6 @@
 
 
 
-            const chart1 = d3.select("#bar1");
-            const width1 = chart1.attr("width");
-            const height1 = chart1.attr("height");
-            const margin1 = { top: 40, right: 10, bottom: 50, left: 80 };
-            const chartWidth1 = width1 - margin1.left - margin1.right;
-            const chartHeight1 = height1 - margin1.top - margin1.bottom;
-            let annotations1 = chart1.append("g").attr("id", "annotations");
-            const chartArea1 = chart1.append("g")
-                .attr("transform", "translate(" + margin1.left + "," + margin1.top + ")");
-
             let water_use = await d3.csv("data/freshwater-use-seafood.csv", d3.autotype);
             let land_use = await d3.csv("data/land-use-seafood.csv", d3.autotype);
             let nitrogen_emissions = await d3.csv("data/nitrogen-emissions-seafood.csv", d3.autotype);
@@ -268,7 +258,27 @@
             console.log('Salmon nitrogen emissions', salmon_nitrogen_emissions)
             console.log('Salmon phosphorous emissions', salmon_phos_emissions)
 
+            const chart1 = d3.select("#bar1");
+            const width1 = chart1.attr("width");
+            const height1 = chart1.attr("height");
+            const margin1 = { top: 35, right: 10, bottom: 45, left: 150 };
+            const chartWidth1 = width1 - margin1.left - margin1.right;
+            const chartHeight1 = height1 - margin1.top - margin1.bottom;
+            let annotations1 = chart1.append("g").attr("id", "annotations");
+            const chartArea1 = chart1.append("g").attr("transform", "translate(" + margin1.left + "," + margin1.top + ")");
 
+            createScales();
+
+
+            // draw default graph, water use
+            chartArea1.selectAll('rect.bar').data(water_use)
+                .join('rect')
+                .attr('class', 'bar')
+                // .attr("fill", d => console.log(d['Freshwater use (m3 / kg edible weight)']))
+                .attr('x', d => barScale1(0))
+                .attr('y', d => leftAxisScale1(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
+                .attr("height", leftAxisScale1.bandwidth())
+                .attr("width", d => barScale1(Number(d['Freshwater use (m3 / kg edible weight)'])) - barScale1(0))
 
             function scroller() {
                 let container = d3.select('body')
@@ -349,13 +359,13 @@
                 })
                 lastIndex = activeIndex;
             })
-            scroll.on('progress', function(index, progress){
-                if (index == 2 & progress > 0.7){}
+            scroll.on('progress', function (index, progress) {
+                if (index == 2 & progress > 0.7) { }
             })
             //I placed all the functions in an array. Each function corresponds to a different change in the visualisation. One may change the graph into a scatter plot, and another may initiate a force simulation.
-            let activationFunctions = [
-                drawInitial(),
-                drawChart(land_use, barScale2, leftAxisScale1, 'Land use (m2 / kg edible weight)')
+            let activationFunctions = [redrawDefault,
+                drawInitial,
+                draw2
                 // draw2,
                 // draw3,
                 // draw4,
@@ -366,285 +376,124 @@
             ]
 
 
-            function drawInitial() {
-
-
-                // Setting up scales and axes for the 4 bar charts (do we need 4 separate bar charts or should we update the same one?)
-
-                //removing "(farmed)" from each of the fish entities
-                species = water_use.map(d => d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1))
-
-                //making scales and axes for water
-                water_values = water_use.map(d => Number(d['Freshwater use (m3 / kg edible weight)']))
-                land_values = land_use.map(d => Number(d['Land use (m2 / kg edible weight)']))
-                nitrogen_values = nitrogen_emissions.map(d => Number(d['Nitrogen (kgN / t edible weight)']))
-                phos_values = phos_emissions.map(d => Number(d['Phosphorous (kgP / t edible weight)']))
-
-                leftAxisScale1 = d3.scaleBand().domain(species).range([chartHeight1, 0]).padding(0.05);
-
-                barvalueExtent1 = d3.extent(water_values)
-                barScale1 = d3.scaleLinear().domain([0, barvalueExtent1[1]]).range([0, chartWidth1]);
-                console.log('barscale1')
-                console.log(barScale1)
-
-                let leftAxis1 = d3.axisLeft();
-                let leftAxisG1 = annotations1.append("g")
-                    .attr("class", "y-axis")
-                    // .attr("opacity", 0)
-                    .attr("transform", `translate(${margin1.left - 1}, ${margin1.top})`);
-                leftAxis1.scale(leftAxisScale1);
-                leftAxisG1.transition().call(leftAxis1);
-
-                let bottomAxis1 = d3.axisBottom();
-                let bottomAxisG1 = annotations1.append("g")
-                    .attr("class", "x-axis")
-                    // .attr("opacity", 0)
-                    .attr("transform", `translate(${margin1.left - 1},${chartHeight1 + margin1.top})`)
-
-                bottomAxis1.scale(barScale1);
-                bottomAxisG1.transition().call(bottomAxis1);
-
-                //making scales and axes for land
-                barvalueExtent2 = d3.extent(land_values)
-                barScale2 = d3.scaleLinear().domain([0, barvalueExtent2[1]]).range([0, chartWidth1]);
-
-                //making scales and axes for nitrogen
-                barvalueExtent3 = d3.extent(nitrogen_values)
-                barScale3 = d3.scaleLinear().domain([0, barvalueExtent3[1]]).range([0, chartWidth1]);
-
-                //making scales for phos
-                barvalueExtent4 = d3.extent(phos_values)
-                barScale4 = d3.scaleLinear().domain([0, barvalueExtent4[1]]).range([0, chartWidth1]);
-
-                // draw default graph, water use
+            function redrawDefault() {s
                 chartArea1.selectAll('rect.bar').data(water_use)
-                    .join('rect')
-                    .attr('class', 'bar')
-                    // .attr("fill", d => console.log(d['Freshwater use (m3 / kg edible weight)']))
-                    .attr('x', d => barScale1(0))
-                    .attr('y', d => leftAxisScale1(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
-                    .attr("height", leftAxisScale1.bandwidth())
-                    .attr("width", d => barScale1(Number(d['Freshwater use (m3 / kg edible weight)'])) - barScale1(0))
-
-
-            }
-
-            function drawChart(data, barscale, leftaxisscale, column) {
-                console.log('executed')
-
-                chartArea1.selectAll('rect.bar').data(data)
                     .join(enter => enter.append('rect')
                         .attr('class', 'bar')
                         // .attr("fill", barChartColor(input_mbti))
-                        .attr("x", d => barscale(0))
-                        .attr("y", d => leftaxisscale(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
-                        .attr("height", leftaxisscale.bandwidth())
-                        .attr("width", d => barscale(Number(d[column])) - barscale(0))
+                        .attr("x", d => barScale1(0))
+                        .attr("y", d => leftAxisScale1(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
+                        .attr("height", leftAxisScale1.bandwidth())
+                        .attr("width", d => barScale1(Number(d['Freshwater use (m3 / kg edible weight)'])) - barScale1(0))
                         .attr("opacity", 0)
                         .call(enter => enter.transition()
                             .attr('opacity', 1)),
                         update => update.call(update => update.transition()
                             // .attr("fill", barChartColor(input_mbti))
-                            .attr("x", d => barscale(0))
-                            .attr("y", d => leftaxisscale(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
-                            .attr("height", leftaxisscale.bandwidth())
-                            .attr("width", d => barscale(Number(d[column])) - barscale(0))),
+                            .attr("x", d => barScale1(0))
+                            .attr("y", d => leftAxisScale1(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
+                            .attr("height", leftAxisScale1.bandwidth())
+                            .attr("width", d => barScale1(Number(d['Freshwater use (m3 / kg edible weight)'])) - barScale1(0))),
                         exit => exit.call(exit => exit.transition().attr('opacity', 0).remove()));
             }
+        
 
-            // kick things off
-            init();
+        function createScales() {
+            // Setting up scales and axes for the 4 bar charts (do we need 4 separate bar charts or should we update the same one?)
+
+            //removing "(farmed)" from each of the fish entities
+            species = water_use.map(d => d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1))
+
+            //making scales and axes for water
+            water_values = water_use.map(d => Number(d['Freshwater use (m3 / kg edible weight)']))
+            land_values = land_use.map(d => Number(d['Land use (m2 / kg edible weight)']))
+            nitrogen_values = nitrogen_emissions.map(d => Number(d['Nitrogen (kgN / t edible weight)']))
+            phos_values = phos_emissions.map(d => Number(d['Phosphorous (kgP / t edible weight)']))
+
+            leftAxisScale1 = d3.scaleBand().domain(species).range([chartHeight1, 0]).padding(0.05);
+
+            barvalueExtent1 = d3.extent(water_values)
+            barScale1 = d3.scaleLinear().domain([0, barvalueExtent1[1]]).range([0, chartWidth1]);
+            console.log('barscale1')
+            console.log(barScale1)
+
+            let leftAxis1 = d3.axisLeft();
+            let leftAxisG1 = annotations1.append("g")
+                .attr("class", "y-axis")
+                // .attr("opacity", 0)
+                .attr("transform", `translate(${margin1.left - 1}, ${margin1.top})`);
+            leftAxis1.scale(leftAxisScale1);
+            leftAxisG1.transition().call(leftAxis1);
+
+            let bottomAxis1 = d3.axisBottom();
+            let bottomAxisG1 = annotations1.append("g")
+                .attr("class", "x-axis")
+                // .attr("opacity", 0)
+                .attr("transform", `translate(${margin1.left - 1},${chartHeight1 + margin1.top})`)
+
+            bottomAxis1.scale(barScale1);
+            bottomAxisG1.transition().call(bottomAxis1);
+
+            //making scales and axes for land
+            barvalueExtent2 = d3.extent(land_values)
+            barScale2 = d3.scaleLinear().domain([0, barvalueExtent2[1]]).range([0, chartWidth1]);
+
+            //making scales and axes for nitrogen
+            barvalueExtent3 = d3.extent(nitrogen_values)
+            barScale3 = d3.scaleLinear().domain([0, barvalueExtent3[1]]).range([0, chartWidth1]);
+
+            //making scales for phos
+            barvalueExtent4 = d3.extent(phos_values)
+            barScale4 = d3.scaleLinear().domain([0, barvalueExtent4[1]]).range([0, chartWidth1]);
+        }
 
 
-            // world map of fish production
+        function drawInitial() {
 
-            const world_data = await d3.json("countries-110m.json");
-
-
-            var countries = topojson.feature(world_data, world_data.objects.countries);
-            var countriesMesh = topojson.mesh(world_data, world_data.objects.countries);
-
-            var land = topojson.feature(world_data, world_data.objects.land)
-            var landMesh = topojson.feature(world_data, world_data.objects.land)
-
-            var projection = d3.geoNaturalEarth1().fitSize([mapWidth, mapHeight], countries);
-            var path = d3.geoPath().projection(projection);
-
-            map.append("path")
-                .datum(countriesMesh)
-                .attr("class", "country-outline")
-                .attr("d", path);
-
-            map.selectAll(".countries").data(countries.features)
-                .join("path")
-                .attr("class", "countries")
-                .attr("d", path);
-
-            map.append("path")
-                .datum(landMesh)
-                .attr("class", "land-outline")
-                .attr("d", path);
-
+            // createScales()
+            drawChart(land_use, barScale2, leftAxisScale1, 'Land use (m2 / kg edible weight)')
 
 
 
         }
 
-        //making land bar chart
-        // land_values = land_use.map(d => Number(d['Land use (m2 / kg edible weight)']))
-        // console.log('land values')
-        // console.log(land_values)
+        function draw2() {
+            drawChart(nitrogen_emissions, barScale3, leftAxisScale1, 'Nitrogen (kgN / t edible weight)')
+        }
 
+        function draw3() {
+            drawChart(phos_emissions, barScale4, leftAxisScale1, 'Phosphorous (kgP / t edible weight)')
+        }
 
-
-        // barChartColorScale1 = d3.scaleOrdinal
-
-        // var scrolly = d3.select("#scrolly");
-        // var receipt = scrolly.select(".receipt");
-        // var article = scrolly.select("article");
-        // var step = article.selectAll(".step");
-
-        // // initialize the scrollama
-        // var scroller = scrollama();
-
-        // // generic window resize listener event
-        // function handleResize() {
-        //     // 1. update height of step elements
-        //     var stepH = Math.floor(window.innerHeight * 0.75);
-        //     step.style("height", stepH + "px");
-
-        //     var figureHeight = window.innerHeight / 2;
-        //     var figureMarginTop = (window.innerHeight - figureHeight) / 2;
-
-        //     receipt
-        //         .style("height", figureHeight + "px")
-        //         .style("top", figureMarginTop + "px");
-
-        //     // 3. tell scrollama to update new element dimensions
-        //     scroller.resize();
+        // function fakeChart() {
+        //     createScales()
+        //     // drawChart(land_use, barScale2, leftAxisScale1, 'Land use (m2 / kg edible weight)')
         // }
 
-        // var previous_index = null;
+        function drawChart(data, barscale, leftaxisscale, column) {
+            console.log('executed')
 
-        // // scrollama event handlers
-        // function handleStepEnter(response) {
-        //     console.log('response');
-        //     console.log(response);
+            chartArea1.selectAll('rect.bar').data(data)
+                .join(enter => enter.append('rect')
+                    .attr('class', 'bar')
+                    // .attr("fill", barChartColor(input_mbti))
+                    .attr("x", d => barscale(0))
+                    .attr("y", d => leftaxisscale(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
+                    .attr("height", leftaxisscale.bandwidth())
+                    .attr("width", d => barscale(Number(d[column])) - barscale(0))
+                    .attr("opacity", 0)
+                    .call(enter => enter.transition()
+                        .attr('opacity', 1)),
+                    update => update.call(update => update.transition()
+                        // .attr("fill", barChartColor(input_mbti))
+                        .attr("x", d => barscale(0))
+                        .attr("y", d => leftaxisscale(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
+                        .attr("height", leftaxisscale.bandwidth())
+                        .attr("width", d => barscale(Number(d[column])) - barscale(0))),
+                    exit => exit.call(exit => exit.transition().attr('opacity', 0).remove()));
+        }
 
-
-        //     console.log('previous index')
-        //     console.log(previous_index)
-        //     console.log('current index')
-        //     console.log(response.index)
-
-        //     // add color to current step only
-        //     step.classed("is-active", function (d, i) {
-        //         return i === response.index;
-        //     });
-
-
-
-
-
-        //     // chart = d3.select(".step.is-active").append('svg')
-        //     //             .attr("class", "chart")
-
-        //     // Get selected fish's water, land, nitrogen, phosphorous data
-        //     // using salmon data as example for now
-        //     fish_water = salmon_water_use
-        //     fish_land = salmon_land_use
-        //     fish_nitrogen = salmon_nitrogen_emissions
-        //     fish_phos = salmon_nitrogen_emissions
-
-        //     adding_to = 0;
-
-        //     // dealing with removing stuff if you go backwards
-        //     if (previous_index > response.index) {
-        //         //remove previous index text?
-        //         if (previous_index === 3) {
-        //             adding_to = "#phosphorous"
-        //             text_to_add = ''
-        //         }
-        //         else if (previous_index === 2) {
-        //             adding_to = "#nitrogen"
-        //             text_to_add = ''
-        //         }
-        //         else if (previous_index === 1) {
-        //             adding_to = "#land"
-        //             text_to_add = ''
-        //         }
-
-        //     }
-        //     //going forwards
-        //     else {
-        //         if (response.index === 0) {
-        //             adding_to = "#water"
-        //             text_to_add = fish_water + ' water'
-
-
-        //             chartArea1.selectAll('rect.bar').data(water_use)
-        //                 .join('rect')
-        //                 .attr('class', 'bar')
-        //                 // .attr("fill", d => console.log(d['Freshwater use (m3 / kg edible weight)']))
-        //                 .attr('x', d => barScale1(0))
-        //                 .attr('y', d => leftAxisScale1(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
-        //                 .attr("height", leftAxisScale1.bandwidth())
-        //                 .attr("width", d => barScale1(Number(d['Freshwater use (m3 / kg edible weight)'])) - barScale1(0))
-        //             // leftAxisScale1(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1))
-        //         }
-        //         else if (response.index === 1) {
-        //             adding_to = "#land"
-        //             text_to_add = fish_land + ' land'
-
-        //             d3.select(".step.is-active").append('#bar1');
-        //             // chartArea2.selectAll('rect.bar').data(land_use)
-        //             //     .join('rect')
-        //             //     .attr('class', 'bar')
-        //             //     // .attr("fill", d => console.log(d['Freshwater use (m3 / kg edible weight)']))
-        //             //     .attr('x', d => barScale2(0))
-        //             //     .attr('y', d => leftAxisScale2(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
-        //             //     .attr("height", leftAxisScale2.bandwidth())
-        //             //     .attr("width", d => barScale2(Number(d['Land use (m2 / kg edible weight)'])) - barScale2(0))
-        //         }
-        //         else if (response.index === 2) {
-        //             adding_to = "#nitrogen"
-        //             text_to_add = fish_nitrogen + ' nitrogen'
-        //         }
-        //         else if (response.index === 3) {
-        //             adding_to = "#phosphorous"
-        //             text_to_add = fish_phos + ' phosphorous'
-        //         }
-        //     }
-
-        //     // response = { element, direction, index }
-        //     // update graphic based on step
-
-        //     receipt.select(adding_to).text(text_to_add)
-        //     // receipt.select("p").text(response.index + 1);
-
-        //     //keep track of previous step
-        //     previous_index = response.index;
-        // }
-
-        // function init() {
-
-        //     // 1. force a resize on load to ensure proper dimensions are sent to scrollama
-        //     handleResize();
-
-        //     // 2. setup the scroller passing options
-        //     // 		this will also initialize trigger observations
-        //     // 3. bind scrollama event handlers (this can be chained like below)
-        //     scroller
-        //         .setup({
-        //             step: "#scrolly article .step",
-        //             offset: 0.33,
-        //             debug: false
-        //         })
-        //         .onStepEnter(handleStepEnter);
-        // }
-
-        // // kick things off
-        // init();
+        }
 
         getData();
     </script>

@@ -268,15 +268,6 @@
             console.log('Salmon nitrogen emissions', salmon_nitrogen_emissions)
             console.log('Salmon phosphorous emissions', salmon_phos_emissions)
 
-            const chart1 = d3.select("#bar1");
-            const width1 = chart1.attr("width");
-            const height1 = chart1.attr("height");
-            const margin1 = { top: 35, right: 10, bottom: 45, left: 150 };
-            const chartWidth1 = width1 - margin1.left - margin1.right;
-            const chartHeight1 = height1 - margin1.top - margin1.bottom;
-            let annotations1 = chart1.append("g").attr("id", "annotations");
-            const chartArea1 = chart1.append("g").attr("transform", "translate(" + margin1.left + "," + margin1.top + ")");
-
 
 
             function scroller() {

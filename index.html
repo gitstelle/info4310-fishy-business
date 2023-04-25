@@ -103,14 +103,26 @@
     }
 
     .step.is-active {
-        background-color: goldenrod;
+        background-color: #FAF9F6;
         color: #3b3b3b;
+        border-style: solid;
     }
 
     .step p {
         text-align: center;
         padding: 1rem;
         font-size: 1.5rem;
+    }
+
+    .y-axis {
+        font-size: 14px;
+        font-family: 'Franklin Gothic';
+    }
+
+    .x-axis {
+        font-size: 12px;
+        font-family: 'Franklin Gothic';
+
     }
 </style>
 
@@ -131,10 +143,11 @@
     <article>
         <div class="step water" data-step="1">
             <p> Chart 1 </p>
-            <svg id="bar1" height="400" width="400"></svg>
+            <svg id="bar1" height="500" width="600"></svg>
         </div>
         <div class="step land" data-step="2">
             <p> Chart 2 </p>
+            <svg id="bar2" height="500" width="600"></svg>
         </div>
         <div class="step nitrogen" data-step="3">
             <p> Chart 3 </p>
@@ -151,12 +164,23 @@
             const chart1 = d3.select("#bar1");
             const width1 = chart1.attr("width");
             const height1 = chart1.attr("height");
-            const margin1 = { top: 40, right: 10, bottom: 50, left:80};
+            const margin1 = { top: 35, right: 10, bottom: 45, left: 150 };
             const chartWidth1 = width1 - margin1.left - margin1.right;
             const chartHeight1 = height1 - margin1.top - margin1.bottom;
-            let annotations1 = chart1.append("g").attr("id","annotations");
-            const chartArea1 = chart1.append("g")
-                                        .attr("transform","translate("+margin1.left+","+margin1.top+")");
+            let annotations1 = chart1.append("g").attr("id", "annotations");
+            const chartArea1 = chart1.append("g").attr("transform", "translate(" + margin1.left + "," + margin1.top + ")");
+
+
+            const chart2 = d3.select("#bar2");
+            const width2 = chart2.attr("width");
+            const height2 = chart2.attr("height");
+            const margin2 = { top: 35, right: 10, bottom: 45, left: 150 };
+            const chartWidth2 = width2 - margin2.left - margin2.right;
+            const chartHeight2 = height2 - margin2.top - margin2.bottom;
+            let annotations2 = chart2.append("g").attr("id", "annotations");
+            const chartArea2 = chart2.append("g").attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+
 
             let water_use = await d3.csv("data/freshwater-use-seafood.csv", d3.autotype);
             let land_use = await d3.csv("data/land-use-seafood.csv", d3.autotype);
@@ -187,6 +211,63 @@
             console.log('Salmon nitrogen emissions', salmon_nitrogen_emissions)
             console.log('Salmon phosphorous emissions', salmon_phos_emissions)
 
+
+
+            // Setting up scales and axes for the 4 bar charts (do we need 4 separate bar charts or should we update the same one?)
+
+
+            //removing "(farmed)" from each of the fish entities
+            species = water_use.map(d => d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1))
+
+            //making water bar chart
+            water_values = water_use.map(d => Number(d['Freshwater use (m3 / kg edible weight)']))
+
+            leftAxisScale1 = d3.scaleBand().domain(species).range([chartHeight1, 0]).padding(0.05);
+            barvalueExtent1 = d3.extent(water_values)
+
+            barScale1 = d3.scaleLinear().domain([0, barvalueExtent1[1]]).range([0, chartWidth1]);
+
+            let leftAxis1 = d3.axisLeft();
+            let leftAxisG1 = annotations1.append("g")
+                .attr("class", "y-axis")
+                .attr("transform", `translate(${margin1.left - 1}, ${margin1.top})`);
+            leftAxis1.scale(leftAxisScale1);
+            leftAxisG1.transition().call(leftAxis1);
+
+            let bottomAxis1 = d3.axisBottom();
+            let bottomAxisG1 = annotations1.append("g")
+                .attr("class", "x-axis")
+                .attr("transform", `translate(${margin1.left - 1},${chartHeight1 + margin1.top})`)
+
+            bottomAxis1.scale(barScale1);
+            bottomAxisG1.transition().call(bottomAxis1);
+
+            //making land bar chart
+            land_values = land_use.map(d => Number(d['Land use (m2 / kg edible weight)']))
+            console.log('land values')
+            console.log(land_values)
+
+            leftAxisScale2 = d3.scaleBand().domain(species).range([chartHeight2, 0]).padding(0.05);
+            barvalueExtent2 = d3.extent(land_values)
+
+            barScale2 = d3.scaleLinear().domain([0, barvalueExtent2[1]]).range([0, chartWidth2]);
+
+            let leftAxis2 = d3.axisLeft();
+            let leftAxisG2 = annotations2.append("g")
+                .attr("class", "y-axis")
+                .attr("transform", `translate(${margin2.left - 1}, ${margin2.top})`);
+            leftAxis2.scale(leftAxisScale2);
+            leftAxisG2.transition().call(leftAxis2);
+
+            let bottomAxis2 = d3.axisBottom();
+            let bottomAxisG2 = annotations2.append("g")
+                .attr("class", "x-axis")
+                .attr("transform", `translate(${margin2.left - 1},${chartHeight2 + margin2.top})`)
+
+            bottomAxis2.scale(barScale2);
+            bottomAxisG2.transition().call(bottomAxis2);
+
+            // barChartColorScale1 = d3.scaleOrdinal
 
             var scrolly = d3.select("#scrolly");
             var receipt = scrolly.select(".receipt");
@@ -268,10 +349,31 @@
                     if (response.index === 0) {
                         adding_to = "#water"
                         text_to_add = fish_water + ' water'
+
+
+                        chartArea1.selectAll('rect.bar').data(water_use)
+                            .join('rect')
+                            .attr('class', 'bar')
+                            // .attr("fill", d => console.log(d['Freshwater use (m3 / kg edible weight)']))
+                            .attr('x', d => barScale1(0))
+                            .attr('y', d => leftAxisScale1(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
+                            .attr("height", leftAxisScale1.bandwidth())
+                            .attr("width", d => barScale1(Number(d['Freshwater use (m3 / kg edible weight)'])) - barScale1(0))
+                        // leftAxisScale1(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1))
                     }
                     else if (response.index === 1) {
                         adding_to = "#land"
                         text_to_add = fish_land + ' land'
+
+
+                        chartArea2.selectAll('rect.bar').data(land_use)
+                            .join('rect')
+                            .attr('class', 'bar')
+                            // .attr("fill", d => console.log(d['Freshwater use (m3 / kg edible weight)']))
+                            .attr('x', d => barScale2(0))
+                            .attr('y', d => leftAxisScale2(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
+                            .attr("height", leftAxisScale2.bandwidth())
+                            .attr("width", d => barScale2(Number(d['Land use (m2 / kg edible weight)'])) - barScale2(0))
                     }
                     else if (response.index === 2) {
                         adding_to = "#nitrogen"

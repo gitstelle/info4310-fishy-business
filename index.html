@@ -69,18 +69,13 @@
         position: relative;
         padding: 0 1rem;
         max-width: 70%;
-    }
+    } */
 
     .receipt {
-        position: sticky;
         width: 100%;
-        max-width: 30%;
+        height: 75%;
         margin: 0;
-        -webkit-transform: translate3d(0, 0, 0);
-        -moz-transform: translate3d(0, 0, 0);
         transform: translate3d(0, 0, 0);
-
-
         background-color: #FAF9F6;
         z-index: 0;
 
@@ -91,8 +86,9 @@
         text-align: center;
         font-size: 2.5rem;
         color: black;
-        margin: 15px;
-        margin-bottom: 0px;
+        margin: 10px;
+        /* margin-bottom: 0px; */
+        /* padding:10px; */
     }
 
     .receipt h5 {
@@ -129,7 +125,7 @@
         margin: 3px;
     }
 
-    .step {
+    /* .step {
         margin: 0 auto 2rem auto;
         background-color: #3b3b3b;
         color: #fff;
@@ -149,7 +145,7 @@
         text-align: center;
         padding: 1rem;
         font-size: 1.5rem;
-    }
+    } */
 
     .y-axis {
         font-size: 14px;
@@ -160,7 +156,9 @@
         font-size: 12px;
         font-family: 'Franklin Gothic';
 
-    } */
+    }
+
+    */
 </style>
 
 
@@ -199,10 +197,59 @@
 <body>
     <div id="graphic">
         <div id="sections">
-            <section class="step">Chart1</section>
-            <section class="step">Chart2</section>
-            <section class="step">Chart3</section>
-            <section class="step">Chart4</section>
+            <section class="step">
+                Chart1
+                <div class="receipt">
+                    <h4> The Cost of Your Filet </h4>
+                    <h5> From Plate to Sea </h5>
+                    <h6> Address: blah blah 123 st</h6>
+                    <h6> Telephone: 879-345-9876 </h6>
+                    <hr class="dashed-line">
+                    <p id="water"></p>
+                    <p id="land"></p>
+                    <p id="nitrogen"></p>
+                    <p id="phosphorous"></p>
+                </div>
+            </section>
+            <section class="step">Chart2
+                <div class="receipt">
+                    <h4> The Cost of Your Filet </h4>
+                    <h5> From Plate to Sea </h5>
+                    <h6> Address: blah blah 123 st</h6>
+                    <h6> Telephone: 879-345-9876 </h6>
+                    <hr class="dashed-line">
+                    <p id="water"></p>
+                    <p id="land"></p>
+                    <p id="nitrogen"></p>
+                    <p id="phosphorous"></p>
+                </div>
+            </section>
+            <section class="step">Chart3
+                <div class="receipt">
+                    <h4> The Cost of Your Filet </h4>
+                    <h5> From Plate to Sea </h5>
+                    <h6> Address: blah blah 123 st</h6>
+                    <h6> Telephone: 879-345-9876 </h6>
+                    <hr class="dashed-line">
+                    <p id="water"></p>
+                    <p id="land"></p>
+                    <p id="nitrogen"></p>
+                    <p id="phosphorous"></p>
+                </div>
+            </section>
+            <section class="step">Chart4
+                <div class="receipt">
+                    <h4> The Cost of Your Filet </h4>
+                    <h5> From Plate to Sea </h5>
+                    <h6> Address: blah blah 123 st</h6>
+                    <h6> Telephone: 879-345-9876 </h6>
+                    <hr class="dashed-line">
+                    <p id="water"></p>
+                    <p id="land"></p>
+                    <p id="nitrogen"></p>
+                    <p id="phosphorous"></p>
+                </div>
+            </section>
         </div>
         <div id="vis">
             <svg id="bar1" height="500" width="600"></svg>
@@ -445,6 +492,13 @@
                 //making scales for phos
                 barvalueExtent4 = d3.extent(phos_values)
                 barScale4 = d3.scaleLinear().domain([0, barvalueExtent4[1]]).range([0, chartWidth1]);
+
+                // Get selected fish's water, land, nitrogen, phosphorous data
+                // using salmon data as example for now
+                // fish_water = salmon_water_use
+                // fish_land = salmon_land_use
+                // fish_nitrogen = salmon_nitrogen_emissions
+                // fish_phos = salmon_nitrogen_emissions
             }
 
 
@@ -452,6 +506,7 @@
 
                 // createScales()
                 drawChart(land_use, barScale2, leftAxisScale1, 'Land use (m2 / kg edible weight)')
+                d3.select('.receipt').text(text_to_add)
 
 
 

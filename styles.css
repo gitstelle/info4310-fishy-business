@@ -1,4 +1,185 @@
+section {
+    height: 500;
+}
 
+#graphic {
+    margin: auto;
+    width: 1500px;
+    flex-direction: row;
+    align-items: top;
+    justify-content: space-around;
+}
+
+#vis {
+    display: inline-block;
+    position: fixed;
+    /* top: 0px; */
+    z-index: 1;
+    margin-left: 0;
+    height: 1000px;
+    width: 1000px;
+}
+
+.step,
+.startingMenu {
+    margin-bottom: 100px;
+    height: 700px;
+    font-family: "Domine";
+    font-weight: 400;
+    line-height: 1.4em;
+    text-align: justify;
+    /* display: flex;
+flex-direction: column;
+justify-content: space-around; */
+}
+
+
+
+#sections {
+    position: relative;
+    display: inline-block;
+    width: 400px;
+    top: 60px;
+    z-index: 90;
+    margin-right: 50px;
+}
+
+/* #scrolly {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    background-color: #f3f3f3;
+    padding: 1rem;
+}
+
+#scrolly>* {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+}
+
+article {
+    position: relative;
+    padding: 0 1rem;
+    max-width: 70%;
+} */
+
+
+
+
+.receipt,
+.menu {
+    width: 100%;
+    height: 75%;
+    margin: 0;
+    transform: translate3d(0, 0, 0);
+    background-color: #FAF9F6;
+    z-index: 0;
+    border-style: solid;
+}
+
+.menu {
+    width: 400px;
+    height: 500px;
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column;
+    align-items: center;
+}
+
+.order {
+    width: 400px;
+    height: 500px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+}
+
+/* .foodimage {
+    margin-right: 50px;
+} */
+
+
+
+.receipt h4 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: black;
+    margin: 10px;
+    /* margin-bottom: 0px; */
+    /* padding:10px; */
+}
+
+.receipt h5 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 500;
+    color: black;
+    margin: 2px;
+}
+
+.receipt h6 {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: black;
+    margin: 2px;
+}
+
+.dashed-line {
+    margin-top: 20px;
+    max-width: 70%;
+    border: 2px dashed black;
+}
+
+.receipt p:first-child {
+    margin-top: 30px;
+}
+
+
+.receipt p {
+    text-align: center;
+    color: black;
+    font-size: 1.5rem;
+    margin: 3px;
+}
+
+/* .step {
+    margin: 0 auto 2rem auto;
+    background-color: #3b3b3b;
+    color: #fff;
+}
+
+.step:last-child {
+    margin-bottom: 0;
+}
+
+.step.is-active {
+    background-color: #FAF9F6;
+    color: #3b3b3b;
+    border-style: solid;
+}
+
+.step p {
+    text-align: center;
+    padding: 1rem;
+    font-size: 1.5rem;
+} */
+
+.y-axis {
+    font-size: 14px;
+    font-family: 'Franklin Gothic';
+}
+
+.x-axis {
+    font-size: 12px;
+    font-family: 'Franklin Gothic';
+
+}
+
+*/
 .land-outline {
     stroke: white;
     stroke-width: .5px;

@@ -239,10 +239,10 @@
                 fish_land_use = salmon_land_use
                 fish_nitrogen_emissions = salmon_nitrogen_emissions
                 fish_phos_emissions = salmon_phos_emissions
-                img = mealContainer.append('img').transition().duration(100)
-                img.attr('class', 'fadeinout').attr('src', 'images/salmon.jpg')
+                // img = mealContainer.append('img').transition().duration(100)
+                // img.attr('class', 'fadeinout').attr('src', 'images/salmon.jpg')
                 // mealContainer.select('img').attr('class',"visibleAnimation")
-                const myTimeout = setTimeout(pleaseWork, 5000);
+                const myTimeout = setTimeout(pleaseWork, 500);
 
             }
 
@@ -263,7 +263,8 @@
             }
             function pleaseWork() {
                 // document.getElementById("demo").innerHTML = "Happy Birthday!"
-                img = mealContainer.append('img').transition().duration(100)
+                // img = mealContainer.append('img').transition().duration(20)
+                img = mealContainer.append('img')
                 img.attr('class', 'fadeinout').attr('src', 'images/salmon.jpg')
             }
 

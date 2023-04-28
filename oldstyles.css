@@ -245,12 +245,13 @@ article {
 
 .fadeinout {
     opacity:0;
-
+    width: 200;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
     -webkit-animation: fadeinout 2s;
     animation: fadeinout 2s; 
     animation-fill-mode: forwards;
-   -webkit-animation-delay: .5s;
-    animation-delay: .5s;
     -webkit-animation-fill-mode: forwards;
 
 

@@ -1,25 +1,27 @@
 html {
-    font-family: 'Inter','Trebutchet MS', 'Helvetica','sans-serif';
+    font-family: 'Inter', 'Trebutchet MS', 'Helvetica', 'sans-serif';
 }
 
 body {
-    padding-left:10%;
-    padding-right:10%;
+    padding-left: 10%;
+    padding-right: 10%;
 }
 
-.textCenter{
+.textCenter {
     text-align: center;
 }
 
 #heading {
-    padding:5%
+    padding: 5%
 }
+
 #heading h1 {
-    font-size:80px;
+    font-size: 80px;
     text-transform: uppercase;
 }
-#heading h2{
-    font-size:30px;
+
+#heading h2 {
+    font-size: 30px;
 }
 
 section {
@@ -204,8 +206,7 @@ article {
 
 }
 
-*/
-.land-outline {
+*/ .land-outline {
     stroke: white;
     stroke-width: .5px;
     fill: gray;
@@ -218,12 +219,12 @@ article {
 }
 
 .flexRow {
-    display:flex;
+    display: flex;
     flex-direction: row;
 }
 
 .flexRowChild {
-    width:50%;
+    width: 50%;
 }
 
 .hiddenAnimation {
@@ -233,7 +234,7 @@ article {
 }
 
 .hidden {
-    display:none;
+    display: none;
 }
 
 /* .visibleAnimation {
@@ -242,34 +243,34 @@ article {
     opacity: 1;
 } */
 
-.fadeinout
-{
-  animation: fadeinout 250ms;
+.fadeinout {
+    animation-delay:3s;
+    animation: fadeinout 750ms;
 }
 
-@keyframes fadeinout
-{
-  0%{
-    opacity:0;
-  }
-  100%
-  {
-    opacity:1;
-  }
+@keyframes fadeinout {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 button {
     background-color: red;
-    color:white;
+    color: white;
     font-weight: bold;
     border: none;
     padding: 5px;
     border-radius: 5px;
 }
+
 /* button:hover{
     transform
 } */
 
-#mealPhoto{
-    width:200px;
+#mealPhoto {
+    width: 200px;
 }

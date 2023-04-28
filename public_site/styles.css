@@ -179,8 +179,7 @@ article {
 
 }
 
-*/
-.land-outline {
+*/ .land-outline {
     stroke: white;
     stroke-width: .5px;
     fill: gray;
@@ -188,7 +187,13 @@ article {
 
 .country-outline {
     stroke: white;
-    stroke-width: .5px;
-    fill: #EEEEEE;
+    stroke-width: 0.5px;
+    fill: none;
 }
 
+
+#choropleth {
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+}

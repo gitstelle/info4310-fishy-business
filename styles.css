@@ -227,14 +227,35 @@ article {
 }
 
 .hiddenAnimation {
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s 250ms, opacity 250ms linear;
-}
-.hidden {
     display: none;
-    transition: opacity 1s ease-out;
+    transition: opacity 250ms ease-out;
     opacity: 0;
+}
+
+.hidden {
+    display:none;
+}
+
+/* .visibleAnimation {
+    display: block;
+    transition: opacity 250ms ease-out;
+    opacity: 1;
+} */
+
+.fadeinout
+{
+  animation: fadeinout 250ms;
+}
+
+@keyframes fadeinout
+{
+  0%{
+    opacity:0;
+  }
+  100%
+  {
+    opacity:1;
+  }
 }
 
 button {

@@ -50,6 +50,7 @@
     </div>
     <div class="flexRow" id="menuContainer">
         <div id="menuDish" class="flexRowChild flexRowChildRight">
+            <div id ="mealPhoto"></div>
             <div id="menu">
                 <!-- <div id="meal"></div> -->
                 <h4> Catch of the Day </h4>
@@ -225,12 +226,12 @@
 
             selectedFish = d3.select(this).select('span').text();
 
-            mealContainer = d3.select('#menuDish')
+            mealContainer = d3.select('#mealPhoto')
             // mealContainer.selectAll('img').remove()
 
             menu = d3.select("#menu")
-            hideAwait(menu);
-            menu.attr('class','hidden')
+            menu.classed('hiddenAnimation', true)
+            // hideAwait(menu);
             // d3.select("#startingMenu").delay().duration(200).attr("class","hidden")
 
             if (selectedFish === 'Salmon') {
@@ -238,7 +239,8 @@
                 fish_land_use = salmon_land_use
                 fish_nitrogen_emissions = salmon_nitrogen_emissions
                 fish_phos_emissions = salmon_phos_emissions
-                mealContainer.append('img').attr('src', 'images/salmon.jpg').attr('class','mealPhoto')
+                mealContainer.append('img').attr('class','fadeinout').attr('src', 'images/salmon.jpg')
+                // mealContainer.select('img').attr('class',"visibleAnimation")
             }
             else if (selectedFish === 'Shrimp') {
                 fish_water_use = shrimp_water_use
@@ -274,7 +276,10 @@
         }
 
         async function hideAwait(d3element) {
-            await d3element.attr("class", "hiddenAnimation")
+            // await d3element.attr("class", "hiddenAnimation").end();
+            d3element.classed('hidden', true)
+            
+
         }
 
         function highlightBar(v) {

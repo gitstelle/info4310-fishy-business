@@ -244,8 +244,16 @@ article {
 } */
 
 .fadeinout {
-    animation-delay:3s;
-    animation: fadeinout 750ms;
+    opacity:0;
+
+    -webkit-animation: fadeinout 2s;
+    animation: fadeinout 2s; 
+    animation-fill-mode: forwards;
+   -webkit-animation-delay: .5s;
+    animation-delay: .5s;
+    -webkit-animation-fill-mode: forwards;
+
+
 }
 
 @keyframes fadeinout {
@@ -257,7 +265,10 @@ article {
         opacity: 1;
     }
 }
-
+@-webkit-keyframes fadeinout{
+    0% {opacity:0;}
+    100% {opacity:1;}
+    }
 button {
     background-color: red;
     color: white;

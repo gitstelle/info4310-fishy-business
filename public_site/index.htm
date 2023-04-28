@@ -215,6 +215,9 @@
 
                 selectedFish = d3.select(this).select('span').text();
 
+                d3.select('.menu').style('display', 'none')
+                d3.select('#menuContainer').style('display','none')
+
                 if (selectedFish === 'Salmon') {
                     fish_water_use = salmon_water_use
                     fish_land_use = salmon_land_use

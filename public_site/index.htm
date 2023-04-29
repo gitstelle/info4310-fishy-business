@@ -202,7 +202,7 @@
             // cannot click on something else
             d3.select("#menu").style("pointer-events", "none")
 
-            
+            d3.select("#menu p").classed("fadeInOut",false)
 
             console.log('orderup')
             console.log(this.id)
@@ -232,6 +232,7 @@
             }
 
             d3.select('#dish').classed("hidden", false).classed("fadeIn", true)
+            d3.select('#graphic').classed("hidden",false)
 
             dishSection = d3.select('#dish .left')
             dishSection.append('img').attr('src', "images/" + selectedFish + ".jpg")

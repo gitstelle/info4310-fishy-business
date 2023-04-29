@@ -1,3 +1,7 @@
+* {
+    font-family: 'Inter','Trebutchet Ms','Helvetica';
+}
+
 section {
     height: 500;
 }
@@ -5,7 +9,7 @@ section {
 #graphic {
     margin: auto;
     width: 1500px;
-    flex-direction: row;
+    flex-direction: rowz;
     align-items: top;
     justify-content: space-around;
 }

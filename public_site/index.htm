@@ -12,80 +12,51 @@
 
 </head>
 
-<!-- <section id="scrolly">
-
-    <div class="receipt">
-        <h4> The Cost of Your Filet </h4>
-        <h5> From Plate to Sea </h5>
-        <h6> Address: blah blah 123 st</h6>
-        <h6> Telephone: 879-345-9876 </h6>
-        <hr class="dashed-line">
-        <p id="water"></p>
-        <p id="land"></p>
-        <p id="nitrogen"></p>
-        <p id="phosphorous"></p>
-    </div>
-
-    <article>
-        <div class="step water" data-step="1">
-            <p> Chart 1 </p>
-            <svg id="bar1" height="500" width="600"></svg>
-        </div>
-        <div class="step land" data-step="2">
-            <p> Chart 2 </p>
-            <svg id="bar2" height="500" width="600"></svg>
-        </div>
-        <div class="step nitrogen" data-step="3">
-            <p> Chart 3 </p>
-        </div>
-        <div class="step phosphorous" data-step="4">
-            <p> Chart 4 </p>
-        </div>
-    </article>
-</section> -->
-
 <body>
-    <p>Welcome to our restaurant. I'm your server, Fish Business! Please order any of our specials by clicking on the
-        item you want! :D</p>
-    <div id="startingMenu">
-        <div class="menu">
-            <h4> Catch of the Day </h4>
-            <!-- Salmon Order -->
-            <div class="order">
-                <div class="foodimage">
-                    <img src="images/salmon.jpg" alt="pic of salmon dish" style="height: 100px;">
+    <div class="top">
+        <p>Welcome to our restaurant. I'm your server, Fish Business! Please order any of our specials by clicking on
+            the
+            item you want! :D</p>
+        <div id="startingMenu">
+            <div class="menu">
+                <h4> Catch of the Day </h4>
+                <!-- Salmon Order -->
+                <div class="order">
+                    <div class="foodimage">
+                        <img src="images/salmon.jpg" alt="pic of salmon dish" style="height: 100px;">
 
+                    </div>
+                    <div class="text">
+                        <h5><span>Salmon</span>....$20</h5>
+                        <h6>Fresh salmon blah blah</h6>
+                    </div>
                 </div>
-                <div class="text">
-                    <h5><span>Salmon</span>....$20</h5>
-                    <h6>Fresh salmon blah blah</h6>
+                <!-- Shrimp Order -->
+                <div class="order">
+                    <div class="foodimage">
+                        <img src="images/shrimp.jpg" alt="pic of shrimp dish" style="height: 100px;">
+
+                    </div>
+                    <div class="text">
+                        <h5><span>Shrimp</span>.....$16</h5>
+                        <h6>Fresh shrimp blah blah</h6>
+
+                    </div>
                 </div>
+                <!-- Tilapia Order -->
+                <div class="order">
+                    <div class="foodimage">
+                        <img src="images/tilapia.jpg" alt="pic of tilapia dish" style="height: 100px;">
+
+                    </div>
+                    <div class="text">
+                        <h5><span>Tilapia</span>.....$16</h5>
+                        <h6>Fresh shrimp blah blah</h6>
+
+                    </div>
+                </div>
+
             </div>
-            <!-- Shrimp Order -->
-            <div class="order">
-                <div class="foodimage">
-                    <img src="images/shrimp.jpg" alt="pic of shrimp dish" style="height: 100px;">
-
-                </div>
-                <div class="text">
-                    <h5><span>Shrimp</span>.....$16</h5>
-                    <h6>Fresh shrimp blah blah</h6>
-
-                </div>
-            </div>
-            <!-- Tilapia Order -->
-            <div class="order">
-                <div class="foodimage">
-                    <img src="images/tilapia.jpg" alt="pic of tilapia dish" style="height: 100px;">
-
-                </div>
-                <div class="text">
-                    <h5><span>Tilapia</span>.....$16</h5>
-                    <h6>Fresh shrimp blah blah</h6>
-
-                </div>
-            </div>
-
         </div>
     </div>
 
@@ -216,7 +187,7 @@
                 selectedFish = d3.select(this).select('span').text();
 
                 d3.select('.menu').style('display', 'none')
-                d3.select('#menuContainer').style('display','none')
+                d3.select('#menuContainer').style('display', 'none')
 
                 if (selectedFish === 'Salmon') {
                     fish_water_use = salmon_water_use
@@ -250,7 +221,7 @@
                     .attr("height", leftAxisScale1.bandwidth())
                     .attr("width", d => barScale1(Number(d['Freshwater use (m3 / kg edible weight)'])) - barScale1(0))
 
-                    d3.selectAll('#water').text(salmon_water_use + ' water').style('color','red')
+                d3.selectAll('#water').text(salmon_water_use + ' water').style('color', 'red')
             }
 
             function highlightBar(v) {
@@ -261,7 +232,7 @@
                 else { return 'darkgrey'; }
             }
 
-            
+
 
 
             let scroll = scroller().container(d3.select('#graphic'))
@@ -319,13 +290,13 @@
                     d3.selectAll('#land').text('')
                 }
 
-                d3.selectAll('#water').style('color','red')
+                d3.selectAll('#water').style('color', 'red')
 
             }
 
 
             function createScales() {
-                // Setting up scales and axes for the 4 bar charts (do we need 4 separate bar charts or should we update the same one?)
+                // Setting up scales and axes for the 4 bar charts
 
                 //removing "(farmed)" from each of the fish entities
                 species = water_use.map(d => d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1))
@@ -376,29 +347,19 @@
 
             function drawInitial() {
 
-                // createScales()
                 drawChart(land_use, barScale2, leftAxisScale1, 'Land use (m2 / kg edible weight)')
-                d3.selectAll('#land').text(fish_land_use + ' land').style('color','red')
-                d3.selectAll('#water').style('color','black')
+                d3.selectAll('#land').text(fish_land_use + ' land').style('color', 'red')
+                d3.selectAll('#water').style('color', 'black')
 
                 if (lastIndex > activeIndex) {
                     d3.selectAll('#nitrogen').text('')
                 }
-
-
-
-
             }
 
             function draw2() {
                 drawChart(nitrogen_emissions, barScale3, leftAxisScale1, 'Nitrogen (kgN / t edible weight)')
-                d3.selectAll('#nitrogen').text(fish_water_use + ' nitrogen').style('color','red')
-                d3.selectAll('#land').style('color','black')
-
-                console.log('draw2')
-                console.log('activeIndex', activeIndex)
-                console.log('lastIndex', lastIndex)
-
+                d3.selectAll('#nitrogen').text(fish_water_use + ' nitrogen').style('color', 'red')
+                d3.selectAll('#land').style('color', 'black')
 
                 if (lastIndex > activeIndex) {
                     d3.selectAll('#phosphorous').text('')
@@ -408,8 +369,8 @@
 
             function draw3() {
                 drawChart(phos_emissions, barScale4, leftAxisScale1, 'Phosphorous (kgP / t edible weight)')
-                d3.selectAll('#phosphorous').text(fish_water_use + ' phosphorous').style('color','red')
-                d3.selectAll('#nitrogen').style('color','black')
+                d3.selectAll('#phosphorous').text(fish_water_use + ' phosphorous').style('color', 'red')
+                d3.selectAll('#nitrogen').style('color', 'black')
 
 
             }
@@ -420,7 +381,6 @@
             // }
 
             function drawChart(data, barscale, leftaxisscale, column) {
-                console.log('drawChart')
 
                 chartArea1.selectAll('rect.bar').data(data)
                     .join(enter => enter.append('rect')
@@ -446,22 +406,17 @@
 
 
             const world_data = await d3.json("countries-110m.json");
-            console.log('world data')
-            console.log(world_data)
 
             salmonCountries = ["Norway", "Sweden", "Denmark", "UK", "Chile"]
             shrimpCountries = ['India', 'China', 'Vietnam', 'Indonesia', 'Thailand']
-            tilapiaCountries = ['China', 'Indonesia','Honduras','Mexico','Taiwan'];
+            tilapiaCountries = ['China', 'Indonesia', 'Honduras', 'Mexico', 'Taiwan'];
 
 
-            
-            
-            const topColorScale = d3.scaleOrdinal(d3.schemeSet3).domain([1,2,3,4,5]);            var countries = topojson.feature(world_data, world_data.objects.countries);
-            
+
+
+            const topColorScale = d3.scaleOrdinal(d3.schemeSet3).domain([1, 2, 3, 4, 5]); var countries = topojson.feature(world_data, world_data.objects.countries);
+
             var countriesMesh = topojson.mesh(world_data, world_data.objects.countries);
-
-            // var land = topojson.feature(world_data, world_data.objects.land)
-            // var landMesh = topojson.feature(world_data, world_data.objects.land)
 
             var projection = d3.geoRobinson().fitSize([mapWidth, mapHeight], countries);
             var path = d3.geoPath().projection(projection);
@@ -471,16 +426,17 @@
                 // if (selectedFish === 'Salmon'){ranking = salmonCountries.indexOf(country)}
                 // else if (selectedFish === 'Shrimp'){ranking = shrimpCountries.indexOf(country)}
                 // else if (selectedFish === 'Tilapia'){ranking = tilapiaCountries.indexOf(country)}
-                
+
+                //using tilapia as an example for now
                 ranking = tilapiaCountries.indexOf(country)
-                
+
                 if (ranking > -1) {
                     console.log('country')
                     console.log(country)
                     return topColorScale(ranking)
                 }
-                
-                
+
+
             }
 
             let viewport = map.append("g");
@@ -488,7 +444,7 @@
             viewport.selectAll(".countries").data(countries.features)
                 .join("path")
                 .attr("class", "countries")
-                .attr('stroke','None')
+                .attr('stroke', 'None')
                 .attr('fill', d => countryColor(d.properties.name))
                 .attr("d", path);
 
@@ -496,13 +452,6 @@
                 .datum(countriesMesh)
                 .attr("class", "country-outline")
                 .attr("d", path);
-
-
-
-            // map.append("path")
-            //     .datum(landMesh)
-            //     .attr("class", "land-outline")
-            //     .attr("d", path);
 
         }
 

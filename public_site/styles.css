@@ -30,7 +30,7 @@ header {
 
 h1 {
     font-size: 80px;
-    font-weight: normal;
+    text-transform: uppercase;
     /* font-style: italic; */
 }
 
@@ -163,9 +163,7 @@ article {
     cursor: pointer;
 }
 
-/* .orderUnselected {
-    color:#dfd7b6;
-} */
+/* source: https://www.30secondsofcode.org/css/s/hover-underline-animation/ */
 
 .hover-underline-animation {
     position: relative;

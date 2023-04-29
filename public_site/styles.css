@@ -1,6 +1,7 @@
 
 html {
-    font-family: "Inter","Trebutchet MS","Helvetica", sans-serif;
+    font-family:"Trebuchet MS","Helvetica", sans-serif;
+    scroll-behavior:smooth
 }
 
 .fancyFont {
@@ -15,19 +16,31 @@ html {
     width:50%;
 }
 
-body {
-    padding-top:5%;
-    padding-bottom:5%;
+body { 
+    /* padding-bottom:15px; */
+    margin:0;
 }
 
 header {
-    padding-bottom:5%;
+    padding-top:40px;
+    padding-bottom:40px;
+    /* background-color: pink; */
+}
+
+section {
+    /* margin-top:20px; */
+    margin-bottom:40px;
 }
 
 h1 {
-    font-size: 80px;
-    text-transform: uppercase;
-    /* font-style: italic; */
+    font-size: 70px;
+    font-weight: normal;
+    margin:0;
+    /* text-transform: uppercase; */
+}
+
+#author {
+    padding:20px;
 }
 
 .textCenter {
@@ -39,8 +52,19 @@ main {
     padding-right:10%;
 }
 
-section {
+/* section {
     height: 500;
+} */
+
+.right{
+    margin-left: auto;
+    margin-right:auto;
+    width:300px;
+    font-size:24px;
+}
+
+.italic {
+    font-style: italic;
 }
 
 #graphic {
@@ -74,8 +98,6 @@ flex-direction: column;
 justify-content: space-around; */
 }
 
-
-
 #sections {
     position: relative;
     display: inline-block;
@@ -107,12 +129,10 @@ article {
 } */
 
 
-
-
 .receipt,
 .menu {
-    width: 100%;
-    height: 75%;
+    /* width: 100%; */
+    /* height: 75%; */
     margin: 0;
     transform: translate3d(0, 0, 0);
     background-color: #f4f1e4;
@@ -124,20 +144,21 @@ article {
 .menu {
     color:#2942a5;
     width: 400px;
-    height: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 480px;
     padding: 15px;
     padding-top:70px
 }
 
 .menu h2 {
-    font-size: 35px;
+    font-size: 30px;
     text-transform: uppercase;
     text-align: center;
 }
 
 .orderSelected {
     color:rgb(235, 72, 3);
-
 }
 
 .menuTitle :not(.orderSelected){
@@ -145,6 +166,7 @@ article {
 }
 
 .menuTitle {
+    text-decoration: none;
     opacity: 1;
     font-size:18px;
     letter-spacing: 1px;
@@ -153,13 +175,70 @@ article {
     cursor: pointer;
 }
 
+.flexChild img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#dish img {
+    width:400px;
+}
+/* ANIMATIONS */
+
+.fadeAnimation {
+    animation: fade 2s linear infinite;
+}
+  @keyframes fade {
+    0%,100% { 
+        color:rgb(235, 72, 3) }
+    50% { 
+        color:#2942a5;
+        /* opacity: 1 } */
+  }
+}
+
+.fadeIn {
+    animation: fadeInAnimation 2s ease ;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+     }
+}
+
+/* source: https://www.geeksforgeeks.org/how-to-create-fade-in-effect-on-page-load-using-css/# */
+
+.fadeInOut {
+    animation: fadeInOutAnimation 2s ease infinite ;
+    /* animation-iteration-count: 1; */
+    /* animation-fill-mode: forwards; */
+}
+
+
+@keyframes fadeInOutAnimation {
+    0%,100% {
+        opacity: 10;
+    }
+    50% {
+        opacity: .25;
+     }
+}
+
 /* source: https://www.30secondsofcode.org/css/s/hover-underline-animation/ */
 
 .hover-underline-animation {
     position: relative;
   }
   
-  .hover-underline-animation:after {
+.hover-underline-animation:after {
     content: '';
     position: absolute;
     width: 100%;
@@ -177,9 +256,7 @@ article {
     transform-origin: bottom left;
   }
 
-.fadeAnimation {
-    animation: fade 2s linear infinite;
-}
+
 
 .order {
     width:350px;
@@ -189,15 +266,6 @@ article {
 
 .order p:not(.menuTitle){
     width:200;
-}
-  
-  @keyframes fade {
-    0%,100% { 
-        color:rgb(235, 72, 3) }
-    50% { 
-        color:#2942a5;
-        /* opacity: 1 } */
-  }
 }
 
 .receipt h4 {
@@ -293,4 +361,8 @@ article {
     display: flex;
     margin: 0 auto;
     justify-content: center;
+}
+
+.hidden {
+    display:none;
 }

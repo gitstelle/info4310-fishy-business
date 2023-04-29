@@ -61,11 +61,11 @@
                         <!-- <div class="foodimage">
                             <img src="images/salmon.jpg" alt="pic of salmon dish" style="height: 100px;">
                         </div> -->
-                        <text class="menuTitle hover-underline-animation fadeAnimation">Miso Salmon | $31</text>
+                        <text id =Salmon class="menuTitle hover-underline-animation fadeAnimation">Miso Salmon | $31</text>
                         <p>Served with bok choy, ginger rice, and microgreens.</p>
                     </div>
                     <!-- Shrimp Order -->
-                    <div class="order">
+                    <div id = Shrimp class="order">
                         <!-- <div class="foodimage">
                             <img src="images/shrimp.jpg" alt="pic of shrimp dish" style="height: 100px;">
 
@@ -75,7 +75,7 @@
 
                     </div>
                     <!-- Tilapia Order -->
-                    <div class="order">
+                    <div id = Tilapia class="order">
                         <!-- <div class="foodimage">
                             <img src="images/tilapia.jpg" alt="pic of tilapia dish" style="height: 100px;">
 
@@ -226,9 +226,9 @@
 
         function orderUp() {
             console.log('orderup')
-            console.log(d3.select(this).select('span').text())
+            console.log(this.id)
 
-            selectedFish = d3.select(this).select('span').text();
+            selectedFish = this.id;
 
             d3.select('.menu').style('display', 'none')
             d3.select('#menuContainer').style('display', 'none')

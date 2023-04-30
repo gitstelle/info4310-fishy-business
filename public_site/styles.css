@@ -5,7 +5,7 @@ html {
 }
 
 .fancyFont {
-    font-family: "EB Garamond","Garamond";
+    font-family: "Garamond";
 }
 
 .flexParent {
@@ -157,12 +157,17 @@ article {
     text-align: center;
 }
 
-.orderSelected {
+/* .orderSelected {
     color:rgb(235, 72, 3);
+} */
+
+.orderNotSelected {
+    color:#8e886d
 }
 
-.menuTitle :not(.orderSelected){
-    color:#182b75;
+.menuTitle:not(.orderNotSelected){
+    color:rgb(235, 72, 3);
+
 }
 
 .menuTitle {
@@ -184,19 +189,19 @@ article {
 #dish img {
     width:400px;
 }
+
 /* ANIMATIONS */
 
-.fadeAnimation {
+/* .fadeAnimation {
     animation: fade 2s linear infinite;
-}
+} */
   @keyframes fade {
     0%,100% { 
         color:rgb(235, 72, 3) }
     50% { 
         color:#2942a5;
-        /* opacity: 1 } */
+        opacity: 1 }
   }
-}
 
 .fadeIn {
     animation: fadeInAnimation 2s ease ;

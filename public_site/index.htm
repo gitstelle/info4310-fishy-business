@@ -41,7 +41,7 @@
                         <div class="order">
                             <a href="#menu" id=tilapia class="menuTitle hover-underline-animation fadeAnimation">Fried
                                 Tilapia Sandwich | $23</a>
-                            <p> Served with coleslaw, pickles, tartar sauce, and a side of fries.</p>
+                            <p>Served with coleslaw, pickles, tartar sauce, and a side of fries.</p>
                         </div>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                     <!-- use d3 to add image -->
                 </div>
                 <div class="flexChild">
-                    <p class="right">Enjoy your meal!</p>
+                    <p class="right" id="enjoyMealMessage"></p>
                     <p class="right italic fadeInOut">Please scroll for your receipt.</p>
                 </div>
             </div>
@@ -193,19 +193,24 @@
 
 
         function orderUp() {
-            please = d3.selectAll('.menuTitle')
-            please.classed('fadeAnimation', false)
+            menu = d3.select(".menu")
+            orders = d3.selectAll(".order")
+            menuTitles = d3.selectAll('.menuTitle')
 
-            console.log(d3.selectAll('.menuTitle'))
-            d3.select(this).classed('orderSelected', true)
+            // the ones the user didn't make beige
+            menuTitles.classed('orderNotSelected', true)
+            orders.classed('orderNotSelected',true)
+            d3.select(this).classed('orderNotSelected', false)
+            d3.select(this.parentNode).classed('orderNotSelected', false)
 
-            // cannot click on something else
-            d3.select("#menu").style("pointer-events", "none")
+            // cannot click another selection
+            menu.style("pointer-events", "none")
 
-            d3.select("#menu p").classed("fadeInOut",false)
+            // turn off fading text
+            menuSection = d3.select('section#menu')
+            menuSection.selectAll(".fadeInOut").classed("fadeInOut",false)
 
             console.log('orderup')
-            console.log(this.id)
 
             selectedFish = this.id;
 
@@ -231,12 +236,18 @@
                 fish_phos_emissions = tilapia_phos_emissions
             }
 
-            d3.select('#dish').classed("hidden", false).classed("fadeIn", true)
-            d3.select('#graphic').classed("hidden",false)
+            // d3.select('#dish').classed("hidden", false).classed("fadeIn", true)
+            // d3.select('#graphic').classed("hidden",false)
 
-            dishSection = d3.select('#dish .left')
-            dishSection.append('img').attr('src', "images/" + selectedFish + ".jpg")
-            console.log(selectedFish)
+            // reveal next section
+            dishSection = d3.select("#dish")
+            dishSection.classed("hidden", false).classed("fadeIn", true)
+            graphicSection = d3.select('#graphic')
+            graphicSection.classed("hidden", false).classed("fadeIn", true)
+
+            addDish = d3.select('#dish .left')
+            addDish.append('img').attr('src', "images/" + selectedFish + ".jpg")
+            // console.log(selectedFish)
 
 
             // d3.selectAll('#foodOrder').text(selectedFish);

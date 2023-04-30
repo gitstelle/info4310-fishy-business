@@ -52,12 +52,13 @@ html {
 
 body {
     margin: 0;
+    
     /* overflow-x: hidden; */
 }
 
 #graphic {
     width: 100%;
-    flex-direction: row;
+    /* flex-direction: row; */
     height: 100vh;
     display: flex;
     /* align item horizontally */
@@ -71,7 +72,7 @@ body {
     /* align item horizontally */
     justify-content: center;
     /* align vertically */
-    /* align-items: center; */
+    align-items: center;
     display: flex;
     flex-direction: column;
 }
@@ -87,6 +88,8 @@ body {
     margin-left: 0; */
     height: 80vh;
     width: 65%;
+    padding-left:5%;
+
 
 }
 
@@ -94,12 +97,16 @@ body {
     position: relative;
     display: inline-block;
     max-width: 35%;
-    padding:5%;
+    padding: 5%;
     /* z-index: 90; */
     /* margin-right: auto;
     margin-left:auto */
 }
 
+/* section {
+    height: 800px;
+
+} */
 #sections p {
     font-size: 30px;
 }
@@ -125,12 +132,6 @@ h1 {
     font-weight: normal;
     margin-bottom:5px;
 }
-
-main {
-    padding-left: 10%;
-    padding-right: 10%;
-}
-
 
 .italic {
     font-style: italic;

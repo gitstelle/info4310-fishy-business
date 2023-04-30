@@ -15,6 +15,12 @@
     font-style: italic;
 }
 
+@font-face {
+    font-family: "Nunito Sans";
+    src: url("fonts/Roboto-Regular.ttf");
+    font-style: italic;
+}
+
 /* probably useful classes */
 /* .textCenter {
     text-align: center
@@ -36,7 +42,7 @@
 /* website */
 
 html {
-    font-family: "Trebuchet MS", "Helvetica", sans-serif;
+    font-family: "Nunito Sans", sans-serif;
     scroll-behavior: smooth
 }
 
@@ -98,8 +104,9 @@ body {
 }
 
 #author {
-    /* padding: 20px; */
-    font-size: 16px;
+    padding-top: 20px;
+    font-size: 18px;
+    font-weight: normal;
 }
 
 header {
@@ -109,12 +116,13 @@ header {
 header h2 {
     margin:0;
     font-style: italic;
+    font-weight: normal;
 }
 
 h1 {
     font-size: 70px;
     font-weight: normal;
-    margin:5px;
+    margin-bottom:5px;
 }
 
 main {
@@ -161,7 +169,7 @@ main {
     text-decoration: none;
     opacity: 1;
     font-size: 18px;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     font-weight: bold;
     text-transform: uppercase;
     cursor: pointer;

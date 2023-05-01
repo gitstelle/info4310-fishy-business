@@ -1,0 +1,355 @@
+@font-face {
+    font-family: "EB Garamond";
+    src: url('fonts/EBGaramond-Regular.ttf');
+}
+
+@font-face {
+    font-family: "EB Garamond";
+    src: url('fonts/EBGaramond-Bold.ttf');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "EB Garamond";
+    src: url("fonts/EBGaramond-Italic.ttf");
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Nunito Sans";
+    src: url("fonts/Roboto-Regular.ttf");
+    font-style: italic;
+}
+
+/* probably useful classes */
+/* .textCenter {
+    text-align: center
+} */
+
+.alignVertical {
+    /* align item horizontally */
+    justify-content: center;
+    /* align vertically */
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.hidden {
+    display: none;
+}
+
+/* website */
+
+html {
+    font-family: "Nunito Sans", sans-serif;
+    scroll-behavior: smooth
+}
+
+.fancyFont {
+    font-family: "EB Garamond";
+}
+
+body {
+    margin: 0;
+    
+    /* overflow-x: hidden; */
+}
+
+#graphic {
+    width: 100%;
+    /* flex-direction: row; */
+    height: 100vh;
+    display: flex;
+    /* align item horizontally */
+    justify-content: center;
+    /* align item vertically */
+    align-items: center;
+}
+
+/* center left and right child elements of #graphic */
+#graphic div {
+    /* align item horizontally */
+    justify-content: center;
+    /* align vertically */
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+#vis {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: inline-block;
+    position: sticky;
+    top: 0px;
+    z-index: 1;
+    /* margin-right: auto;
+    margin-left: 0; */
+    height: 80vh;
+    width: 65%;
+    padding-left:5%;
+
+
+}
+
+#sections {
+    position: relative;
+    display: inline-block;
+    max-width: 35%;
+    padding: 5%;
+    /* z-index: 90; */
+    /* margin-right: auto;
+    margin-left:auto */
+}
+
+/* section {
+    height: 800px;
+
+} */
+#sections p {
+    font-size: 30px;
+}
+
+#author {
+    padding-top: 20px;
+    font-size: 18px;
+    font-weight: normal;
+}
+
+header {
+    padding-bottom: 30px;
+}
+
+header h2 {
+    margin:0;
+    font-style: italic;
+    font-weight: normal;
+}
+
+h1 {
+    font-size: 70px;
+    font-weight: normal;
+    margin-bottom:5px;
+}
+
+.italic {
+    font-style: italic;
+}
+
+/* MENU */
+
+.menu {
+    background-color: #f4f1e4;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgb(207, 201, 193);
+    color: #2942a5;
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 600px;
+    padding: 15px;
+    text-align: center;
+    /* padding-top:70px */
+}
+
+.menu h2 {
+    font-size: 30px;
+    text-transform: uppercase;
+    /* text-align: center; */
+}
+
+.orderNotSelected {
+    color: #8e886d
+}
+
+.menuTitle:not(.orderNotSelected) {
+    color: rgb(235, 72, 3);
+}
+
+.menuTitle {
+    text-decoration: none;
+    opacity: 1;
+    font-size: 18px;
+    letter-spacing: 1.5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.order p:not(.menuTitle) {
+    width: 200;
+}
+
+.order {
+    width: 350px;
+    /* padding-left:40px; */
+    margin-top: 40px;
+}
+
+.flexChild img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* DISH */
+
+#dish img {
+    width: 400px;
+}
+
+.receipt h4 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: black;
+    margin: 10px;
+    /* margin-bottom: 0px; */
+    /* padding:10px; */
+}
+
+.receipt h5 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 500;
+    color: black;
+    margin: 2px;
+}
+
+.receipt h6 {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: black;
+    margin: 2px;
+}
+
+.dashed-line {
+    margin-top: 20px;
+    max-width: 70%;
+    border: 2px dashed black;
+}
+
+.receipt p:first-child {
+    margin-top: 30px;
+}
+
+
+.receipt p {
+    text-align: center;
+    color: black;
+    font-size: 1.5rem;
+    margin: 3px;
+}
+
+.y-axis {
+    font-size: 14px;
+    font-family: 'Franklin Gothic';
+}
+
+.x-axis {
+    font-size: 12px;
+    font-family: 'Franklin Gothic';
+
+}
+
+*/ .land-outline {
+    stroke: white;
+    stroke-width: .5px;
+    fill: gray;
+}
+
+.country-outline {
+    stroke: white;
+    stroke-width: 0.5px;
+    fill: none;
+}
+
+
+#choropleth {
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+
+
+/* ANIMATIONS */
+
+/* .fadeAnimation {
+    animation: fade 2s linear infinite;
+} */
+@keyframes fade {
+
+    0%,
+    100% {
+        color: rgb(235, 72, 3)
+    }
+
+    50% {
+        color: #2942a5;
+        opacity: 1
+    }
+}
+
+.fadeIn {
+    animation: fadeInAnimation 2s ease;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* source: https://www.geeksforgeeks.org/how-to-create-fade-in-effect-on-page-load-using-css/# */
+
+.fadeInOut {
+    animation: fadeInOutAnimation 2s ease infinite;
+    /* animation-iteration-count: 1; */
+    /* animation-fill-mode: forwards; */
+}
+
+
+@keyframes fadeInOutAnimation {
+
+    0%,
+    100% {
+        opacity: 10;
+    }
+
+    50% {
+        opacity: .25;
+    }
+}
+
+/* source: https://www.30secondsofcode.org/css/s/hover-underline-animation/ */
+
+.hover-underline-animation {
+    position: relative;
+}
+
+.hover-underline-animation:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: rgb(235, 72, 3);
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-in;
+}
+
+.hover-underline-animation:hover:after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}

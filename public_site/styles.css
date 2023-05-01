@@ -4,7 +4,11 @@ html {
 }
 
 .fancyFont {
+<<<<<<< HEAD
     font-family: "EB Garamond", "Garamond";
+=======
+    font-family: "Garamond";
+>>>>>>> ca18619b2b3dedfae95867dc156a6ae834fe694c
 }
 
 .flexParent {
@@ -157,12 +161,26 @@ article {
     text-align: center;
 }
 
+<<<<<<< HEAD
 .orderSelected {
     color: rgb(235, 72, 3);
 }
 
 .menuTitle :not(.orderSelected) {
     color: #182b75;
+=======
+/* .orderSelected {
+    color:rgb(235, 72, 3);
+} */
+
+.orderNotSelected {
+    color:#8e886d
+}
+
+.menuTitle:not(.orderNotSelected){
+    color:rgb(235, 72, 3);
+
+>>>>>>> ca18619b2b3dedfae95867dc156a6ae834fe694c
 }
 
 .menuTitle {
@@ -187,8 +205,9 @@ article {
 
 /* ANIMATIONS */
 
-.fadeAnimation {
+/* .fadeAnimation {
     animation: fade 2s linear infinite;
+<<<<<<< HEAD
 }
 
 @keyframes fade {
@@ -203,6 +222,16 @@ article {
         /* opacity: 1 } */
     }
 }
+=======
+} */
+  @keyframes fade {
+    0%,100% { 
+        color:rgb(235, 72, 3) }
+    50% { 
+        color:#2942a5;
+        opacity: 1 }
+  }
+>>>>>>> ca18619b2b3dedfae95867dc156a6ae834fe694c
 
 .fadeIn {
     animation: fadeInAnimation 2s ease;

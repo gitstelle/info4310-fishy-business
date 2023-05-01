@@ -257,11 +257,14 @@
                 console.log('executed')
                 addFish = false
             }
+            currentDish = d3.select('.currentDish').classed('fadeIn', false);
+
             console.log('estelle1')
+            
         }
 
         estelle2 = async function () {
-            currentDish = d3.select('.currentDish').classed('fadeIn', false);
+            currentDish = d3.select('.currentDish').style('transform', "translateX(0px)");
             console.log('estelle2');
             currentDish.transition().style('opacity', 0).style('transform', "translateX(-200px)");
 

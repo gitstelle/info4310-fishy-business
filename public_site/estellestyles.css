@@ -55,6 +55,11 @@
     visibility: hidden;
 }
 
+.flexParent {
+    display:flex;
+    flex-direction: row;
+}
+
 /* website */
 
 html {
@@ -73,9 +78,7 @@ body {
 
 #graphic {
     width: 100%;
-
     /* flex-direction: row; */
-    /* max-height:700px; */
     display: flex;
     /* align item horizontally */
     justify-content: center;
@@ -84,16 +87,11 @@ body {
 }
 
 #vis {
-    /* padding-top: 20px;
-    padding-bottom: 20px; */
     display: inline-block;
     position: sticky;
     top: 0px;
     z-index: 1;
     height: 100vh;
-    /* margin-right: auto;
-    margin-left: 0; */
-    /* height:10px; */
     width: 65%;
     padding-left: 5%;
 
@@ -132,7 +130,7 @@ body {
 #sections p {
     font-size: 30px;
     text-align: left;
-    width:100%;
+    width: 100%;
 
 }
 
@@ -164,7 +162,7 @@ h1 {
 }
 
 #scrollText {
-    margin-top:60px;
+    margin-top: 60px;
     font-size: 12px;
     text-transform: uppercase;
     /* font-weight: bold; */
@@ -183,9 +181,9 @@ h1 {
     margin-left: auto;
     margin-right: auto;
     animation: bounceArrowAnimation 2s ease-in-out infinite;
-  }
+}
 
-/* MENU */
+/* menu */
 
 .menu {
     background-color: #f4f1e4;
@@ -199,14 +197,11 @@ h1 {
     padding: 15px;
     text-align: center;
     z-index: 0;
-    /* opacity:0; */
-    /* padding-top:70px */
 }
 
 .menu h2 {
     font-size: 30px;
     text-transform: uppercase;
-    /* text-align: center; */
 }
 
 .orderNotSelected {
@@ -233,26 +228,55 @@ h1 {
 
 .order {
     width: 350px;
-    /* padding-left:40px; */
     margin-top: 40px;
 }
 
-/* DISH */
-.currentDish{
+/* dish meal */
+
+.currentDish {
     width: 430px;
-    /* margin-top: -50%; */
 }
 
-/* RECEIPT */
-.receipt{
+/* receipt */
+
+.receipt {
+    text-transform: uppercase;
     font-family: monospace;
-    background-color: rgb(245, 245, 245);
-    color:rgb(77, 77, 77);
+    background-color: rgb(246, 246, 246);
+    color: rgb(62, 62, 62);
     box-shadow: 0px 0px 5px rgb(207, 207, 207);
+    width:300px;
+    min-height:400px;
+    padding-top:50px;
+    padding-bottom:50px;
+}
+
+.dashed-line {
+    /* margin-top: 20px; */
+    width:80%;
+    border: 1px dashed rgb(174, 174, 174);
+    /* margin-bottom:20px; */
+}
+
+.receipt h2 {
+    margin:0;
+    font-size:22px;
+    /* padding-top:20px; */
+}
+
+.receipt h3 {
+    margin:0;
+    margin:3px;
+    font-size: 14px;
+}
+
+.receipt tr {
+    height:60px;
+    text-align: left;
 
 }
 
-/* GRAPH */
+/* graphs */
 
 .y-axis {
     font-size: 14px;
@@ -265,7 +289,7 @@ h1 {
 
 }
 
-*/ .land-outline {
+.land-outline {
     stroke: white;
     stroke-width: .5px;
     fill: gray;
@@ -277,40 +301,19 @@ h1 {
     fill: none;
 }
 
-
 #choropleth {
     display: flex;
     margin: 0 auto;
     justify-content: center;
 }
 
-
-
-/* ANIMATIONS */
-
-/* .fadeAnimation {
-    animation: fade 2s linear infinite;
-} */
-
-/* @keyframes fade {
-
-    0%,
-    100% {
-        color: rgb(235, 72, 3)
-    }
-
-    50% {
-        color: #2942a5;
-        opacity: 1
-    }
-} */
+/* animations */
 
 .fadeIn {
     animation: fadeInAnimation 2s ease;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
 }
-
 
 @keyframes fadeInAnimation {
     0% {
@@ -328,7 +331,6 @@ h1 {
     animation-fill-mode: forwards;
 }
 
-
 @keyframes fadeOutAnimation {
     0% {
         opacity: 1;
@@ -339,7 +341,6 @@ h1 {
     }
 }
 
-
 /* source: https://www.geeksforgeeks.org/how-to-create-fade-in-effect-on-page-load-using-css/# */
 
 .fadeInOut {
@@ -347,7 +348,6 @@ h1 {
     /* animation-iteration-count: 1; */
     /* animation-fill-mode: forwards; */
 }
-
 
 @keyframes fadeInOutAnimation {
 
@@ -392,10 +392,6 @@ h1 {
 }
 
 @keyframes bounceAnimation {
-
-    /* 0%   { transform:translate(0,-10px) rotate(45deg); opacity: 0;  }
-    50%  { opacity: 1;  }
-    100% { transform:translate(0,10px) rotate(45deg); opacity: 0; } */
     0% {
         transform: translate(0, 5px)
     }
@@ -412,10 +408,6 @@ h1 {
 /*bounce animation for scroll*/
 
 @keyframes bounceArrowAnimation {
-
-    /* 0%   { transform:translate(0,-10px) rotate(45deg); opacity: 0;  }
-    50%  { opacity: 1;  }
-    100% { transform:translate(0,10px) rotate(45deg); opacity: 0; } */
     0% {
         transform: translate(0, 5px) rotate(45deg)
     }

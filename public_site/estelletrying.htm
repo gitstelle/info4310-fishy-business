@@ -40,29 +40,40 @@
                 </div>
                 <!-- </div> -->
             </div>
-            <div class="receipt fancyFont alignVertical">
-                <h2>RECEIPT</h2>
-                <!-- Salmon Order -->
-                <div class="order alignVertical">
-                    <text id=salmon>Miso
-                        Salmon | $31</text>
-                    <p>Served with bok choy, ginger rice, and microgreens.</p>
-                </div>
-                <!-- Shrimp Order -->
-                <div class="order alignVertical">
-                    <text id=shrimp>Spicy
-                        Cajun Shrimp | $27</text>
-                    <p>Served with cheesy grits and a big spoon.</p>
 
-                </div>
-                <!-- Tilapia Order -->
-                <div class="order alignVertical">
-                    <text id=tilapia>Fried
-                        Tilapia Sandwich | $23</text>
-                    <p>Served with coleslaw, pickles, tartar sauce, and a side of fries.</p>
-                </div>
-                <!-- </div> -->
+            <div class="dish"></div>
+
+            <div class="receipt fancyFont alignVertical hidden">
+                <h2>Fishy Business</h2>
+                <h3>www.fishy-business.onrender.com</h3>
+                <hr class="dashed-line">
+                <table>
+                    <col width="70%">
+                    <col width="30%">
+                    <tr>
+                        <th id="dishName"></th>
+                        <th id="dishPrice"></th>
+                    </tr>
+                    <tr>
+                        <th>Water</th>
+                        <th id="waterPrice"></th>
+                    </tr>
+                    <tr>
+                        <th>Land</th>
+                        <th id="landPrice"></th>
+                    </tr>
+                    <tr>
+                        <th>Nitrogen</th>
+                        <th id="nitrogenPrice"></th>
+                    </tr>
+                    <tr>
+                        <th>Phosphorous</th>
+                        <th id="phosphorous"></th>
+                    </tr>
+                </table>
+                <hr class="dashed-line">
             </div>
+
         </div>
 
         <div id="sections">
@@ -84,11 +95,23 @@
                 </div>
             </section>
 
-            <section id="dish" class="step hidden">
-                <p>Enjoy your meal!</p>
-                <p>Scroll when you are ready to pay the bill.</p>
-            </section>
-            
+            <div id="hiddenSections" class="hidden">
+                <section id="dish" class="step">
+                    <p>Enjoy your meal!</p>
+                    <p>Scroll when you are ready to pay the bill.</p>
+                </section>
+
+                <section id="receipt" class="step">
+                    <p>Enjoy your meal!</p>
+                    <p>Scroll when you are ready to pay the bill.</p>
+                </section>
+<!--                 
+                <section class="step">
+                    <p>Enjoy your meal!</p>
+                    <p>Scroll when you are ready to pay the bill.</p>
+                </section> -->
+            </div>
+
 
         </div>
     </div>
@@ -213,7 +236,7 @@
             currentDish = d3.selectAll('.currentDish').classed('fadeIn', false);
             await currentDish.transition().style('opacity', 0).end();
 
-            currentDish.classed('hidden', true);
+            currentDish.remove();
             addFish = true;
 
             menu = d3.select(".menu")
@@ -225,7 +248,7 @@
             menu = d3.select(".menu")
             await menu.transition().style('opacity', 0).style('transform', "translateX(-200px)").end();
             console.log(menu);
-            addDish = d3.select('#vis')
+            addDish = d3.select('.dish')
             console.log(selectedFish)
 
             if (addFish == true) {
@@ -234,8 +257,16 @@
                 console.log('executed')
                 addFish = false
             }
+            console.log('estelle1')
         }
 
+        estelle2 = async function () {
+            currentDish = d3.select('.currentDish').classed('fadeIn', false);
+            console.log('estelle2');
+            currentDish.transition().style('opacity', 0).style('transform', "translateX(-200px)");
+
+            // d3.select('.receipt').classed('hidden',false);
+        }
 
         // createScales();
 
@@ -304,16 +335,7 @@
             }
 
             // reveal next section
-            dishSection = d3.select("#dish")
-            dishSection.classed("hidden", false)
-            graphicSection = d3.select('#graphic')
-            graphicSection.classed("hidden", false)
-
-            // console.log(selectedFish)
-
-
-            // d3.selectAll('#foodOrder').text(selectedFish);
-
+            dishSection = d3.select('#hiddenSections').classed('hidden',false);
 
             // draw default graph, water use
             chartArea1.selectAll('rect.bar').data(water_use)
@@ -328,16 +350,7 @@
             d3.selectAll('#water').text(salmon_water_use + ' water').style('color', 'red')
         }
 
-        function highlightBar(v) {
-            console.log('highlightBar')
-            if (v === selectedFish) {
-                return 'blue';
-            }
-            else { return 'darkgrey'; }
-        }
-
-
-
+        // source: https://towardsdatascience.com/how-i-created-an-interactive-scrolling-visualisation-with-d3-js-and-how-you-can-too-e116372e2c73
 
         let scroll = scroller().container(d3.select('#graphic'))
         scroll()
@@ -363,220 +376,8 @@
         scroll.on('progress', function (index, progress) {
             if (index == 2 & progress > 0.7) { }
         })
-        //I placed all the functions in an array. Each function corresponds to a different change in the visualisation. One may change the graph into a scatter plot, and another may initiate a force simulation.
-        // let activationFunctions = [redrawDefault,
-        //     drawInitial,
-        //     draw2,
-        //     draw3
-        // ]
 
-        let activationFunctions = [initialEstelle, estelle1]
-
-        function redrawDefault() {
-            chartArea1.selectAll('rect.bar').data(water_use)
-                .join(enter => enter.append('rect')
-                    .attr('class', 'bar')
-                    .attr("fill", d => highlightBar(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
-                    .attr("x", d => barScale1(0))
-                    .attr("y", d => leftAxisScale1(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
-                    .attr("height", leftAxisScale1.bandwidth())
-                    .attr("width", d => barScale1(Number(d['Freshwater use (m3 / kg edible weight)'])) - barScale1(0))
-                    .attr("opacity", 0)
-                    .call(enter => enter.transition()
-                        .attr('opacity', 1)),
-                    update => update.call(update => update.transition()
-                        // .attr("fill", barChartColor(input_mbti))
-                        .attr("x", d => barScale1(0))
-                        .attr("y", d => leftAxisScale1(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
-                        .attr("height", leftAxisScale1.bandwidth())
-                        .attr("width", d => barScale1(Number(d['Freshwater use (m3 / kg edible weight)'])) - barScale1(0))),
-                    exit => exit.call(exit => exit.transition().attr('opacity', 0).remove()));
-
-            if (lastIndex > activeIndex) {
-                d3.selectAll('#land').text('')
-            }
-
-            d3.selectAll('#water').style('color', 'red')
-
-        }
-
-
-        function createScales() {
-            // Setting up scales and axes for the 4 bar charts (do we need 4 separate bar charts or should we update the same one?)
-
-            //removing "(farmed)" from each of the fish entities
-            species = water_use.map(d => d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1))
-
-            //making scales and axes for water
-            water_values = water_use.map(d => Number(d['Freshwater use (m3 / kg edible weight)']))
-            land_values = land_use.map(d => Number(d['Land use (m2 / kg edible weight)']))
-            nitrogen_values = nitrogen_emissions.map(d => Number(d['Nitrogen (kgN / t edible weight)']))
-            phos_values = phos_emissions.map(d => Number(d['Phosphorous (kgP / t edible weight)']))
-
-            leftAxisScale1 = d3.scaleBand().domain(species).range([chartHeight1, 0]).padding(0.05);
-
-            barvalueExtent1 = d3.extent(water_values)
-            barScale1 = d3.scaleLinear().domain([0, barvalueExtent1[1]]).range([0, chartWidth1]);
-            console.log('barscale1')
-            console.log(barScale1)
-
-            let leftAxis1 = d3.axisLeft();
-            let leftAxisG1 = annotations1.append("g")
-                .attr("class", "y-axis")
-                // .attr("opacity", 0)
-                .attr("transform", `translate(${margin1.left - 1}, ${margin1.top})`);
-            leftAxis1.scale(leftAxisScale1);
-            leftAxisG1.transition().call(leftAxis1);
-
-            let bottomAxis1 = d3.axisBottom();
-            let bottomAxisG1 = annotations1.append("g")
-                .attr("class", "x-axis")
-                // .attr("opacity", 0)
-                .attr("transform", `translate(${margin1.left - 1},${chartHeight1 + margin1.top})`)
-
-            bottomAxis1.scale(barScale1);
-            bottomAxisG1.transition().call(bottomAxis1);
-
-            //making scales and axes for land
-            barvalueExtent2 = d3.extent(land_values)
-            barScale2 = d3.scaleLinear().domain([0, barvalueExtent2[1]]).range([0, chartWidth1]);
-
-            //making scales and axes for nitrogen
-            barvalueExtent3 = d3.extent(nitrogen_values)
-            barScale3 = d3.scaleLinear().domain([0, barvalueExtent3[1]]).range([0, chartWidth1]);
-
-            //making scales for phos
-            barvalueExtent4 = d3.extent(phos_values)
-            barScale4 = d3.scaleLinear().domain([0, barvalueExtent4[1]]).range([0, chartWidth1]);
-        }
-
-
-        function drawInitial() {
-
-            // createScales()
-            drawChart(land_use, barScale2, leftAxisScale1, 'Land use (m2 / kg edible weight)')
-            d3.selectAll('#land').text(fish_land_use + ' land').style('color', 'red')
-            d3.selectAll('#water').style('color', 'black')
-
-            if (lastIndex > activeIndex) {
-                d3.selectAll('#nitrogen').text('')
-            }
-
-        }
-
-        function draw2() {
-            drawChart(nitrogen_emissions, barScale3, leftAxisScale1, 'Nitrogen (kgN / t edible weight)')
-            d3.selectAll('#nitrogen').text(fish_water_use + ' nitrogen').style('color', 'red')
-            d3.selectAll('#land').style('color', 'black')
-
-            console.log('draw2')
-            console.log('activeIndex', activeIndex)
-            console.log('lastIndex', lastIndex)
-
-
-            if (lastIndex > activeIndex) {
-                d3.selectAll('#phosphorous').text('')
-            }
-
-        }
-
-        function draw3() {
-            drawChart(phos_emissions, barScale4, leftAxisScale1, 'Phosphorous (kgP / t edible weight)')
-            d3.selectAll('#phosphorous').text(fish_water_use + ' phosphorous').style('color', 'red')
-            d3.selectAll('#nitrogen').style('color', 'black')
-
-
-        }
-
-        // function fakeChart() {
-        //     createScales()
-        //     // drawChart(land_use, barScale2, leftAxisScale1, 'Land use (m2 / kg edible weight)')
-        // }
-
-        function drawChart(data, barscale, leftaxisscale, column) {
-            console.log('drawChart')
-
-            chartArea1.selectAll('rect.bar').data(data)
-                .join(enter => enter.append('rect')
-                    .attr('class', 'bar')
-                    .attr("x", d => barscale(0))
-                    .attr("y", d => leftaxisscale(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
-                    .attr("height", leftaxisscale.bandwidth())
-                    .attr("width", d => barscale(parseFloat(d[column])) - barscale(0))
-                    .attr("opacity", 0)
-                    .call(enter => enter.transition()
-                        .attr('opacity', 1)),
-                    update => update.call(update => update.transition()
-                        .attr("fill", d => highlightBar(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
-
-                        .attr("x", d => barscale(0))
-                        .attr("y", d => leftaxisscale(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
-                        .attr("height", leftaxisscale.bandwidth())
-                        .attr("width", d => barscale(parseFloat(d[column])) - barscale(0))),
-                    exit => exit.call(exit => exit.transition().attr('opacity', 0).remove()));
-        }
-
-
-
-
-        const world_data = await d3.json("countries-110m.json");
-        console.log('world data')
-        console.log(world_data)
-
-        salmonCountries = ["Norway", "Sweden", "Denmark", "UK", "Chile"]
-        shrimpCountries = ['India', 'China', 'Vietnam', 'Indonesia', 'Thailand']
-        tilapiaCountries = ['China', 'Indonesia', 'Honduras', 'Mexico', 'Taiwan'];
-
-
-
-
-        const topColorScale = d3.scaleOrdinal(d3.schemeSet3).domain([1, 2, 3, 4, 5]); var countries = topojson.feature(world_data, world_data.objects.countries);
-
-        // var countriesMesh = topojson.mesh(world_data, world_data.objects.countries);
-
-        // var land = topojson.feature(world_data, world_data.objects.land)
-        // var landMesh = topojson.feature(world_data, world_data.objects.land)
-
-        // var projection = d3.geoRobinson().fitSize([mapWidth, mapHeight], countries);
-        // var path = d3.geoPath().projection(projection);
-
-        // function countryColor(country) {
-        //     // Need to fix this later
-        //     // if (selectedFish === 'Salmon'){ranking = salmonCountries.indexOf(country)}
-        //     // else if (selectedFish === 'Shrimp'){ranking = shrimpCountries.indexOf(country)}
-        //     // else if (selectedFish === 'Tilapia'){ranking = tilapiaCountries.indexOf(country)}
-
-        //     ranking = tilapiaCountries.indexOf(country)
-
-        //     if (ranking > -1) {
-        //         console.log('country')
-        //         console.log(country)
-        //         return topColorScale(ranking)
-        //     }
-
-
-        // }
-
-        // let viewport = map.append("g");
-
-        // viewport.selectAll(".countries").data(countries.features)
-        //     .join("path")
-        //     .attr("class", "countries")
-        //     .attr('stroke', 'None')
-        //     .attr('fill', d => countryColor(d.properties.name))
-        //     .attr("d", path);
-
-        // viewport.append("path")
-        //     .datum(countriesMesh)
-        //     .attr("class", "country-outline")
-        //     .attr("d", path);
-
-
-
-        // map.append("path")
-        //     .datum(landMesh)
-        //     .attr("class", "land-outline")
-        //     .attr("d", path);
+        let activationFunctions = [initialEstelle, estelle1,estelle2]
 
     }
 

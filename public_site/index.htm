@@ -130,6 +130,9 @@
                         </div>
                     </section>
                 </div>
+                <div id="vis">
+                    <svg id="bar1" height="500" width="600"></svg>
+                </div>
                 <div class="flexChild">
                     <p class="right" id="enjoyMealMessage"></p>
                     <p class="right italic fadeInOut">Please scroll for your receipt.</p>
@@ -153,6 +156,7 @@
 </body>
 
 <script>
+
 
     const map_svg = d3.select("#choropleth");
     const map_width = map_svg.attr("width");
@@ -449,8 +453,6 @@
                     .attr("height", 20)
                     .on("mouseover", function() {textbox.style("visibility","visible")})
                     .on("mouseout", function() {textbox.style("visibility","hidden")})
-    
-
 
             })
 
@@ -467,36 +469,36 @@
 
 
 
-        let scroll = scroller().container(d3.select('#graphic'))
-        scroll()
-        let lastIndex, activeIndex = 0
-        //This is where most of the magic happens. Every time the user scrolls, we receive a new index. First, we find all the irrelevant sections, and reduce their opacity. 
-        scroll.on('active', function (index) {
-            d3.selectAll('.step')
-                .transition().duration(500)
-                .style('opacity', function (d, i) { return i === index ? 1 : 0.1; });
-            //Next, we selection from a range of activationFunctions (which we create), based on the index of the current section. 
-            activeIndex = index
-            console.log('active index')
-            console.log(activeIndex);
-            let sign = (activeIndex - lastIndex) < 0 ? -1 : 1;
-            let scrolledSections = d3.range(lastIndex + sign, activeIndex + sign, sign);
-            scrolledSections.forEach(i => {
-                console.log('i')
-                console.log(i)
-                activationFunctions[i]();
-            })
-            lastIndex = activeIndex;
-        })
-        scroll.on('progress', function (index, progress) {
-            if (index == 2 & progress > 0.7) { }
-        })
+        // let scroll = scroller().container(d3.select('#graphic'))
+        // scroll()
+        // let lastIndex, activeIndex = 0
+        // //This is where most of the magic happens. Every time the user scrolls, we receive a new index. First, we find all the irrelevant sections, and reduce their opacity. 
+        // scroll.on('active', function (index) {
+        //     d3.selectAll('.step')
+        //         .transition().duration(500)
+        //         .style('opacity', function (d, i) { return i === index ? 1 : 0.1; });
+        //     //Next, we selection from a range of activationFunctions (which we create), based on the index of the current section. 
+        //     activeIndex = index
+        //     console.log('active index')
+        //     console.log(activeIndex);
+        //     let sign = (activeIndex - lastIndex) < 0 ? -1 : 1;
+        //     let scrolledSections = d3.range(lastIndex + sign, activeIndex + sign, sign);
+        //     scrolledSections.forEach(i => {
+        //         console.log('i')
+        //         console.log(i)
+        //         activationFunctions[i]();
+        //     })
+        //     lastIndex = activeIndex;
+        // })
+        // scroll.on('progress', function (index, progress) {
+        //     if (index == 2 & progress > 0.7) { }
+        // })
         //I placed all the functions in an array. Each function corresponds to a different change in the visualisation. One may change the graph into a scatter plot, and another may initiate a force simulation.
-        let activationFunctions = [redrawDefault,
-            drawInitial,
-            draw2,
-            draw3
-        ]
+        // let activationFunctions = [redrawDefault,
+        //     drawInitial,
+        //     draw2,
+        //     draw3
+        // ]
 
         function redrawDefault() {
             chartArea1.selectAll('rect.bar').data(water_use)
@@ -593,21 +595,21 @@
 
         }
 
-        function draw2() {
-            drawChart(nitrogen_emissions, barScale3, leftAxisScale1, 'Nitrogen (kgN / t edible weight)')
-            d3.selectAll('#nitrogen').text(fish_water_use + ' nitrogen').style('color', 'red')
-            d3.selectAll('#land').style('color', 'black')
+        // function draw2() {
+        //     drawChart(nitrogen_emissions, barScale3, leftAxisScale1, 'Nitrogen (kgN / t edible weight)')
+        //     d3.selectAll('#nitrogen').text(fish_water_use + ' nitrogen').style('color', 'red')
+        //     d3.selectAll('#land').style('color', 'black')
 
-            console.log('draw2')
-            console.log('activeIndex', activeIndex)
-            console.log('lastIndex', lastIndex)
+        //     console.log('draw2')
+        //     console.log('activeIndex', activeIndex)
+        //     console.log('lastIndex', lastIndex)
 
 
-            if (lastIndex > activeIndex) {
-                d3.selectAll('#phosphorous').text('')
-            }
+        //     if (lastIndex > activeIndex) {
+        //         d3.selectAll('#phosphorous').text('')
+        //     }
 
-        }
+        // }
 
         function draw3() {
             drawChart(phos_emissions, barScale4, leftAxisScale1, 'Phosphorous (kgP / t edible weight)')
@@ -639,66 +641,6 @@
                         .attr("width", d => barscale(parseFloat(d[column])) - barscale(0))),
                     exit => exit.call(exit => exit.transition().attr('opacity', 0).remove()));
         }
-
-
-
-
-      
-
-        salmonCountries = ["Norway", "Sweden", "Denmark", "UK", "Chile"]
-        shrimpCountries = ['India', 'China', 'Vietnam', 'Indonesia', 'Thailand']
-        tilapiaCountries = ['China', 'Indonesia', 'Honduras', 'Mexico', 'Taiwan'];
-
-
-
-
-        const topColorScale = d3.scaleOrdinal(d3.schemeSet3).domain([1, 2, 3, 4, 5]); var countries = topojson.feature(world_data, world_data.objects.countries);
-
-        var countriesMesh = topojson.mesh(world_data, world_data.objects.countries);
-
-        // var land = topojson.feature(world_data, world_data.objects.land)
-        // var landMesh = topojson.feature(world_data, world_data.objects.land)
-
-        var projection = d3.geoRobinson().fitSize([mapWidth, mapHeight], countries);
-        var path = d3.geoPath().projection(projection);
-
-        function countryColor(country) {
-            // Need to fix this later
-            // if (selectedFish === 'Salmon'){ranking = salmonCountries.indexOf(country)}
-            // else if (selectedFish === 'Shrimp'){ranking = shrimpCountries.indexOf(country)}
-            // else if (selectedFish === 'Tilapia'){ranking = tilapiaCountries.indexOf(country)}
-
-            ranking = tilapiaCountries.indexOf(country)
-
-            if (ranking > -1) {
-                console.log('country')
-                console.log(country)
-                return topColorScale(ranking)
-            }
-
-
-        }
-
-        let viewport = map.append("g");
-
-        viewport.selectAll(".countries").data(countries.features)
-            .join("path")
-            .attr("class", "countries")
-            .attr('stroke', 'None')
-            .attr('fill', d => countryColor(d.properties.name))
-            .attr("d", path);
-
-        viewport.append("path")
-            .datum(countriesMesh)
-            .attr("class", "country-outline")
-            .attr("d", path);
-
-
-
-        // map.append("path")
-        //     .datum(landMesh)
-        //     .attr("class", "land-outline")
-        //     .attr("d", path);
 
     }
 

@@ -134,6 +134,9 @@
                     <p class="right" id="enjoyMealMessage"></p>
                     <p class="right italic fadeInOut">Please scroll for your receipt.</p>
                 </div>
+                <div id="vis">
+                    <svg id="bar1" height="500" width="600"></svg>
+                </div>
             </div>
         </section>
 
@@ -272,8 +275,8 @@
                 fish_phos_emissions = tilapia_phos_emissions
             }
 
-            // d3.select('#dish').classed("hidden", false).classed("fadeIn", true)
-            // d3.select('#graphic').classed("hidden",false)
+            d3.select('#dish').classed("hidden", false).classed("fadeIn", true)
+            d3.select('#graphic').classed("hidden",false)
 
             // reveal next section
             dishSection = d3.select("#dish")

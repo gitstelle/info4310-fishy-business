@@ -1,7 +1,6 @@
-
 html {
-    font-family:"Trebuchet MS","Helvetica", sans-serif;
-    scroll-behavior:smooth
+    font-family: "Trebuchet MS", "Helvetica", sans-serif;
+    scroll-behavior: smooth
 }
 
 .fancyFont {
@@ -9,58 +8,59 @@ html {
 }
 
 .flexParent {
-    display:flex;
+    display: flex;
     flex-direction: row;
 }
+
 .flexChild {
-    width:50%;
+    width: 50%;
 }
 
-body { 
+body {
     /* padding-bottom:15px; */
-    margin:0;
+    margin: 0;
 }
 
 header {
-    padding-top:40px;
-    padding-bottom:40px;
+    padding-top: 40px;
+    padding-bottom: 40px;
     /* background-color: pink; */
 }
 
 section {
     /* margin-top:20px; */
-    margin-bottom:40px;
+    margin-bottom: 40px;
 }
 
 h1 {
     font-size: 70px;
     font-weight: normal;
-    margin:0;
+    margin: 0;
     /* text-transform: uppercase; */
 }
 
 #author {
-    padding:20px;
+    padding: 20px;
 }
 
 .textCenter {
-    text-align:center
+    text-align: center
 }
 
 main {
-    padding-left:10%;
-    padding-right:10%;
+    padding-left: 10%;
+    padding-right: 10%;
 }
 
 /* section {
     height: 500;
 } */
 
-.right{
+.right {
     margin-left: auto;
-    margin-right:auto;
-    width:300px;
-    font-size:24px;
+    margin-right: auto;
+    width: 300px;
+    font-size: 24px;
 }
 
 .italic {
@@ -138,17 +138,17 @@ article {
     background-color: #f4f1e4;
     z-index: 0;
     border-radius: 5px;
-    box-shadow: 0px 0px 5px rgb(207, 201, 193); 
+    box-shadow: 0px 0px 5px rgb(207, 201, 193);
 }
 
 .menu {
-    color:#2942a5;
+    color: #2942a5;
     width: 400px;
     margin-left: auto;
     margin-right: auto;
     height: 480px;
     padding: 15px;
-    padding-top:70px
+    padding-top: 70px
 }
 
 .menu h2 {
@@ -173,7 +173,7 @@ article {
 .menuTitle {
     text-decoration: none;
     opacity: 1;
-    font-size:18px;
+    font-size: 18px;
     letter-spacing: 1px;
     font-weight: bold;
     text-transform: uppercase;
@@ -187,7 +187,7 @@ article {
 }
 
 #dish img {
-    width:400px;
+    width: 400px;
 }
 
 /* ANIMATIONS */
@@ -204,7 +204,7 @@ article {
   }
 
 .fadeIn {
-    animation: fadeInAnimation 2s ease ;
+    animation: fadeInAnimation 2s ease;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
 }
@@ -214,35 +214,39 @@ article {
     0% {
         opacity: 0;
     }
+
     100% {
         opacity: 1;
-     }
+    }
 }
 
 /* source: https://www.geeksforgeeks.org/how-to-create-fade-in-effect-on-page-load-using-css/# */
 
 .fadeInOut {
-    animation: fadeInOutAnimation 2s ease infinite ;
+    animation: fadeInOutAnimation 2s ease infinite;
     /* animation-iteration-count: 1; */
     /* animation-fill-mode: forwards; */
 }
 
 
 @keyframes fadeInOutAnimation {
-    0%,100% {
+
+    0%,
+    100% {
         opacity: 10;
     }
+
     50% {
         opacity: .25;
-     }
+    }
 }
 
 /* source: https://www.30secondsofcode.org/css/s/hover-underline-animation/ */
 
 .hover-underline-animation {
     position: relative;
-  }
-  
+}
+
 .hover-underline-animation:after {
     content: '';
     position: absolute;
@@ -254,23 +258,23 @@ article {
     background-color: rgb(235, 72, 3);
     transform-origin: bottom right;
     transition: transform 0.25s ease-in;
-  }
-  
-  .hover-underline-animation:hover:after {
+}
+
+.hover-underline-animation:hover:after {
     transform: scaleX(1);
     transform-origin: bottom left;
-  }
+}
 
 
 
 .order {
-    width:350px;
-    padding-left:40px;
+    width: 350px;
+    padding-left: 40px;
     margin-top: 40px;
 }
 
-.order p:not(.menuTitle){
-    width:200;
+.order p:not(.menuTitle) {
+    width: 200;
 }
 
 .receipt h4 {
@@ -349,16 +353,16 @@ article {
 
 }
 
-*/ .land-outline {
-    stroke: white;
-    stroke-width: .5px;
-    fill: gray;
-}
+/* .land-outline {
+    stroke-width: 1px;
+
+} */
 
 .country-outline {
-    stroke: white;
-    stroke-width: 0.5px;
+    stroke: gray;
+    stroke-width: .5px;
     fill: none;
+
 }
 
 
@@ -369,5 +373,10 @@ article {
 }
 
 .hidden {
-    display:none;
+    display: none;
+}
+
+.mark:hover {
+    height: 35;
+    
 }

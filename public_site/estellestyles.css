@@ -16,15 +16,27 @@
 }
 
 @font-face {
-    font-family: "Nunito Sans";
+    font-family: "Roboto";
     src: url("fonts/Roboto-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("fonts/Roboto-Bold.ttf");
+    font-weight: bold
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("fonts/Roboto-Italic.ttf");
     font-style: italic;
 }
 
 /* probably useful classes */
-/* .textCenter {
+
+.textCenter {
     text-align: center
-} */
+}
 
 .alignVertical {
     /* align item horizontally */
@@ -39,11 +51,15 @@
     display: none;
 }
 
+.invisible {
+    visibility: hidden;
+}
+
 /* website */
 
 html {
-    font-family: "Nunito Sans", sans-serif;
-    scroll-behavior: smooth
+    font-family: "Roboto", sans-serif;
+    scroll-behavior: smooth;
 }
 
 .fancyFont {
@@ -52,23 +68,46 @@ html {
 
 body {
     margin: 0;
-    
     /* overflow-x: hidden; */
 }
 
 #graphic {
     width: 100%;
+
     /* flex-direction: row; */
-    height: 100vh;
+    /* max-height:700px; */
     display: flex;
     /* align item horizontally */
     justify-content: center;
     /* align item vertically */
-    align-items: center;
+    align-items: top;
 }
 
-/* center left and right child elements of #graphic */
-#graphic div {
+#vis {
+    /* padding-top: 20px;
+    padding-bottom: 20px; */
+    display: inline-block;
+    position: sticky;
+    top: 0px;
+    z-index: 1;
+    height: 100vh;
+    /* margin-right: auto;
+    margin-left: 0; */
+    /* height:10px; */
+    width: 65%;
+    padding-left: 5%;
+
+    /* align item horizontally */
+    justify-content: center;
+    /* align vertically */
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.step:not(.disableScroll):not(.hidden) {
+    height: 100vh;
     /* align item horizontally */
     justify-content: center;
     /* align vertically */
@@ -77,38 +116,24 @@ body {
     flex-direction: column;
 }
 
-#vis {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    display: inline-block;
-    position: sticky;
-    top: 0px;
-    z-index: 1;
-    /* margin-right: auto;
-    margin-left: 0; */
-    height: 80vh;
-    width: 65%;
-    padding-left:5%;
-
-
-}
 
 #sections {
     position: relative;
+    height: auto;
     display: inline-block;
-    max-width: 35%;
-    padding: 5%;
+    max-width: 30%;
+    padding-right: 5%;
+    /* padding: 5%; */
     /* z-index: 90; */
     /* margin-right: auto;
     margin-left:auto */
 }
 
-/* section {
-    height: 800px;
-
-} */
 #sections p {
     font-size: 30px;
+    text-align: left;
+    width:100%;
+
 }
 
 #author {
@@ -122,7 +147,7 @@ header {
 }
 
 header h2 {
-    margin:0;
+    margin: 0;
     font-style: italic;
     font-weight: normal;
 }
@@ -130,12 +155,35 @@ header h2 {
 h1 {
     font-size: 70px;
     font-weight: normal;
-    margin-bottom:5px;
+    margin-bottom: 5px;
+    margin-top: 0;
 }
 
 .italic {
     font-style: italic;
 }
+
+#scrollText {
+    margin-top:60px;
+    font-size: 12px;
+    text-transform: uppercase;
+    /* font-weight: bold; */
+    /* text-align: center; */
+}
+
+/* source: https://unused-css.com/blog/animated-down-arrow/ */
+
+.scroll-down {
+    position: relative;
+    z-index: 100;
+    width: 20px;
+    height: 20px;
+    border-bottom: 2px solid #000000;
+    border-right: 2px solid #000000;
+    margin-left: auto;
+    margin-right: auto;
+    animation: bounceArrowAnimation 2s ease-in-out infinite;
+  }
 
 /* MENU */
 
@@ -150,6 +198,8 @@ h1 {
     height: 600px;
     padding: 15px;
     text-align: center;
+    z-index: 0;
+    /* opacity:0; */
     /* padding-top:70px */
 }
 
@@ -169,7 +219,7 @@ h1 {
 
 .menuTitle {
     text-decoration: none;
-    opacity: 1;
+    /* opacity: 1; */
     font-size: 18px;
     letter-spacing: 1.5px;
     font-weight: bold;
@@ -187,60 +237,22 @@ h1 {
     margin-top: 40px;
 }
 
-.flexChild img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 /* DISH */
-
-#dish img {
-    width: 400px;
+.currentDish{
+    width: 430px;
+    /* margin-top: -50%; */
 }
 
-.receipt h4 {
-    text-align: center;
-    font-size: 2.5rem;
-    color: black;
-    margin: 10px;
-    /* margin-bottom: 0px; */
-    /* padding:10px; */
+/* RECEIPT */
+.receipt{
+    font-family: monospace;
+    background-color: rgb(245, 245, 245);
+    color:rgb(77, 77, 77);
+    box-shadow: 0px 0px 5px rgb(207, 207, 207);
+
 }
 
-.receipt h5 {
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 500;
-    color: black;
-    margin: 2px;
-}
-
-.receipt h6 {
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: black;
-    margin: 2px;
-}
-
-.dashed-line {
-    margin-top: 20px;
-    max-width: 70%;
-    border: 2px dashed black;
-}
-
-.receipt p:first-child {
-    margin-top: 30px;
-}
-
-
-.receipt p {
-    text-align: center;
-    color: black;
-    font-size: 1.5rem;
-    margin: 3px;
-}
+/* GRAPH */
 
 .y-axis {
     font-size: 14px;
@@ -279,7 +291,8 @@ h1 {
 /* .fadeAnimation {
     animation: fade 2s linear infinite;
 } */
-@keyframes fade {
+
+/* @keyframes fade {
 
     0%,
     100% {
@@ -290,7 +303,7 @@ h1 {
         color: #2942a5;
         opacity: 1
     }
-}
+} */
 
 .fadeIn {
     animation: fadeInAnimation 2s ease;
@@ -308,6 +321,24 @@ h1 {
         opacity: 1;
     }
 }
+
+.fadeOut {
+    animation: fadeOutAnimation 2s ease;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+
+@keyframes fadeOutAnimation {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
 
 /* source: https://www.geeksforgeeks.org/how-to-create-fade-in-effect-on-page-load-using-css/# */
 
@@ -352,4 +383,48 @@ h1 {
 .hover-underline-animation:hover:after {
     transform: scaleX(1);
     transform-origin: bottom left;
+}
+
+/* bounce animation */
+
+.bounce {
+    animation: bounceAnimation 2s ease-in-out infinite;
+}
+
+@keyframes bounceAnimation {
+
+    /* 0%   { transform:translate(0,-10px) rotate(45deg); opacity: 0;  }
+    50%  { opacity: 1;  }
+    100% { transform:translate(0,10px) rotate(45deg); opacity: 0; } */
+    0% {
+        transform: translate(0, 5px)
+    }
+
+    50% {
+        transform: translate(0, 0px)
+    }
+
+    100% {
+        transform: translate(0, 5px)
+    }
+}
+
+/*bounce animation for scroll*/
+
+@keyframes bounceArrowAnimation {
+
+    /* 0%   { transform:translate(0,-10px) rotate(45deg); opacity: 0;  }
+    50%  { opacity: 1;  }
+    100% { transform:translate(0,10px) rotate(45deg); opacity: 0; } */
+    0% {
+        transform: translate(0, 5px) rotate(45deg)
+    }
+
+    50% {
+        transform: translate(0, 0px) rotate(45deg)
+    }
+
+    100% {
+        transform: translate(0, 5px) rotate(45deg)
+    }
 }

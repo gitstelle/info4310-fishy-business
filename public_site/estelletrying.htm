@@ -14,65 +14,71 @@
 
 <body>
 
-    <div id="graphic">
-        <div id="vis">
-            <!-- <div class="alignVertical"> -->
-            <div class="menu fancyFont alignVertical">
-                <h2>Catch of the Day</h2>
-                <!-- Salmon Order -->
-                <div class="order alignVertical">
-                    <text id=salmon class="menuTitle hover-underline-animation fadeAnimation">Miso
-                        Salmon | $31</text>
-                    <p>Served with bok choy, ginger rice, and microgreens.</p>
-                </div>
-                <!-- Shrimp Order -->
-                <div class="order alignVertical">
-                    <text id=shrimp class="menuTitle hover-underline-animation fadeAnimation">Spicy
-                        Cajun Shrimp | $27</text>
-                    <p>Served with cheesy grits and a big spoon.</p>
+    <section id="scrollViz">
+        <div id="graphic">
+            <div id="vis">
+                <!-- <div class="alignVertical"> -->
+                <div class="menu fancyFont alignVertical">
+                    <h2>Catch of the Day</h2>
+                    <!-- Salmon Order -->
+                    <div class="order alignVertical">
+                        <text id=salmon class="menuTitle hover-underline-animation fadeAnimation">Miso
+                            Salmon | $31</text>
+                        <p>Served with bok choy, ginger rice, and microgreens.</p>
+                    </div>
+                    <!-- Shrimp Order -->
+                    <div class="order alignVertical">
+                        <text id=shrimp class="menuTitle hover-underline-animation fadeAnimation">Spicy
+                            Cajun Shrimp | $27</text>
+                        <p>Served with cheesy grits and a big spoon.</p>
 
+                    </div>
+                    <!-- Tilapia Order -->
+                    <div class="order alignVertical">
+                        <text id=tilapia class="menuTitle hover-underline-animation fadeAnimation">Fried
+                            Tilapia Sandwich | $23</text>
+                        <p>Served with coleslaw, pickles, tartar sauce, and a side of fries.</p>
+                    </div>
+                    <!-- </div> -->
                 </div>
-                <!-- Tilapia Order -->
-                <div class="order alignVertical">
-                    <text id=tilapia class="menuTitle hover-underline-animation fadeAnimation">Fried
-                        Tilapia Sandwich | $23</text>
-                    <p>Served with coleslaw, pickles, tartar sauce, and a side of fries.</p>
+
+                <div class="receipt hidden">
+                    <h2></h2>
+                    <h3></h3>
+                    <hr class="dashed-line">
+                    <table>
+                        <col width="70%">
+                        <col width="30%">
+                        <tr>
+                            <th id="dishName"></th>
+                            <th id="dishPrice"></th>
+                        </tr>
+                        <tr>
+                            <th id="water"></th>
+                            <th id="waterPrice"></th>
+                        </tr>
+                        <tr>
+                            <th id="land"></th>
+                            <th id="landPrice"></th>
+                        </tr>
+                        <tr>
+                            <th id="nitrogen"></th>
+                            <th id="nitrogenPrice"></th>
+                        </tr>
+                        <tr>
+                            <th id="phos"></th>
+                            <th id="phosPrice"></th>
+                        </tr>
+                    </table>
+                    <hr class="dashed-line">
                 </div>
-                <!-- </div> -->
-            </div>
 
-            <div class="receipt hidden">
-                <h2></h2>
-                <h3></h3>
-                <hr class="dashed-line">
-                <table>
-                    <col width="70%">
-                    <col width="30%">
-                    <tr>
-                        <th id="dishName"></th>
-                        <th id="dishPrice"></th>
-                    </tr>
-                    <tr>
-                        <th id="water"></th>
-                        <th id="waterPrice"></th>
-                    </tr>
-                    <tr>
-                        <th id="land"></th>
-                        <th id="landPrice"></th>
-                    </tr>
-                    <tr>
-                        <th id="nitrogen"></th>
-                        <th id="nitrogenPrice"></th>
-                    </tr>
-                    <tr>
-                        <th id="phos"></th>
-                        <th id="phosPrice"></th>
-                    </tr>
-                </table>
-                <hr class="dashed-line">
-            </div>
+                <div class="map hidden">
+                    <svg id="choropleth" height="600" width="800"
+                        style="background: white; margin-top:50px; border: 2px solid gray"></svg>
+                </div>
 
-            <!-- <div class="receipt fancyFont alignVertical hidden">
+                <!-- <div class="receipt fancyFont alignVertical hidden">
                 <h2>Fishy Business</h2>
                 <h3>www.fishy-business.onrender.com</h3>
                 <hr class="dashed-line">
@@ -103,59 +109,63 @@
                 <hr class="dashed-line">
             </div> -->
 
-        </div>
-
-        <div id="sections">
-
-            <section id="menu" class="step">
-                <div>
-                    <header id=heading class="fancyFont">
-                        <h1>Fishy Business</h1>
-                        <h2>The cost of your filet from fish to sea</h2>
-                    </header>
-                    <h3 id="author">By Estelle Hooper, Eva Ruse, Gabriella Chu</h3>
-                    <p>Welcome to our restaurant. I'm your server, Fishy Business.</p>
-                    <p>Please order any of our specials!</p>
-                    <div id='scrollInfo' class="invisible">
-                        <h4 id="scrollText" class="textCenter bounce">Scroll to continue</h4>
-                        <div class="scroll-down"></div>
-                    </div>
-
-                </div>
-            </section>
-
-            <div id="hiddenSections" class="hidden">
-
-                <section id="text1" class="step" height="100vh">
-                    <p>We hope you enjoyed your meal!</p>
-                    <p>However, it looks like there are some extra costs...</p>
-                </section>
-
-                <section id="text2" class="step" height="100vh">
-                    <!-- DO NOT DELETE MUST LEAVE EMPTY -->
-                </section>
-
-                <section id="text3" class="step" height="100vh">
-                    <!-- DO NOT DELETE MUST LEAVE EMPTY -->
-                </section>
-
-                <section id="text4" class="step" height="100vh">
-                    <!-- DO NOT DELETE MUST LEAVE EMPTY -->
-                </section>
-
-                <section id="text5" class="step" height="100vh">
-                    <!-- DO NOT DELETE MUST LEAVE EMPTY -->
-                </section>
             </div>
 
+            <div id="sections">
 
-        </div>
-        <div id="chartContainer">
-            <svg id="bar1" height="500" width="600"></svg>
-        </div>
-    </div>
+                <section id="menu" class="step">
+                    <div>
+                        <header id=heading class="fancyFont">
+                            <h1>Fishy Business</h1>
+                            <h2>The cost of your filet from fish to sea</h2>
+                        </header>
+                        <h3 id="author">By Estelle Hooper, Eva Ruse, Gabriella Chu</h3>
+                        <p>Welcome to our restaurant. I'm your server, Fishy Business.</p>
+                        <p>Please order any of our specials!</p>
+                        <div id='scrollInfo' class="invisible">
+                            <h4 id="scrollText" class="textCenter bounce">Scroll to continue</h4>
+                            <div class="scroll-down"></div>
+                        </div>
 
-    <div class = "testing hidden"> Idk </div>
+                    </div>
+                </section>
+
+                <div id="hiddenSections" class="hidden">
+
+                    <section id="text1" class="step" height="100vh">
+                        <p>We hope you enjoyed your meal!</p>
+                        <p>However, it looks like there are some extra costs...</p>
+                    </section>
+
+                    <section id="text2" class="step" height="100vh">
+                        <!-- DO NOT DELETE MUST LEAVE EMPTY -->
+                    </section>
+
+                    <section id="text3" class="step" height="100vh">
+                        <!-- DO NOT DELETE MUST LEAVE EMPTY -->
+                    </section>
+
+                    <section id="text4" class="step" height="100vh">
+                        <!-- DO NOT DELETE MUST LEAVE EMPTY -->
+                    </section>
+
+                    <section id="text5" class="step" height="100vh">
+                        <!-- DO NOT DELETE MUST LEAVE EMPTY -->
+                    </section>
+
+                    <section id="text5" class="step" height="100vh">
+                        <!-- DO NOT DELETE MUST LEAVE EMPTY -->
+                    </section>
+                </div>
+
+
+            </div>
+            <div id="chartContainer">
+                <svg id="bar1" height="500" width="600"></svg>
+            </div>
+        </div>
+    </section>
+
     <!-- <main>
 
 
@@ -228,14 +238,14 @@
 
 <script>
     // d3.selectAll(".menuTitle").
-    // const map_svg = d3.select("#choropleth");
-    // const map_width = map_svg.attr("width");
-    // const map_height = map_svg.attr("height");
-    // const map_margin = { top: 20, right: 20, bottom: 20, left: 20 };
-    // const mapWidth = map_width - map_margin.left - map_margin.right;
-    // const mapHeight = map_height - map_margin.top - map_margin.bottom;
-    // const map = map_svg.append("g")
-    //     .attr("transform", "translate(" + map_margin.left + "," + map_margin.top + ")");
+    const map_svg = d3.select("#choropleth");
+    const map_width = map_svg.attr("width");
+    const map_height = map_svg.attr("height");
+    const map_margin = { top: 20, right: 20, bottom: 20, left: 20 };
+    const mapWidth = map_width - map_margin.left - map_margin.right;
+    const mapHeight = map_height - map_margin.top - map_margin.bottom;
+    const map = map_svg.append("g")
+        .attr("transform", "translate(" + map_margin.left + "," + map_margin.top + ")");
 
 
 
@@ -254,6 +264,10 @@
         let land_use = await d3.csv("data/land-use-seafood.csv", d3.autotype);
         let nitrogen_emissions = await d3.csv("data/nitrogen-emissions-seafood.csv", d3.autotype);
         let phos_emissions = await d3.csv("data/phosphorous-emissions-seafood.csv", d3.autotype);
+
+        const world_data = await d3.json("countries-110m.json");
+
+        const centroid_data = await d3.csv("data/centroids.csv", d3.autotype)
 
 
         // can either be Salmon, Shrimp, or Tilapia
@@ -439,6 +453,27 @@
             receipt.select("#phos").text('Phosphorous').classed('fadeIn', true)
             receipt.select("#phosPrice").text(fish_phos_emissions).classed('fadeIn', true)
 
+            receipt.classed('hidden',false);
+            d3.select(".map").classed('hidden', true);
+
+        }
+
+        addMap = function () {
+            // make receipt invisible
+            receipt = d3.select(".receipt")
+            receipt.classed('hidden', true);
+            receipt.attr("height", 0)
+
+            // make bar chart invisible
+            d3.select("#chartContainer").transition().style('opacity', 0)
+
+
+            // make map visible
+
+            d3.select(".map").classed('hidden', false);
+
+
+
         }
 
         // waterbar = async function () 
@@ -565,12 +600,158 @@
 
             // reveal next section
             dishSection = d3.select('#hiddenSections').classed('hidden', false);
+
+
+
+
+            // start of map code
+
+            salmonCountries = ["Norway", "Sweden", "Denmark", "United Kingdom", "Chile"]
+            shrimpCountries = ['India', 'China', 'Vietnam', 'Indonesia', 'Thailand']
+            tilapiaCountries = ['China', 'Indonesia', 'Honduras', 'Mexico', "Taiwan"];
+
+
+            const colors = ["#052132", "#00375E", "#005D8F", "#0978AF", "#1A93CF"];
+            const topColorScale = d3.scaleOrdinal(colors).domain([0, 1, 2, 3, 4]);
+
+            var countries = topojson.feature(world_data, world_data.objects.countries);
+            var countriesMesh = topojson.mesh(world_data, world_data.objects.countries);
+
+            var projection = d3.geoRobinson().fitSize([mapWidth, mapHeight], countries);
+            var path = d3.geoPath().projection(projection);
+
+            // coloring function for different fish selections
+            function countryColor(country) {
+                if (selectedFish === 'salmon') { ranking = salmonCountries.indexOf(country) }
+                else if (selectedFish === 'shrimp') { ranking = shrimpCountries.indexOf(country) }
+                else if (selectedFish === 'tilapia') { ranking = tilapiaCountries.indexOf(country) }
+
+                console.log("fish")
+                console.log(selectedFish);
+
+                if (ranking > -1) {
+                    return topColorScale(ranking)
+                }
+                else {
+                    return "#f4f1e4"
+                }
+
+
+            }
+
+
+            // making the map paths
+            let viewport = map.append("g");
+
+            viewport.selectAll(".countries").data(countries.features)
+                .join("path")
+                .attr("class", "countries")
+                .attr('stroke', 'None')
+                .attr('fill', d => countryColor(d.properties.name))
+                .attr("d", path);
+
+            viewport.append("path")
+                .datum(countriesMesh)
+                .attr("class", "country-outline")
+                .attr("d", path);
+
+
+            // making the legend
+            // reference: https://stackoverflow.com/questions/41090920/how-to-position-the-legend-in-a-d3-chart
+            var legendText = ["#1 Exporter", "#2 Exporter", "#3 Exporter", "#4 Exporter", "#5 Exporter"];
+
+            var legend = map.selectAll(".legend")
+                .data(colors)
+                .enter().append("g")
+                .attr("class", "legend")
+                .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
+
+
+            legend.append("rect").data(colors)
+                .attr("x", 675)
+                .attr("width", 20)
+                .attr("height", 20)
+                .attr("fill", d => d)
+
+            legend.append("text").data(legendText)
+                .attr("x", 700)
+                .attr("y", 15)
+                .text(d => d)
+                .style("font-size", "12px")
+
+
+
+            // making the country marks
+
+            // getting average long and lat coords
+            if (selectedFish === "salmon") { selectedCountries = salmonCountries }
+            else if (selectedFish === "shrimp") { selectedCountries = shrimpCountries }
+            else if (selectedFish === "tilapia") { selectedCountries = tilapiaCountries }
+
+            console.log('selection')
+            console.log(selectedFish);
+            console.log(selectedCountries);
+
+            console.log('hellooooo')
+            console.log(centroid_data[0]['COUNTRYAFF']);
+
+            selectedCountries.forEach((d) => {
+                //d is the country name
+                console.log(d)
+                selectedCountry = centroid_data.filter(i => i['COUNTRY'] === d);
+                // selectedCoun = countries.features.filter(i => i.properties['name'] === d);
+
+                console.log(selectedCountry)
+
+
+                let markPos = projection([selectedCountry[0]['longitude'], selectedCountry[0]['latitude']]);
+                console.log(markPos)
+
+                let pinCountry = selectedCountry[0]["COUNTRY"];
+                console.log(pinCountry);
+
+
+                let textbox = map.append("g")
+                    .attr("class", "tooltip")
+                    .attr("visibility", "hidden");
+
+                textbox.append("rect")
+                    .attr("opacity", 0.9)
+                    .attr("fill", "lightgray")
+                    .attr("x", 0)
+                    .attr("y", 0)
+                    .attr("height", 25)
+                    .attr("width", function () { return pinCountry.length * 10 })
+                    .attr("alignment-baseline", "hanging")
+                    .attr("rx", 8)
+
+                textbox.append("text")
+                    .text(pinCountry)
+                    .attr("x", 2)
+                    .attr("y", 5)
+                    .attr("text-anchor", "right")
+                    .attr("alignment-baseline", "hanging")
+
+                textbox.attr("transform", `translate(${markPos[0] + 2},${markPos[1] + 3})`);
+
+                map.append("image")
+                    .attr('class', 'mark')
+                    .attr("xlink:href", "images/mappin.png")
+                    .attr("x", markPos[0] - 11)
+                    .attr("y", markPos[1] - 14)
+                    .attr("width", 20)
+                    .attr("height", 20)
+                    .on("mouseover", function () { textbox.style("visibility", "visible") })
+                    .on("mouseout", function () { textbox.style("visibility", "hidden") })
+
+            })
+
         }
 
 
         function highlightBar(v) {
             console.log('highlightBar')
-            console.log('v',v)
+            console.log('v', v)
             console.log('selectedFish', selectedFish)
             v = v.toLowerCase();
             if (v === selectedFish) {
@@ -632,7 +813,7 @@
             if (index == 2 & progress > 0.7) { }
         })
 
-        let activationFunctions = [initialEstelle, estelle1, addWater, addLand, addNitrogen, addPhos]
+        let activationFunctions = [initialEstelle, estelle1, addWater, addLand, addNitrogen, addPhos, addMap]
 
     }
 

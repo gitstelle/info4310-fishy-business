@@ -427,3 +427,17 @@ h1 {
         transform: translate(0, 5px) rotate(45deg)
     }
 }
+
+#chartContainer {
+    position: fixed;
+    width: 600;
+    height: 500;
+    top:20%;
+    left:60%;
+    opacity:0;
+}
+
+
+.testing {
+    height: 500;
+}

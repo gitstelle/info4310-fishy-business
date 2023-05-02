@@ -125,40 +125,37 @@
             </section>
 
             <div id="hiddenSections" class="hidden">
+
                 <section id="text1" class="step" height="100vh">
                     <p>We hope you enjoyed your meal!</p>
                     <p>However, it looks like there are some extra costs...</p>
                 </section>
 
                 <section id="text2" class="step" height="100vh">
-                    <p>Water</p>
-                    <p>Water costs you glug glug.</p>
+                    <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                 </section>
 
                 <section id="text3" class="step" height="100vh">
-                    <p>Land</p>
-                    <p>LAND LAND LAND LAND</p>
+                    <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                 </section>
 
                 <section id="text4" class="step" height="100vh">
-                    <p>Nitrogen</p>
-                    <p>NITROGENNNNNNNNNN</p>
+                    <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                 </section>
 
                 <section id="text5" class="step" height="100vh">
-                    <p>Phosphorous</p>
-                    <p>go phosphoro-US !</p>
+                    <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                 </section>
-                <!--                 
-                <section class="step">
-                    <p>Enjoy your meal!</p>
-                    <p>Scroll when you are ready to pay the bill.</p>
-                </section> -->
             </div>
 
 
         </div>
+        <div id="chartContainer">
+            <svg id="bar1" height="500" width="600"></svg>
+        </div>
     </div>
+
+    <div class = "testing hidden"> Idk </div>
     <!-- <main>
 
 
@@ -240,6 +237,17 @@
     // const map = map_svg.append("g")
     //     .attr("transform", "translate(" + map_margin.left + "," + map_margin.top + ")");
 
+
+
+    const chart1 = d3.select("#bar1");
+    const width1 = chart1.attr("width");
+    const height1 = chart1.attr("height");
+    const margin1 = { top: 35, right: 10, bottom: 45, left: 150 };
+    const chartWidth1 = width1 - margin1.left - margin1.right;
+    const chartHeight1 = height1 - margin1.top - margin1.bottom;
+    let annotations1 = chart1.append("g").attr("id", "annotations");
+    const chartArea1 = chart1.append("g").attr("transform", "translate(" + margin1.left + "," + margin1.top + ")");
+
     const getData = async function () {
 
         let water_use = await d3.csv("data/freshwater-use-seafood.csv", d3.autotype);
@@ -277,6 +285,8 @@
 
 
         initialEstelle = async function () {
+            console.log('initialEstelle')
+
             currentDish = d3.selectAll('.currentDish').classed('fadeIn', false);
             await currentDish.transition().style('opacity', 0).end();
 
@@ -309,7 +319,7 @@
 
             if (addReceipt == true) {
                 menu.classed('hidden', true);
-                menu.attr("height",0)
+                menu.attr("height", 0)
                 //add our receipt stuff
 
                 receipt.classed('hidden', false);
@@ -353,10 +363,23 @@
 
         }
 
-        addWater = function () {
+        addWater = async function () {
             console.log('addWater');
             receipt = d3.select(".receipt")
 
+            await d3.select("#chartContainer").transition().style('opacity', 1).end()
+
+
+            // drawChart(water_use, barScale1, leftAxisScale1,'Freshwater use (m3 / kg edible weight)');
+
+            chartArea1.selectAll('rect.bar').data(water_use)
+                .join('rect')
+                .attr('class', 'bar')
+                .attr("fill", d => highlightBar(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
+                .attr('x', d => barScale1(0))
+                .attr('y', d => leftAxisScale1(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
+                .attr("height", leftAxisScale1.bandwidth())
+                .attr("width", d => barScale1(Number(d['Freshwater use (m3 / kg edible weight)'])) - barScale1(0))
 
 
             // receiptText = d3.select('.receiptText').style('transform', "translateX(0px)");
@@ -364,7 +387,6 @@
 
             // d3.select('.receipt').classed('hidden',false);
             // we hard coded text opacity here but idk 
-            d3.select("#text2").transition().style('opacity', 1);
 
 
             receipt.select("#water").text('Water').classed('fadeIn', true)
@@ -373,9 +395,11 @@
 
         addLand = function () {
             console.log('addLand')
+
+            drawChart(land_use, barScale2, leftAxisScale1, 'Land use (m2 / kg edible weight)')
+
             receipt = d3.select(".receipt")
 
-            d3.select("#text3").transition().style('opacity', 1);
 
 
             receipt.select("#land").text('Land').classed('fadeIn', true)
@@ -385,9 +409,11 @@
 
         addNitrogen = function () {
             console.log('addNitrogen')
+
+            drawChart(nitrogen_emissions, barScale3, leftAxisScale1, 'Nitrogen (kgN / t edible weight)')
+
             receipt = d3.select(".receipt")
 
-            d3.select("#text4").transition().style('opacity', 1);
 
 
             receipt.select("#nitrogen").text('Nitrogen').classed('fadeIn', true)
@@ -397,9 +423,11 @@
 
         addPhos = function () {
             console.log('addPhos')
+
+            drawChart(phos_emissions, barScale4, leftAxisScale1, 'Phosphorous (kgP / t edible weight)')
+
             receipt = d3.select(".receipt")
 
-            d3.select("#text5").transition().style('opacity', 1);
 
 
             receipt.select("#phos").text('Phosphorous').classed('fadeIn', true)
@@ -409,7 +437,56 @@
 
         // waterbar = async function () 
 
-        // createScales();
+        function createScales() {
+            // Setting up scales and axes for the 4 bar charts (do we need 4 separate bar charts or should we update the same one?)
+
+            //removing "(farmed)" from each of the fish entities
+            species = water_use.map(d => d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1))
+
+            //making scales and axes for water
+            water_values = water_use.map(d => Number(d['Freshwater use (m3 / kg edible weight)']))
+            land_values = land_use.map(d => Number(d['Land use (m2 / kg edible weight)']))
+            nitrogen_values = nitrogen_emissions.map(d => Number(d['Nitrogen (kgN / t edible weight)']))
+            phos_values = phos_emissions.map(d => Number(d['Phosphorous (kgP / t edible weight)']))
+
+            leftAxisScale1 = d3.scaleBand().domain(species).range([chartHeight1, 0]).padding(0.05);
+
+            barvalueExtent1 = d3.extent(water_values)
+            barScale1 = d3.scaleLinear().domain([0, barvalueExtent1[1]]).range([0, chartWidth1]);
+            console.log('barscale1')
+            console.log(barScale1)
+
+            let leftAxis1 = d3.axisLeft();
+            let leftAxisG1 = annotations1.append("g")
+                .attr("class", "y-axis")
+                // .attr("opacity", 0)
+                .attr("transform", `translate(${margin1.left - 1}, ${margin1.top})`);
+            leftAxis1.scale(leftAxisScale1);
+            leftAxisG1.transition().call(leftAxis1);
+
+            let bottomAxis1 = d3.axisBottom();
+            let bottomAxisG1 = annotations1.append("g")
+                .attr("class", "x-axis")
+                // .attr("opacity", 0)
+                .attr("transform", `translate(${margin1.left - 1},${chartHeight1 + margin1.top})`)
+
+            bottomAxis1.scale(barScale1);
+            bottomAxisG1.transition().call(bottomAxis1);
+
+            //making scales and axes for land
+            barvalueExtent2 = d3.extent(land_values)
+            barScale2 = d3.scaleLinear().domain([0, barvalueExtent2[1]]).range([0, chartWidth1]);
+
+            //making scales and axes for nitrogen
+            barvalueExtent3 = d3.extent(nitrogen_values)
+            barScale3 = d3.scaleLinear().domain([0, barvalueExtent3[1]]).range([0, chartWidth1]);
+
+            //making scales for phos
+            barvalueExtent4 = d3.extent(phos_values)
+            barScale4 = d3.scaleLinear().domain([0, barvalueExtent4[1]]).range([0, chartWidth1]);
+        }
+
+        createScales();
 
         d3.selectAll(".menuTitle")
             .on('click', orderUp)
@@ -422,6 +499,8 @@
         var addReceipt = false
 
         function orderUp() {
+
+            initialEstelle();
 
             scroll()
             console.log('scroll happened')
@@ -480,18 +559,42 @@
 
             // reveal next section
             dishSection = d3.select('#hiddenSections').classed('hidden', false);
+        }
 
-            // draw default graph, water use
-            chartArea1.selectAll('rect.bar').data(water_use)
-                .join('rect')
-                .attr('class', 'bar')
-                .attr("fill", d => highlightBar(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
-                .attr('x', d => barScale1(0))
-                .attr('y', d => leftAxisScale1(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
-                .attr("height", leftAxisScale1.bandwidth())
-                .attr("width", d => barScale1(Number(d['Freshwater use (m3 / kg edible weight)'])) - barScale1(0))
 
-            // d3.selectAll('#water').text(salmon_water_use + ' water').style('color', 'red')
+        function highlightBar(v) {
+            console.log('highlightBar')
+            console.log('v',v)
+            console.log('selectedFish', selectedFish)
+            v = v.toLowerCase();
+            if (v === selectedFish) {
+                return 'blue';
+            }
+            else { return 'darkgrey'; }
+        }
+
+
+        function drawChart(data, barscale, leftaxisscale, column) {
+            console.log('drawChart')
+
+            chartArea1.selectAll('rect.bar').data(data)
+                .join(enter => enter.append('rect')
+                    .attr('class', 'bar')
+                    .attr("x", d => barscale(0))
+                    .attr("y", d => leftaxisscale(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
+                    .attr("height", leftaxisscale.bandwidth())
+                    .attr("width", d => barscale(parseFloat(d[column])) - barscale(0))
+                    .attr("opacity", 0)
+                    .call(enter => enter.transition()
+                        .attr('opacity', 1)),
+                    update => update.call(update => update.transition()
+                        .attr("fill", d => highlightBar(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
+
+                        .attr("x", d => barscale(0))
+                        .attr("y", d => leftaxisscale(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
+                        .attr("height", leftaxisscale.bandwidth())
+                        .attr("width", d => barscale(parseFloat(d[column])) - barscale(0))),
+                    exit => exit.call(exit => exit.transition().attr('opacity', 0).remove()));
         }
 
         // source: https://towardsdatascience.com/how-i-created-an-interactive-scrolling-visualisation-with-d3-js-and-how-you-can-too-e116372e2c73
@@ -524,8 +627,6 @@
         })
 
         let activationFunctions = [initialEstelle, estelle1, addWater, addLand, addNitrogen, addPhos]
-        // let activationFunctions = [initialEstelle, estelle2]
-
 
     }
 

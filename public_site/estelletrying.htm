@@ -155,7 +155,7 @@
         </div>
     </div>
 
-    <!-- <div class = "testing hidden"> Idk </div> -->
+    <div class = "testing hidden"> Idk </div>
     <!-- <main>
 
 
@@ -287,6 +287,9 @@
         initialEstelle = async function () {
             console.log('initialEstelle')
 
+            d3.select("#chartContainer").style('opacity', 0)
+
+
             currentDish = d3.selectAll('.currentDish').classed('fadeIn', false);
             await currentDish.transition().style('opacity', 0).end();
 
@@ -308,6 +311,9 @@
 
         estelle1 = async function () {
             console.log('estelle1')
+
+            d3.select("#chartContainer").style('opacity', 0)
+
             menu = d3.select(".menu")
             await menu.transition().style('opacity', 0).style('transform', "translateX(-200px)").end()
             console.log(menu);

@@ -41,9 +41,38 @@
                 <!-- </div> -->
             </div>
 
-            <div class="dish"></div>
+            <div class="receipt hidden">
+                <h2></h2>
+                <h3></h3>
+                <hr class="dashed-line">
+                <table>
+                    <col width="70%">
+                    <col width="30%">
+                    <tr>
+                        <th id="dishName"></th>
+                        <th id="dishPrice"></th>
+                    </tr>
+                    <tr>
+                        <th id="water"></th>
+                        <th id="waterPrice"></th>
+                    </tr>
+                    <tr>
+                        <th id="land"></th>
+                        <th id="landPrice"></th>
+                    </tr>
+                    <tr>
+                        <th id="nitrogen"></th>
+                        <th id="nitrogenPrice"></th>
+                    </tr>
+                    <tr>
+                        <th id="phos"></th>
+                        <th id="phosPrice"></th>
+                    </tr>
+                </table>
+                <hr class="dashed-line">
+            </div>
 
-            <div class="receipt fancyFont alignVertical hidden">
+            <!-- <div class="receipt fancyFont alignVertical hidden">
                 <h2>Fishy Business</h2>
                 <h3>www.fishy-business.onrender.com</h3>
                 <hr class="dashed-line">
@@ -72,7 +101,7 @@
                     </tr>
                 </table>
                 <hr class="dashed-line">
-            </div>
+            </div> -->
 
         </div>
 
@@ -96,16 +125,31 @@
             </section>
 
             <div id="hiddenSections" class="hidden">
-                <section id="dish" class="step">
-                    <p>Enjoy your meal!</p>
-                    <p>Scroll when you are ready to pay the bill.</p>
+                <section id="text1" class="step" height="100vh">
+                    <p>We hope you enjoyed your meal!</p>
+                    <p>However, it looks like there are some extra costs...</p>
                 </section>
 
-                <section id="receipt" class="step">
-                    <p>Enjoy your meal!</p>
-                    <p>Scroll when you are ready to pay the bill.</p>
+                <section id="text2" class="step" height="100vh">
+                    <p>Water</p>
+                    <p>Water costs you glug glug.</p>
                 </section>
-<!--                 
+
+                <section id="text3" class="step" height="100vh">
+                    <p>Land</p>
+                    <p>LAND LAND LAND LAND</p>
+                </section>
+
+                <section id="text4" class="step" height="100vh">
+                    <p>Nitrogen</p>
+                    <p>NITROGENNNNNNNNNN</p>
+                </section>
+
+                <section id="text5" class="step" height="100vh">
+                    <p>Phosphorous</p>
+                    <p>go phosphoro-US !</p>
+                </section>
+                <!--                 
                 <section class="step">
                     <p>Enjoy your meal!</p>
                     <p>Scroll when you are ready to pay the bill.</p>
@@ -236,40 +280,134 @@
             currentDish = d3.selectAll('.currentDish').classed('fadeIn', false);
             await currentDish.transition().style('opacity', 0).end();
 
-            currentDish.remove();
-            addFish = true;
+            // currentDish.remove();
+            addReceipt = true;
 
             menu = d3.select(".menu")
             menu.classed("hidden", false);
             menu.transition().style('opacity', 1).style('transform', "translateX(0px)")
+
+            receipt = d3.select(".receipt")
+            receipt.selectAll(".receiptText").remove();
+
+            receipt.classed("hidden", true);
+            receipt.transition().style('opacity', 1).style('transform', "translateX(0px)")
+
+
         }
 
         estelle1 = async function () {
+            console.log('estelle1')
             menu = d3.select(".menu")
-            await menu.transition().style('opacity', 0).style('transform', "translateX(-200px)").end();
+            await menu.transition().style('opacity', 0).style('transform', "translateX(-200px)").end()
             console.log(menu);
-            addDish = d3.select('.dish')
+
+            receipt = d3.select('.receipt')
+            receipt.selectAll(".receiptText").remove();
+            receipt.selectAll(".dashed-line").remove();
             console.log(selectedFish)
 
-            if (addFish == true) {
+            if (addReceipt == true) {
                 menu.classed('hidden', true);
-                addDish.append('img').attr('src', "images/" + selectedFish + ".jpg").attr('class', 'currentDish').classed('fadeIn', true);
-                console.log('executed')
-                addFish = false
-            }
-            currentDish = d3.select('.currentDish').classed('fadeIn', false);
+                menu.attr("height",0)
+                //add our receipt stuff
 
-            console.log('estelle1')
-            
+                receipt.classed('hidden', false);
+                receipt.select("h2").text("Fishy Business").attr('class', 'receiptText').classed('fadeIn', true)
+                receipt.select("h3").text("www.fishy-business.com").attr('class', 'receiptText').classed('fadeIn', true)
+
+                // receipt.append('h4').text('The Cost of Your Filet').attr('class', 'receiptText').classed('fadeIn', true)
+                // receipt.append('h5').text('From Plate to Sea').attr('class', 'receiptText').classed('fadeIn', true)
+
+
+                if (selectedFish === 'salmon') {
+                    dish = "Miso Salmon"
+                    price = "$31"
+                }
+                else if (selectedFish === 'shrimp') {
+                    dish = "Spicy Cajun Shrimp"
+                    price = "$27"
+                }
+                else if (selectedFish === 'tilapia') {
+                    dish = "Fried Tilapia Sandwich"
+                    price = "$23"
+                }
+
+
+                receipt.select("#dishName").text(dish).classed('fadeIn', true)
+                receipt.select("#dishPrice").text(price).classed('fadeIn', true)
+
+
+                // addDish.append('img').attr('src', "images/" + selectedFish + ".jpg").attr('class', 'currentDish').classed('fadeIn', true);
+                console.log('executed')
+                addReceipt = false
+
+                // we hard coded text opacity here but idk 
+                d3.select("#text1").transition().style('opacity', 1);
+                // d3.select("#text2").transition().style('opacity', 0);
+
+
+            }
+            receiptText = d3.select('.receiptText').classed('fadeIn', false);
+
+
         }
 
-        estelle2 = async function () {
-            currentDish = d3.select('.currentDish').style('transform', "translateX(0px)");
+        estelle2 = function () {
             console.log('estelle2');
-            currentDish.transition().style('opacity', 0).style('transform', "translateX(-200px)");
+            receipt = d3.select(".receipt")
+
+
+
+            // receiptText = d3.select('.receiptText').style('transform', "translateX(0px)");
+            // receiptText.transition().style('opacity', 0).style('transform', "translateX(-200px)");
 
             // d3.select('.receipt').classed('hidden',false);
+            // we hard coded text opacity here but idk 
+            d3.select("#text2").transition().style('opacity', 1);
+
+
+            receipt.select("#water").text('Water').classed('fadeIn', true)
+            receipt.select("#waterPrice").text(fish_water_use).classed('fadeIn', true)
         }
+
+        addLand = function () {
+            console.log('addLand')
+            receipt = d3.select(".receipt")
+
+            d3.select("#text3").transition().style('opacity', 1);
+
+
+            receipt.select("#land").text('Land').classed('fadeIn', true)
+            receipt.select("#landPrice").text(fish_land_use).classed('fadeIn', true)
+
+        }
+
+        addNitrogen = function () {
+            console.log('addNitrogen')
+            receipt = d3.select(".receipt")
+
+            d3.select("#text4").transition().style('opacity', 1);
+
+
+            receipt.select("#nitrogen").text('Nitrogen').classed('fadeIn', true)
+            receipt.select("#nitrogenPrice").text(fish_nitrogen_emissions).classed('fadeIn', true)
+
+        }
+
+        addPhos = function () {
+            console.log('addPhos')
+            receipt = d3.select(".receipt")
+
+            d3.select("#text5").transition().style('opacity', 1);
+
+
+            receipt.select("#phos").text('Phosphorous').classed('fadeIn', true)
+            receipt.select("#phosPrice").text(fish_phos_emissions).classed('fadeIn', true)
+
+        }
+
+        // waterbar = async function () 
 
         // createScales();
 
@@ -280,16 +418,19 @@
         // global variable for fish selection: salmon, shrimp, tilapia
         var selectedFish = null
 
-        // global boolean to track if the meal photo should be added
-        var addFish = false
+        // global boolean to track if the receipt should be added
+        var addReceipt = false
 
         function orderUp() {
 
-            addFish = true;
+            scroll()
+            console.log('scroll happened')
+
+            addReceipt = true;
 
 
 
-            d3.selectAll('p').classed('hidden', false)
+            // d3.selectAll('p').classed('hidden', false)
 
             menu = d3.select(".menu")
             orders = d3.selectAll(".order")
@@ -338,7 +479,7 @@
             }
 
             // reveal next section
-            dishSection = d3.select('#hiddenSections').classed('hidden',false);
+            dishSection = d3.select('#hiddenSections').classed('hidden', false);
 
             // draw default graph, water use
             chartArea1.selectAll('rect.bar').data(water_use)
@@ -350,13 +491,13 @@
                 .attr("height", leftAxisScale1.bandwidth())
                 .attr("width", d => barScale1(Number(d['Freshwater use (m3 / kg edible weight)'])) - barScale1(0))
 
-            d3.selectAll('#water').text(salmon_water_use + ' water').style('color', 'red')
+            // d3.selectAll('#water').text(salmon_water_use + ' water').style('color', 'red')
         }
 
         // source: https://towardsdatascience.com/how-i-created-an-interactive-scrolling-visualisation-with-d3-js-and-how-you-can-too-e116372e2c73
 
         let scroll = scroller().container(d3.select('#graphic'))
-        scroll()
+
         let lastIndex, activeIndex = 0
         //This is where most of the magic happens. Every time the user scrolls, we receive a new index. First, we find all the irrelevant sections, and reduce their opacity. 
         scroll.on('active', function (index) {
@@ -369,6 +510,8 @@
             console.log(activeIndex);
             let sign = (activeIndex - lastIndex) < 0 ? -1 : 1;
             let scrolledSections = d3.range(lastIndex + sign, activeIndex + sign, sign);
+            console.log('scrolledSections')
+            console.log(scrolledSections)
             scrolledSections.forEach(i => {
                 console.log('i')
                 console.log(i)
@@ -380,7 +523,9 @@
             if (index == 2 & progress > 0.7) { }
         })
 
-        let activationFunctions = [initialEstelle, estelle1,estelle2]
+        let activationFunctions = [initialEstelle, estelle1, estelle2, addLand, addNitrogen, addPhos]
+        // let activationFunctions = [initialEstelle, estelle2]
+
 
     }
 

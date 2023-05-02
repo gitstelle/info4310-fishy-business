@@ -11,6 +11,7 @@ function scroller() {
             .on('scroll.scroller', position)
             .on('resize.scroller', resize)
         resize();
+
         let timer = d3.timer(function () {
             position();
             timer.stop();
@@ -27,6 +28,7 @@ function scroller() {
             }
             sectionPositions.push(top - startPos)
         });
+        console.log('sectionPositions',sectionPositions);
     }
     //The position function determines where the user is on the page (using window.pageYOffset), and uses that to determine which section of text should currently be in view. It then uses D3’s dispatching tools to signal the 'progress' event, which will be used in the main script, passing along the current section index so that the script knows which stage of the animation/visualisation should be showing. 
     function position() {

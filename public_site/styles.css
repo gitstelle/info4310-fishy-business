@@ -128,7 +128,6 @@ article {
     max-width: 70%;
 } */
 
-
 .receipt,
 .menu {
     /* width: 100%; */
@@ -185,10 +184,10 @@ article {
     margin-left: auto;
     margin-right: auto;
 }
-
+/* 
 #dish img {
     width: 400px;
-}
+} */
 
 /* ANIMATIONS */
 

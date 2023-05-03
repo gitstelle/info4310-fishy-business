@@ -75,7 +75,7 @@
 
                 <div class="map hidden">
                     <svg id="choropleth" height="600" width="800"
-                        style="background: white; margin-top:50px; border: 2px solid gray"></svg>
+                        style="background: white; border: 2px solid gray"></svg>
                 </div>
 
 
@@ -729,14 +729,15 @@
 
 
             legend.append("rect").data(colors)
-                .attr("x", 675)
+                .attr("x", 20)
+                .attr("y", 450)
                 .attr("width", 20)
                 .attr("height", 20)
                 .attr("fill", d => d)
 
             legend.append("text").data(legendText)
-                .attr("x", 700)
-                .attr("y", 15)
+                .attr("x", 45)
+                .attr("y", 465)
                 .text(d => d)
                 .style("font-size", "12px")
 
@@ -744,17 +745,9 @@
 
             // making the country marks
 
-            // getting average long and lat coords
             if (selectedFish === "salmon") { selectedCountries = salmonCountries }
             else if (selectedFish === "shrimp") { selectedCountries = shrimpCountries }
             else if (selectedFish === "tilapia") { selectedCountries = tilapiaCountries }
-
-            console.log('selection')
-            console.log(selectedFish);
-            console.log(selectedCountries);
-
-            console.log('hellooooo')
-            console.log(centroid_data[0]['COUNTRYAFF']);
 
             selectedCountries.forEach((d) => {
                 //d is the country name
@@ -985,7 +978,7 @@
                 .datum(capture_subset)
                 .attr("class", "line")
                 .attr("fill", "none")
-                .attr("stroke", "steelblue")
+                .attr("stroke", "#2942a5")
                 .attr("stroke-width", 2)
                 .attr("d", capturelineGen);
 
@@ -993,8 +986,8 @@
                 .datum(aqua_subset)
                 .attr("class", "line")
                 .attr("fill", "none")
-                .attr("stroke", "orange")
-                .attr("stroke-width", 3)
+                .attr("stroke", "rgb(235, 72, 3)")
+                .attr("stroke-width", 2)
                 .attr("d", aqualineGen);
 
             // Making line transitions
@@ -1028,9 +1021,9 @@
             console.log('selectedFish', selectedFish)
             v = v.toLowerCase();
             if (v === selectedFish) {
-                return 'blue';
+                return 'rgb(235, 72, 3)';
             }
-            else { return 'darkgrey'; }
+            else { return 'gray'}
         }
 
 

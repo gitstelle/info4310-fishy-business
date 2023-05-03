@@ -358,8 +358,6 @@ article {
 } */
 
 .country-outline {
-    stroke: gray;
-    stroke-width: .5px;
     fill: none;
 
 }

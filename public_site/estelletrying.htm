@@ -78,6 +78,12 @@
                         style="background: white; margin-top:50px; border: 2px solid gray"></svg>
                 </div>
 
+
+                <div class="lineGraph hidden">
+                    <svg id="graph" height="600" width="900" style="background: #EEEEEE; margin-top:50px"></svg>
+                </div>
+
+
                 <!-- <div class="receipt fancyFont alignVertical hidden">
                 <h2>Fishy Business</h2>
                 <h3>www.fishy-business.onrender.com</h3>
@@ -154,8 +160,21 @@
                     </section>
 
                     <section id="text6" class="step" height="100vh">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                            cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                     </section>
+
+                    <section id="text7" class="step" height="100vh">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                            cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </section>
+
                 </div>
 
 
@@ -247,7 +266,16 @@
     const map = map_svg.append("g")
         .attr("transform", "translate(" + map_margin.left + "," + map_margin.top + ")");
 
+    const graph_svg = d3.select("#graph");
+    const graph_width = graph_svg.attr("width");
+    const graph_height = graph_svg.attr("height");
+    const graph_margin = { top: 20, right: 20, bottom: 50, left: 90 };
+    const graphWidth = graph_width - graph_margin.left - graph_margin.right;
+    const graphHeight = graph_height - graph_margin.top - graph_margin.bottom;
+    const graph = graph_svg.append("g")
+        .attr("transform", "translate(" + graph_margin.left + "," + graph_margin.top + ")");
 
+    let graph_annotations = graph_svg.append("g").attr("id", "annotations");
 
     const chart1 = d3.select("#bar1");
     const width1 = chart1.attr("width");
@@ -260,14 +288,20 @@
 
     const getData = async function () {
 
+        // bar chart data
         let water_use = await d3.csv("data/freshwater-use-seafood.csv", d3.autotype);
         let land_use = await d3.csv("data/land-use-seafood.csv", d3.autotype);
         let nitrogen_emissions = await d3.csv("data/nitrogen-emissions-seafood.csv", d3.autotype);
         let phos_emissions = await d3.csv("data/phosphorous-emissions-seafood.csv", d3.autotype);
 
-        const world_data = await d3.json("countries-110m.json");
 
+        // map data
+        const world_data = await d3.json("countries-110m.json");
         const centroid_data = await d3.csv("data/centroids.csv", d3.autotype)
+
+
+        // line graph data
+        let compareFishing = await d3.csv("data/capture-fisheries-vs-aquaculture.csv", d3.autotype);
 
 
         // can either be Salmon, Shrimp, or Tilapia
@@ -453,8 +487,9 @@
             receipt.select("#phos").text('Phosphorous').classed('fadeIn', true)
             receipt.select("#phosPrice").text(fish_phos_emissions).classed('fadeIn', true)
 
-            receipt.classed('hidden',false);
+            receipt.classed('hidden', false);
             d3.select(".map").classed('hidden', true);
+            d3.select("#chartContainer").style("opacity", 1);
 
         }
 
@@ -471,6 +506,23 @@
             // make map visible
 
             d3.select(".map").classed('hidden', false);
+
+
+
+            //if scrolling backwards
+            d3.select(".lineGraph").classed('hidden', true);
+
+
+
+        }
+
+        addLineGraph = function () {
+
+            // make map invisible
+            d3.select(".map").classed('hidden', true);
+
+            // make line graph visible
+            d3.select(".lineGraph").classed('hidden', false);
 
 
 
@@ -746,6 +798,218 @@
 
             })
 
+            // Making line graphs comparing traditional fishing production vs fish farms production
+            // Resource for line graph and area animation: https://hackernoon.com/animating-line-charts-with-d3js
+            const timeParser = d3.timeParse('%Y');
+            compareFishing.forEach(d => {
+                d['Year'] = timeParser(d["Year"]);
+                d['Aquaculture production (metric tons)'] = Number(d['Aquaculture production (metric tons)']);
+                d['Capture fisheries production (metric tons)'] = Number(d['Capture fisheries production (metric tons)']);
+            })
+
+            console.log('selectedFish', selectedFish)
+
+            //have to implement selectedFish. For now, just use Norway - Salmon as an example.
+            if (selectedFish === 'salmon') {
+                // Graph for Norway - Salmon
+                norway = compareFishing.filter(d => d.Entity === 'Norway')
+                norway = norway.filter(d => !isNaN(d['Capture fisheries production (metric tons)']))
+                norway = norway.filter(d => !isNaN(d['Aquaculture production (metric tons)']))
+
+                captureExtent = d3.extent(norway, d => d['Capture fisheries production (metric tons)']);
+                aquaExtent = d3.extent(norway, d => d['Aquaculture production (metric tons)'])
+
+                dateExtent = d3.extent(norway, d => d['Year']);
+                dateScale = d3.scaleTime().domain(dateExtent).range([0, graphWidth]);
+
+                capture_subset = norway.map(row => ({
+                    "Year": row.Year,
+                    "Capture fisheries production (metric tons)": row["Capture fisheries production (metric tons)"],
+                }));
+
+                aqua_subset = norway.map(row => ({
+                    "Year": row.Year,
+                    "Aquaculture production (metric tons)": row["Aquaculture production (metric tons)"],
+                }));
+
+                dataset = norway;
+            }
+            else if (selectedFish === 'shrimp') {
+                // Graph for India - Shrimp
+                india = compareFishing.filter(d => d.Entity === 'India')
+                india = india.filter(d => !isNaN(d['Capture fisheries production (metric tons)']))
+                india = india.filter(d => !isNaN(d['Aquaculture production (metric tons)']))
+
+                captureExtent = d3.extent(india, d => d['Capture fisheries production (metric tons)']);
+                aquaExtent = d3.extent(india, d => d['Aquaculture production (metric tons)'])
+
+                dateExtent = d3.extent(india, d => d['Year']);
+                dateScale = d3.scaleTime().domain(dateExtent).range([0, graphWidth]);
+
+                capture_subset = india.map(row => ({
+                    "Year": row.Year,
+                    "Capture fisheries production (metric tons)": row["Capture fisheries production (metric tons)"],
+                }));
+
+                aqua_subset = india.map(row => ({
+                    "Year": row.Year,
+                    "Aquaculture production (metric tons)": row["Aquaculture production (metric tons)"],
+                }));
+
+                dataset = india;
+
+            }
+            else if (selectedFish === 'tilapia') {
+                // Graph for China - Tilapia
+                china = compareFishing.filter(d => d.Entity === 'China')
+                china = china.filter(d => !isNaN(d['Capture fisheries production (metric tons)']))
+                china = china.filter(d => !isNaN(d['Aquaculture production (metric tons)']))
+
+                captureExtent = d3.extent(china, d => d['Capture fisheries production (metric tons)']);
+                aquaExtent = d3.extent(china, d => d['Aquaculture production (metric tons)'])
+
+                dateExtent = d3.extent(china, d => d['Year']);
+                dateScale = d3.scaleTime().domain(dateExtent).range([0, graphWidth]);
+
+                capture_subset = china.map(row => ({
+                    "Year": row.Year,
+                    "Capture fisheries production (metric tons)": row["Capture fisheries production (metric tons)"],
+                }));
+
+                aqua_subset = china.map(row => ({
+                    "Year": row.Year,
+                    "Aquaculture production (metric tons)": row["Aquaculture production (metric tons)"],
+                }));
+
+
+                dataset = china;
+
+            }
+            let combinedExtent = [Math.min(...captureExtent.concat(aquaExtent)), Math.max(...captureExtent.concat(aquaExtent))];
+
+            let combinedScale = d3.scaleLinear().domain(combinedExtent).range([graphHeight, 0]);
+            let graph_leftAxis = d3.axisLeft(combinedScale)
+            let graph_leftGridlines = d3.axisLeft(combinedScale)
+                .tickSize(-graphWidth - 10)
+                .tickFormat("")
+            graph_annotations.append("g")
+                .attr("class", "y-axis")
+                .attr("transform", `translate(${graph_margin.left - 10},${graph_margin.top})`)
+                .call(graph_leftAxis)
+
+            let graph_bottomAxis = d3.axisBottom(dateScale)
+            let graph_bottomGridlines = d3.axisBottom(dateScale)
+                .tickSize(-graphHeight - 10)
+                .tickFormat("")
+            graph_annotations.append("g")
+                .attr("class", "x-axis")
+                .attr("transform", `translate(${graph_margin.left},${graphHeight + graph_margin.top + 10})`)
+                .call(graph_bottomAxis);
+
+
+            //Making the line generators
+            var capturelineGen = d3.line()
+                .x(d => dateScale(d['Year']))
+                .y(d => combinedScale((d['Capture fisheries production (metric tons)'])))
+                .curve(d3.curveMonotoneX);
+
+            var aqualineGen = d3.line()
+                .x(d => dateScale(d['Year']))
+                .y(d => combinedScale((d['Aquaculture production (metric tons)'])))
+                .curve(d3.curveMonotoneX);
+
+
+            // Making area transitions
+
+            const capture_area = d3.area()
+                .x(function (d) { return dateScale(d.Year); })
+                .y0(graphHeight)
+                .y1(function (d) { return combinedScale(d['Capture fisheries production (metric tons)']); })
+                .curve(d3.curveCatmullRom.alpha(0.5));
+
+
+            const aqua_area = d3.area()
+                .x(function (d) { return dateScale(d.Year); })
+                .y0(graphHeight)
+                .y1(function (d) { return combinedScale(d['Aquaculture production (metric tons)']); })
+                .curve(d3.curveCatmullRom.alpha(0.5));
+
+            // Making area transitions
+            const zeroArea = d3.area()
+                .x(function (d) { return dateScale(d.Year); })
+                .y0(graphHeight)
+                .y1(function () { return 0; })
+                .curve(d3.curveCatmullRom.alpha(0.5));
+
+
+            graph.append("path")
+                .attr("d", function (d) {
+                    return zeroArea(dataset) //must pass country dataset
+                })
+                .style('fill', '#7ba7cc')
+                .style("opacity", 0.5)
+                .transition()
+                .duration(1500)
+                .attr("d", function (d) {
+                    return capture_area(dataset) //must pass country dataset
+                })
+                .style('fill', '#7ba7cc')
+                .style("opacity", 0.5)
+
+
+            graph.append("path")
+                .attr("d", function (d) {
+                    return zeroArea(dataset) //must pass country dataset
+                })
+                .style('fill', '#FAD5A5')
+                .style("opacity", 0.5)
+                .transition()
+                .duration(1500)
+                .attr("d", function (d) {
+                    return aqua_area(dataset) //must pass country dataset
+                })
+                .style('fill', '#FAD5A5')
+                .style("opacity", 0.5)
+
+            // Making the lines
+            const capture_path = graph.append("path")
+                .datum(capture_subset)
+                .attr("class", "line")
+                .attr("fill", "none")
+                .attr("stroke", "steelblue")
+                .attr("stroke-width", 3)
+                .attr("d", capturelineGen);
+
+            const aqua_path = graph.append("path")
+                .datum(aqua_subset)
+                .attr("class", "line")
+                .attr("fill", "none")
+                .attr("stroke", "orange")
+                .attr("stroke-width", 3)
+                .attr("d", aqualineGen);
+
+            // Making line transitions
+            const capture_length = capture_path.node().getTotalLength();
+
+            capture_path.attr("stroke-dasharray", capture_length + " " + capture_length)
+                .attr("stroke-dashoffset", capture_length)
+                .transition()
+                .ease(d3.easeLinear)
+                .attr("stroke-dashoffset", 0)
+                .delay(1500)
+                .duration(3000)
+
+            const aqua_length = aqua_path.node().getTotalLength();
+
+            aqua_path.attr("stroke-dasharray", aqua_length + " " + aqua_length)
+                .attr("stroke-dashoffset", aqua_length)
+                .transition()
+                .ease(d3.easeLinear)
+                .attr("stroke-dashoffset", 0)
+                .delay(1500)
+                .duration(3000)
+
+
         }
 
 
@@ -813,7 +1077,7 @@
             if (index == 2 & progress > 0.7) { }
         })
 
-        let activationFunctions = [initialEstelle, estelle1, addWater, addLand, addNitrogen, addPhos, addMap]
+        let activationFunctions = [initialEstelle, estelle1, addWater, addLand, addNitrogen, addPhos, addMap, addLineGraph]
 
     }
 

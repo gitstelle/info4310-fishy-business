@@ -423,19 +423,6 @@
             console.log('addWater');
             receipt = d3.select(".receipt")
 
-            await d3.select("#chartContainer").transition().style('opacity', 1).end()
-
-
-            // drawChart(water_use, barScale1, leftAxisScale1,'Freshwater use (m3 / kg edible weight)');
-
-            chartArea1.selectAll('rect.bar').data(water_use)
-                .join('rect')
-                .attr('class', 'bar')
-                .attr("fill", d => highlightBar(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
-                .attr('x', d => barScale1(0))
-                .attr('y', d => leftAxisScale1(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
-                .attr("height", leftAxisScale1.bandwidth())
-                .attr("width", d => barScale1(Number(d['Freshwater use (m3 / kg edible weight)'])) - barScale1(0))
 
 
             // receiptText = d3.select('.receiptText').style('transform', "translateX(0px)");
@@ -449,6 +436,21 @@
 
             receipt.select("#water").text('Water').style("color", "rgb(235, 72, 3)").classed('fadeIn', true)
             receipt.select("#waterPrice").text(fish_water_use).style("color", "rgb(235, 72, 3)").classed('fadeIn', true)
+
+
+            await d3.select("#chartContainer").transition().style('opacity', 1).end()
+
+
+            // drawChart(water_use, barScale1, leftAxisScale1,'Freshwater use (m3 / kg edible weight)');
+
+            chartArea1.selectAll('rect.bar').data(water_use)
+                .join('rect')
+                .attr('class', 'bar')
+                .attr("fill", d => highlightBar(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
+                .attr('x', d => barScale1(0))
+                .attr('y', d => leftAxisScale1(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
+                .attr("height", leftAxisScale1.bandwidth())
+                .attr("width", d => barScale1(Number(d['Freshwater use (m3 / kg edible weight)'])) - barScale1(0))
 
         }
 
@@ -535,6 +537,128 @@
 
 
 
+            // trying to wait to call line graph
+            let graph_leftGridlines = d3.axisLeft(combinedScale)
+                .tickSize(-graphWidth - 10)
+                .tickFormat("")
+            graph_annotations.append("g")
+                .attr("class", "y-axis")
+                .attr("transform", `translate(${graph_margin.left - 10},${graph_margin.top})`)
+                .call(graph_leftAxis)
+
+            let graph_bottomAxis = d3.axisBottom(dateScale)
+            let graph_bottomGridlines = d3.axisBottom(dateScale)
+                .tickSize(-graphHeight - 10)
+                .tickFormat("")
+            graph_annotations.append("g")
+                .attr("class", "x-axis")
+                .attr("transform", `translate(${graph_margin.left},${graphHeight + graph_margin.top + 10})`)
+                .call(graph_bottomAxis);
+
+
+            //Making the line generators
+            var capturelineGen = d3.line()
+                .x(d => dateScale(d['Year']))
+                .y(d => combinedScale((d['Capture fisheries production (metric tons)'])))
+                .curve(d3.curveMonotoneX);
+
+            var aqualineGen = d3.line()
+                .x(d => dateScale(d['Year']))
+                .y(d => combinedScale((d['Aquaculture production (metric tons)'])))
+                .curve(d3.curveMonotoneX);
+
+
+            // Making area transitions
+
+            const capture_area = d3.area()
+                .x(function (d) { return dateScale(d.Year); })
+                .y0(graphHeight)
+                .y1(function (d) { return combinedScale(d['Capture fisheries production (metric tons)']); })
+                .curve(d3.curveCatmullRom.alpha(0.5));
+
+
+            const aqua_area = d3.area()
+                .x(function (d) { return dateScale(d.Year); })
+                .y0(graphHeight)
+                .y1(function (d) { return combinedScale(d['Aquaculture production (metric tons)']); })
+                .curve(d3.curveCatmullRom.alpha(0.5));
+
+            // Making area transitions
+            const zeroArea = d3.area()
+                .x(function (d) { return dateScale(d.Year); })
+                .y0(graphHeight)
+                .y1(function () { return 0; })
+                .curve(d3.curveCatmullRom.alpha(0.5));
+
+
+            graph.append("path")
+                .attr("d", function (d) {
+                    return zeroArea(dataset) //must pass country dataset
+                })
+                .style('fill', '#7ba7cc')
+                .style("opacity", 0.5)
+                .transition()
+                .duration(1500)
+                .attr("d", function (d) {
+                    return capture_area(dataset) //must pass country dataset
+                })
+                .style('fill', '#7ba7cc')
+                .style("opacity", 0.5)
+
+
+            graph.append("path")
+                .attr("d", function (d) {
+                    return zeroArea(dataset) //must pass country dataset
+                })
+                .style('fill', '#FAD5A5')
+                .style("opacity", 0.5)
+                .transition()
+                .duration(1500)
+                .attr("d", function (d) {
+                    return aqua_area(dataset) //must pass country dataset
+                })
+                .style('fill', '#FAD5A5')
+                .style("opacity", 0.5)
+
+            // Making the lines
+            const capture_path = graph.append("path")
+                .datum(capture_subset)
+                .attr("class", "line")
+                .attr("fill", "none")
+                .attr("stroke", "#2942a5")
+                .attr("stroke-width", 2)
+                .attr("d", capturelineGen);
+
+            const aqua_path = graph.append("path")
+                .datum(aqua_subset)
+                .attr("class", "line")
+                .attr("fill", "none")
+                .attr("stroke", "rgb(235, 72, 3)")
+                .attr("stroke-width", 2)
+                .attr("d", aqualineGen);
+
+            // Making line transitions
+            const capture_length = capture_path.node().getTotalLength();
+
+            capture_path.attr("stroke-dasharray", capture_length + " " + capture_length)
+                .attr("stroke-dashoffset", capture_length)
+                .transition()
+                .ease(d3.easeLinear)
+                .attr("stroke-dashoffset", 0)
+                .delay(1500)
+                .duration(3000)
+
+            const aqua_length = aqua_path.node().getTotalLength();
+
+            aqua_path.attr("stroke-dasharray", aqua_length + " " + aqua_length)
+                .attr("stroke-dashoffset", aqua_length)
+                .transition()
+                .ease(d3.easeLinear)
+                .attr("stroke-dashoffset", 0)
+                .delay(1500)
+                .duration(3000)
+
+
         }
 
         // waterbar = async function () 
@@ -599,6 +723,10 @@
 
         // global boolean to track if the receipt should be added
         var addReceipt = false
+
+        // global variable for scales
+        var combinedScale = 0
+        var graph_leftAxis = 0
 
         function orderUp() {
 
@@ -889,127 +1017,8 @@
             }
             let combinedExtent = [Math.min(...captureExtent.concat(aquaExtent)), Math.max(...captureExtent.concat(aquaExtent))];
 
-            let combinedScale = d3.scaleLinear().domain(combinedExtent).range([graphHeight, 0]);
-            let graph_leftAxis = d3.axisLeft(combinedScale)
-            let graph_leftGridlines = d3.axisLeft(combinedScale)
-                .tickSize(-graphWidth - 10)
-                .tickFormat("")
-            graph_annotations.append("g")
-                .attr("class", "y-axis")
-                .attr("transform", `translate(${graph_margin.left - 10},${graph_margin.top})`)
-                .call(graph_leftAxis)
-
-            let graph_bottomAxis = d3.axisBottom(dateScale)
-            let graph_bottomGridlines = d3.axisBottom(dateScale)
-                .tickSize(-graphHeight - 10)
-                .tickFormat("")
-            graph_annotations.append("g")
-                .attr("class", "x-axis")
-                .attr("transform", `translate(${graph_margin.left},${graphHeight + graph_margin.top + 10})`)
-                .call(graph_bottomAxis);
-
-
-            //Making the line generators
-            var capturelineGen = d3.line()
-                .x(d => dateScale(d['Year']))
-                .y(d => combinedScale((d['Capture fisheries production (metric tons)'])))
-                .curve(d3.curveMonotoneX);
-
-            var aqualineGen = d3.line()
-                .x(d => dateScale(d['Year']))
-                .y(d => combinedScale((d['Aquaculture production (metric tons)'])))
-                .curve(d3.curveMonotoneX);
-
-
-            // Making area transitions
-
-            const capture_area = d3.area()
-                .x(function (d) { return dateScale(d.Year); })
-                .y0(graphHeight)
-                .y1(function (d) { return combinedScale(d['Capture fisheries production (metric tons)']); })
-                .curve(d3.curveCatmullRom.alpha(0.5));
-
-
-            const aqua_area = d3.area()
-                .x(function (d) { return dateScale(d.Year); })
-                .y0(graphHeight)
-                .y1(function (d) { return combinedScale(d['Aquaculture production (metric tons)']); })
-                .curve(d3.curveCatmullRom.alpha(0.5));
-
-            // Making area transitions
-            const zeroArea = d3.area()
-                .x(function (d) { return dateScale(d.Year); })
-                .y0(graphHeight)
-                .y1(function () { return 0; })
-                .curve(d3.curveCatmullRom.alpha(0.5));
-
-
-            graph.append("path")
-                .attr("d", function (d) {
-                    return zeroArea(dataset) //must pass country dataset
-                })
-                .style('fill', '#7ba7cc')
-                .style("opacity", 0.5)
-                .transition()
-                .duration(1500)
-                .attr("d", function (d) {
-                    return capture_area(dataset) //must pass country dataset
-                })
-                .style('fill', '#7ba7cc')
-                .style("opacity", 0.5)
-
-
-            graph.append("path")
-                .attr("d", function (d) {
-                    return zeroArea(dataset) //must pass country dataset
-                })
-                .style('fill', '#FAD5A5')
-                .style("opacity", 0.5)
-                .transition()
-                .duration(1500)
-                .attr("d", function (d) {
-                    return aqua_area(dataset) //must pass country dataset
-                })
-                .style('fill', '#FAD5A5')
-                .style("opacity", 0.5)
-
-            // Making the lines
-            const capture_path = graph.append("path")
-                .datum(capture_subset)
-                .attr("class", "line")
-                .attr("fill", "none")
-                .attr("stroke", "#2942a5")
-                .attr("stroke-width", 2)
-                .attr("d", capturelineGen);
-
-            const aqua_path = graph.append("path")
-                .datum(aqua_subset)
-                .attr("class", "line")
-                .attr("fill", "none")
-                .attr("stroke", "rgb(235, 72, 3)")
-                .attr("stroke-width", 2)
-                .attr("d", aqualineGen);
-
-            // Making line transitions
-            const capture_length = capture_path.node().getTotalLength();
-
-            capture_path.attr("stroke-dasharray", capture_length + " " + capture_length)
-                .attr("stroke-dashoffset", capture_length)
-                .transition()
-                .ease(d3.easeLinear)
-                .attr("stroke-dashoffset", 0)
-                .delay(1500)
-                .duration(3000)
-
-            const aqua_length = aqua_path.node().getTotalLength();
-
-            aqua_path.attr("stroke-dasharray", aqua_length + " " + aqua_length)
-                .attr("stroke-dashoffset", aqua_length)
-                .transition()
-                .ease(d3.easeLinear)
-                .attr("stroke-dashoffset", 0)
-                .delay(1500)
-                .duration(3000)
+            combinedScale = d3.scaleLinear().domain(combinedExtent).range([graphHeight, 0]);
+            graph_leftAxis = d3.axisLeft(combinedScale)
 
 
         }
@@ -1023,7 +1032,7 @@
             if (v === selectedFish) {
                 return 'rgb(235, 72, 3)';
             }
-            else { return 'gray'}
+            else { return 'gray' }
         }
 
 

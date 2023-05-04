@@ -49,7 +49,7 @@
                     <hr class="dashed-line">
                     <table>
                         <col width="70%">
-                        <col width="30%">
+                        <col width="20%">
                         <tr>
                             <th id="dishName"></th>
                             <th id="dishPrice"></th>
@@ -266,9 +266,10 @@
             console.log('estelle1')
 
             await menu.transition().style('opacity', 0).style('transform', "translateX(-200px)").end()
-
+            await d3.select("#infoGraphicContainer").transition().style('opacity', 0).end()
 
             receipt = d3.select(".receipt")
+            receipt.transition().duration(200).style('transform','translateX(0px)');
             receipt.classed('hiddenRemove',false).classed('fadeIn',true)
             
 
@@ -277,7 +278,6 @@
             menu = d3.select(".menu")
             console.log(menu);
 
-            d3.select("#infoGraphicContainer").transition().style('opacity', 0)
 
             receipt = d3.select('.receipt')
             // receipt.selectAll(".receiptText").remove();
@@ -330,9 +330,8 @@
             console.log('addWater');
             receipt = d3.select(".receipt")
 
-            receipt.style('margin-left',10);
-
-
+            // move receipt to make room for the infographic
+            await receipt.transition().duration(200).style('transform','translateX(-275px)').end();
 
             // receiptText = d3.select('.receiptText').style('transform', "translateX(0px)");
             // receiptText.transition().style('opacity', 0).style('transform', "translateX(-200px)");

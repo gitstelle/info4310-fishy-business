@@ -261,7 +261,11 @@ h1 {
     padding-top:50px;
     padding-bottom:50px;
 }
-
+.receipt table {
+    width:80%;
+    margin-left: auto;
+    margin-right:auto;
+}
 .dashed-line {
     /* margin-top: 20px; */
     width:80%;
@@ -287,8 +291,7 @@ h1 {
 }
 .receipt th {
     font-weight: normal;
-    color: rgb(129, 129, 129);
-}
+    color: rgb(62, 62, 62);}
 
 /* graphs */
 

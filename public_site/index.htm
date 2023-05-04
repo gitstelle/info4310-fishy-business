@@ -41,10 +41,11 @@
                     </div>
                     <!-- </div> -->
                 </div>
+                
 
-                <div class="receipt fancyFont hidden">
-                    <h2></h2>
-                    <h3></h3>
+                <div class="receipt fancyFont hiddenRemove">
+                    <h2 class="textCenter">Fishy Business</h2>
+                    <h3 class="textCenter">fishy-business.onrender.com</h3>
                     <hr class="dashed-line">
                     <table>
                         <col width="70%">
@@ -83,39 +84,6 @@
                     <svg id="graph" height="600" width="800"
                         style="background: white; margin-top:50px; border: 2px solid gray"></svg>
                 </div>
-
-
-                <!-- <div class="receipt fancyFont alignVertical hidden">
-                <h2>Fishy Business</h2>
-                <h3>www.fishy-business.onrender.com</h3>
-                <hr class="dashed-line">
-                <table>
-                    <col width="70%">
-                    <col width="30%">
-                    <tr>
-                        <th id="dishName"></th>
-                        <th id="dishPrice"></th>
-                    </tr>
-                    <tr>
-                        <th>Water</th>
-                        <th id="waterPrice"></th>
-                    </tr>
-                    <tr>
-                        <th>Land</th>
-                        <th id="landPrice"></th>
-                    </tr>
-                    <tr>
-                        <th>Nitrogen</th>
-                        <th id="nitrogenPrice"></th>
-                    </tr>
-                    <tr>
-                        <th>Phosphorous</th>
-                        <th id="phosphorous"></th>
-                    </tr>
-                </table>
-                <hr class="dashed-line">
-            </div> -->
-
             </div>
 
             <div id="sections">
@@ -190,75 +158,6 @@
 
         </div>
     </section>
-
-    <!-- <main>
-
-
-
-        <div id="graphic" class="hidden">
-            <div id="sections">
-                <section class="step">
-                    <div class="receipt">
-                        <h4> The Cost of Your Filet </h4>
-                        <h5> From Plate to Sea </h5>
-                        <h6> Address: blah blah 123 st</h6>
-                        <h6 id='foodOrder'></h6>
-                        <hr class="dashed-line">
-                        <p id="water"></p>
-                        <p id="land"></p>
-                        <p id="nitrogen"></p>
-                        <p id="phosphorous"></p>
-                    </div>
-                </section>
-                <section class="step">
-                    <div class="receipt">
-                        <h4> The Cost of Your Filet </h4>
-                        <h5> From Plate to Sea </h5>
-                        <h6> Address: blah blah 123 st</h6>
-                        <h6 id='foodOrder'></h6>
-                        <hr class="dashed-line">
-                        <p id="water"></p>
-                        <p id="land"></p>
-                        <p id="nitrogen"></p>
-                        <p id="phosphorous"></p>
-                    </div>
-                </section>
-                <section class="step">
-                    <div class="receipt">
-                        <h4> The Cost of Your Filet </h4>
-                        <h5> From Plate to Sea </h5>
-                        <h6> Address: blah blah 123 st</h6>
-                        <h6 id='foodOrder'></h6>
-                        <hr class="dashed-line">
-                        <p id="water"></p>
-                        <p id="land"></p>
-                        <p id="nitrogen"></p>
-                        <p id="phosphorous"></p>
-                    </div>
-                </section>
-                <section class="step">
-                    <div class="receipt">
-                        <h4> The Cost of Your Filet </h4>
-                        <h5> From Plate to Sea </h5>
-                        <h6> Address: blah blah 123 st</h6>
-                        <h6 id='foodOrder'></h6>
-                        <hr class="dashed-line">
-                        <p id="water"></p>
-                        <p id="land"></p>
-                        <p id="nitrogen"></p>
-                        <p id="phosphorous"></p>
-                    </div>
-                </section>
-            </div>
-            <div id="vis">
-                <svg id="bar1" height="500" width="600"></svg>
-            </div>
-        </div>
-
-        <div id="map" class="hidden">
-            <svg id="choropleth" height="600" width="900" style="background: #EEEEEE; margin-top:50px"></svg>
-        </div>
-    </main> -->
 </body>
 
 <script>
@@ -355,10 +254,10 @@
             menu.transition().style('opacity', 1).style('transform', "translateX(0px)")
 
             receipt = d3.select(".receipt")
-            receipt.selectAll(".receiptText").remove();
+            // receipt.selectAll(".receiptText").remove();
 
-            receipt.classed("hidden", true);
-            receipt.transition().style('opacity', 1).style('transform', "translateX(0px)")
+            receipt.classed("hiddenRemove", true);
+            // receipt.transition().style('opacity', 1).style('transform', "translateX(0px)")
 
 
         }
@@ -366,17 +265,23 @@
         estelle1 = async function () {
             console.log('estelle1')
 
+            await menu.transition().style('opacity', 0).style('transform', "translateX(-200px)").end()
+
+
+            receipt = d3.select(".receipt")
+            receipt.classed('hiddenRemove',false).classed('fadeIn',true)
+            
+
             d3.select("#chartContainer").style('opacity', 0)
 
             menu = d3.select(".menu")
-            await menu.transition().style('opacity', 0).style('transform', "translateX(-200px)").end()
             console.log(menu);
 
             d3.select("#infoGraphicContainer").transition().style('opacity', 0)
 
             receipt = d3.select('.receipt')
-            receipt.selectAll(".receiptText").remove();
-            receipt.selectAll(".dashed-line").remove();
+            // receipt.selectAll(".receiptText").remove();
+            // receipt.selectAll(".dashed-line").remove();
             console.log(selectedFish)
 
             if (addReceipt == true) {
@@ -385,29 +290,24 @@
                 //add our receipt stuff
 
                 receipt.classed('hidden', false);
-                receipt.select("h2").text("Fishy Business").attr('class', 'receiptText').classed('fadeIn', true)
-                receipt.select("h3").text("www.fishy-business.com").attr('class', 'receiptText').classed('fadeIn', true)
-
-                // receipt.append('h4').text('The Cost of Your Filet').attr('class', 'receiptText').classed('fadeIn', true)
-                // receipt.append('h5').text('From Plate to Sea').attr('class', 'receiptText').classed('fadeIn', true)
 
 
                 if (selectedFish === 'salmon') {
                     dish = "Miso Salmon"
-                    price = "$31"
+                    price = "$31.00"
                 }
                 else if (selectedFish === 'shrimp') {
                     dish = "Spicy Cajun Shrimp"
-                    price = "$27"
+                    price = "$27.00"
                 }
                 else if (selectedFish === 'tilapia') {
                     dish = "Fried Tilapia Sandwich"
-                    price = "$23"
+                    price = "$23.00"
                 }
 
 
-                receipt.select("#dishName").text(dish).style("color", "rgb(235, 72, 3)").classed('fadeIn', true)
-                receipt.select("#dishPrice").text(price).style("color", "rgb(235, 72, 3)").classed('fadeIn', true)
+                receipt.select("#dishName").text(dish).classed('fadeIn', true)
+                receipt.select("#dishPrice").text(price).classed('fadeIn', true)
 
 
                 // addDish.append('img').attr('src', "images/" + selectedFish + ".jpg").attr('class', 'currentDish').classed('fadeIn', true);
@@ -421,7 +321,7 @@
 
 
             }
-            receiptText = d3.select('.receiptText').classed('fadeIn', false);
+            // receiptText = d3.select('.receiptText').classed('fadeIn', false);
 
 
         }
@@ -440,8 +340,8 @@
             // d3.select('.receipt').classed('hidden',false);
             // we hard coded text opacity here but idk 
 
-            receipt.select("#dishName").text(dish).style("color", "#8e886d").classed('fadeIn', true)
-            receipt.select("#dishPrice").text(price).style("color", "#8e886d").classed('fadeIn', true)
+            receipt.select("#dishName").text(dish).classed('fadeIn', true)
+            receipt.select("#dishPrice").text(price).classed('fadeIn', true)
 
             receipt.select("#water").text('Water').style("color", "rgb(235, 72, 3)").classed('fadeIn', true)
             receipt.select("#waterPrice").text(fish_water_use).style("color", "rgb(235, 72, 3)").classed('fadeIn', true)
@@ -471,8 +371,8 @@
 
             receipt = d3.select(".receipt")
 
-            receipt.select("#water").text('Water').style("color", "#8e886d").classed('fadeIn', true)
-            receipt.select("#waterPrice").text(fish_water_use).style("color", "#8e886d").classed('fadeIn', true)
+            receipt.select("#water").text('Water').classed('fadeIn', true)
+            receipt.select("#waterPrice").text(fish_water_use).classed('fadeIn', true)
 
             receipt.select("#land").text('Land').style("color", "rgb(235, 72, 3)").classed('fadeIn', true)
             receipt.select("#landPrice").text(fish_land_use).style("color", "rgb(235, 72, 3)").classed('fadeIn', true)
@@ -486,8 +386,8 @@
 
             receipt = d3.select(".receipt")
 
-            receipt.select("#land").text('Land').style("color", "#8e886d").classed('fadeIn', true)
-            receipt.select("#landPrice").text(fish_land_use).style("color", "#8e886d").classed('fadeIn', true)
+            receipt.select("#land").text('Land').classed('fadeIn', true)
+            receipt.select("#landPrice").text(fish_land_use).classed('fadeIn', true)
 
             receipt.select("#nitrogen").text('Nitrogen').style("color", "rgb(235, 72, 3)").classed('fadeIn', true)
             receipt.select("#nitrogenPrice").text(fish_nitrogen_emissions).style("color", "rgb(235, 72, 3)").classed('fadeIn', true)
@@ -502,8 +402,8 @@
 
             receipt = d3.select(".receipt")
 
-            receipt.select("#nitrogen").text('Nitrogen').style("color", "#8e886d").classed('fadeIn', true)
-            receipt.select("#nitrogenPrice").text(fish_nitrogen_emissions).style("color", "#8e886d").classed('fadeIn', true)
+            receipt.select("#nitrogen").text('Nitrogen').classed('fadeIn', true)
+            receipt.select("#nitrogenPrice").text(fish_nitrogen_emissions).classed('fadeIn', true)
 
             receipt.select("#phos").text('Phosphorous').style("color", "rgb(235, 72, 3)").classed('fadeIn', true)
             receipt.select("#phosPrice").text(fish_phos_emissions).style("color", "rgb(235, 72, 3)").classed('fadeIn', true)

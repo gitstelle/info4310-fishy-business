@@ -285,6 +285,8 @@
             console.log(selectedFish)
 
             if (addReceipt == true) {
+                d3.select("#infoGraphicContainer").style("opacity", 0);
+
                 menu.classed('hidden', true);
                 menu.attr("height", 0)
                 //add our receipt stuff
@@ -407,7 +409,7 @@
             receipt.select("#phos").text('Phosphorous').style("color", "rgb(235, 72, 3)").classed('fadeIn', true)
             receipt.select("#phosPrice").text(fish_phos_emissions).style("color", "rgb(235, 72, 3)").classed('fadeIn', true)
 
-            receipt.classed('hidden', false);
+            // receipt.classed('hidden', false);
             d3.select(".map").classed('hidden', true);
             d3.select("#chartContainer").style("opacity", 1);
             d3.select("#infoGraphicContainer").style("opacity", 1);
@@ -416,8 +418,11 @@
 
         addMap = function () {
             // make receipt invisible
+            d3.select("#infoGraphicContainer").style("opacity", 0);
+
             receipt = d3.select(".receipt")
-            receipt.classed('hidden', true);
+            receipt.classed('fadeIn', false);
+            receipt.classed('hiddenRemove', true);
             receipt.attr("height", 0)
 
             // make bar chart invisible

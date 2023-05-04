@@ -183,6 +183,11 @@
             <div id="chartContainer">
                 <svg id="bar1" height="500" width="600"></svg>
             </div>
+            <div id="infoGraphicContainer">
+                <!-- append infographic images here -->
+                <img src="images/test.png" height="500" width ="400"> </img>
+            </div>
+
         </div>
     </section>
 
@@ -367,6 +372,8 @@
             await menu.transition().style('opacity', 0).style('transform', "translateX(-200px)").end()
             console.log(menu);
 
+            d3.select("#infoGraphicContainer").transition().style('opacity', 0)
+
             receipt = d3.select('.receipt')
             receipt.selectAll(".receiptText").remove();
             receipt.selectAll(".dashed-line").remove();
@@ -423,6 +430,8 @@
             console.log('addWater');
             receipt = d3.select(".receipt")
 
+            receipt.style('margin-left',10);
+
 
 
             // receiptText = d3.select('.receiptText').style('transform', "translateX(0px)");
@@ -439,6 +448,7 @@
 
 
             await d3.select("#chartContainer").transition().style('opacity', 1).end()
+            await d3.select("#infoGraphicContainer").transition().style('opacity', 1).end()
 
 
             // drawChart(water_use, barScale1, leftAxisScale1,'Freshwater use (m3 / kg edible weight)');
@@ -501,6 +511,7 @@
             receipt.classed('hidden', false);
             d3.select(".map").classed('hidden', true);
             d3.select("#chartContainer").style("opacity", 1);
+            d3.select("#infoGraphicContainer").style("opacity", 1);
 
         }
 
@@ -512,6 +523,8 @@
 
             // make bar chart invisible
             d3.select("#chartContainer").transition().style('opacity', 0)
+            // make infographic invisible
+            d3.select("#infoGraphicContainer").transition().style('opacity', 0)
 
 
             // make map visible

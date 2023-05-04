@@ -206,6 +206,10 @@ h1 {
     z-index: 0;
 }
 
+/* .receipt:not(.hidden) {
+    margin-left: 10;
+} */
+
 .menu h2 {
     font-size: 30px;
     text-transform: uppercase;
@@ -429,11 +433,24 @@ h1 {
     top:20%;
     left:55%;
     opacity:0;
-
-
     /* margin: 0 auto; */
   
 }
+
+#infoGraphicContainer {
+
+    position: fixed;
+    width: 400;
+    height: 500;
+    top:20%;
+    left:32%;
+    opacity:0;
+    /* background-color: blue; */
+    /* margin: 0 auto; */
+  
+}
+
+
 
 
 .testing {

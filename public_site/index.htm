@@ -152,8 +152,9 @@
                 <svg id="bar1" height="500" width="600"></svg>
             </div>
             <div id="infoGraphicContainer">
+                <p>for 1 kg of salmon, 0.16 m<sup>2</sup> of freshwater is consumed, which is about 42 gallons.</p>
                 <!-- append infographic images here -->
-                <img src="images/test.png" height="500"f width ="400"> </img>
+                <img src="images/gallons.png" width="300"> </img>
             </div>
 
         </div>
@@ -344,8 +345,8 @@
             receipt.select("#dishName").text(dish).classed('fadeIn', true)
             receipt.select("#dishPrice").text(price).classed('fadeIn', true)
 
-            receipt.select("#water").text('Water').style("color", "rgb(235, 72, 3)").classed('fadeIn', true)
-            receipt.select("#waterPrice").text(fish_water_use).style("color", "rgb(235, 72, 3)").classed('fadeIn', true)
+            receipt.select("#water").text('Water').classed('fadeIn', true)
+            receipt.select("#waterPrice").text(fish_water_use).classed('fadeIn', true)
 
 
             await d3.select("#chartContainer").transition().style('opacity', 1).end()
@@ -375,8 +376,8 @@
             receipt.select("#water").text('Water').classed('fadeIn', true)
             receipt.select("#waterPrice").text(fish_water_use).classed('fadeIn', true)
 
-            receipt.select("#land").text('Land').style("color", "rgb(235, 72, 3)").classed('fadeIn', true)
-            receipt.select("#landPrice").text(fish_land_use).style("color", "rgb(235, 72, 3)").classed('fadeIn', true)
+            receipt.select("#land").text('Land').classed('fadeIn', true)
+            receipt.select("#landPrice").text(fish_land_use).classed('fadeIn', true)
 
         }
 
@@ -390,8 +391,8 @@
             receipt.select("#land").text('Land').classed('fadeIn', true)
             receipt.select("#landPrice").text(fish_land_use).classed('fadeIn', true)
 
-            receipt.select("#nitrogen").text('Nitrogen').style("color", "rgb(235, 72, 3)").classed('fadeIn', true)
-            receipt.select("#nitrogenPrice").text(fish_nitrogen_emissions).style("color", "rgb(235, 72, 3)").classed('fadeIn', true)
+            receipt.select("#nitrogen").text('Nitrogen').classed('fadeIn', true)
+            receipt.select("#nitrogenPrice").text(fish_nitrogen_emissions).classed('fadeIn', true)
 
 
         }
@@ -406,8 +407,8 @@
             receipt.select("#nitrogen").text('Nitrogen').classed('fadeIn', true)
             receipt.select("#nitrogenPrice").text(fish_nitrogen_emissions).classed('fadeIn', true)
 
-            receipt.select("#phos").text('Phosphorous').style("color", "rgb(235, 72, 3)").classed('fadeIn', true)
-            receipt.select("#phosPrice").text(fish_phos_emissions).style("color", "rgb(235, 72, 3)").classed('fadeIn', true)
+            receipt.select("#phos").text('Phosphorous').classed('fadeIn', true)
+            receipt.select("#phosPrice").text(fish_phos_emissions).classed('fadeIn', true)
 
             // receipt.classed('hidden', false);
             d3.select(".map").classed('hidden', true);

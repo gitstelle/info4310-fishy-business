@@ -821,7 +821,17 @@
                     .attr("x", 0)
                     .attr("y", 0)
                     .attr("height", 25)
-                    .attr("width", function () { return pinCountry.length * 10 })
+                    .attr("width", function () { 
+                        if (pinCountry.length < 9) {
+                            return pinCountry.length * 10; 
+                        }
+                        else if (pinCountry.length === 9) {
+                            return 80;
+                        }
+                        else {
+                            return 120;
+                        }
+                     } )
                     .attr("alignment-baseline", "hanging")
                     .attr("rx", 8)
 

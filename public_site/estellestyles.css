@@ -338,6 +338,12 @@ h1 {
     
 }
 
+/* chartContainer */
+
+.x-axis,.y-axis {
+    font-family: Roboto;
+}
+
 /* animations */
 
 .fadeIn {

@@ -149,10 +149,11 @@
 
             </div>
             <div id="chartContainer">
-                <svg id="bar1" height="500" width="600"></svg>
+                <p>Water Consumption comparison to other seafood</p>
+                <svg id="bar1" height="450" width="550"></svg>
             </div>
             <div id="infoGraphicContainer">
-                <p>for 1 kg of salmon, 0.16 m<sup>3</sup> of freshwater is consumed, which is about 42 gallons.</p>
+                <p>For 1 kg of salmon, 0.16 m<sup>3</sup> of freshwater is consumed, which is about 42 gallons.</p>
                 <!-- append infographic images here -->
                 <img src="images/gallons.png" width="300"> </img>
             </div>
@@ -362,12 +363,11 @@
             receipt.select("#dishName").text(dish).classed('fadeIn', true)
             receipt.select("#dishPrice").text(price).classed('fadeIn', true)
 
-            receipt.select("#water").text('Water').classed('fadeIn', true)
+            receipt.select("#water").text('Freshwater').classed('fadeIn', true)
             receipt.select("#waterPrice").html(fish_water_use+' m<sup>3</sup').classed('fadeIn', true)
 
-
-            await chartCont.transition().style('opacity', 1).end()
-            await infoCont.transition().style('opacity', 1).end()
+            await infoCont.transition().duration(500).style('opacity', 1).end()
+            chartCont.transition().duration(500).style('opacity', 1)
 
 
             // drawChart(water_use, barScale1, leftAxisScale1,'Freshwater use (m3 / kg edible weight)');

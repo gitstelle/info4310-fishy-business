@@ -41,7 +41,7 @@
                     </div>
                     <!-- </div> -->
                 </div>
-                
+
 
                 <div class="receipt fancyFont hiddenRemove">
                     <h2 class="textCenter">Fishy Business</h2>
@@ -192,6 +192,7 @@
     let annotations1 = chart1.append("g").attr("id", "annotations");
     const chartArea1 = chart1.append("g").attr("transform", "translate(" + margin1.left + "," + margin1.top + ")");
 
+
     const getData = async function () {
 
         // bar chart data
@@ -228,15 +229,6 @@
         shrimp_phos_emissions = phos_emissions.filter(d => d.Entity === 'Shrimp (farmed)')[0]['Phosphorous (kgP / t edible weight)']
 
 
-        // const chart1 = d3.select("#bar1");
-        // const width1 = chart1.attr("width");
-        // const height1 = chart1.attr("height");
-        // const margin1 = { top: 35, right: 10, bottom: 45, left: 150 };
-        // const chartWidth1 = width1 - margin1.left - margin1.right;
-        // const chartHeight1 = height1 - margin1.top - margin1.bottom;
-        // let annotations1 = chart1.append("g").attr("id", "annotations");
-        // const chartArea1 = chart1.append("g").attr("transform", "translate(" + margin1.left + "," + margin1.top + ")");
-
 
         initialEstelle = async function () {
             console.log('initialEstelle')
@@ -247,7 +239,6 @@
             currentDish = d3.selectAll('.currentDish').classed('fadeIn', false);
             await currentDish.transition().style('opacity', 0).end();
 
-            // currentDish.remove();
             addReceipt = true;
 
             menu = d3.select(".menu")
@@ -255,7 +246,7 @@
             menu.transition().style('opacity', 1).style('transform', "translateX(0px)")
 
             receipt = d3.select(".receipt")
-            // receipt.selectAll(".receiptText").remove();
+
 
             receipt.classed("hiddenRemove", true);
             // receipt.transition().style('opacity', 1).style('transform', "translateX(0px)")
@@ -270,9 +261,9 @@
             await d3.select("#infoGraphicContainer").transition().style('opacity', 0).end()
 
             receipt = d3.select(".receipt")
-            receipt.transition().duration(200).style('transform','translateX(0px)');
-            receipt.classed('hiddenRemove',false).classed('fadeIn',true)
-            
+            receipt.transition().duration(200).style('transform', 'translateX(0px)');
+            receipt.classed('hiddenRemove', false).classed('fadeIn', true)
+
 
             d3.select("#chartContainer").style('opacity', 0)
 
@@ -334,7 +325,7 @@
             receipt = d3.select(".receipt")
 
             // move receipt to make room for the infographic
-            await receipt.transition().duration(200).style('transform','translateX(-275px)').end();
+            await receipt.transition().duration(200).style('transform', 'translateX(-275px)').end();
 
             // receiptText = d3.select('.receiptText').style('transform', "translateX(0px)");
             // receiptText.transition().style('opacity', 0).style('transform', "translateX(-200px)");
@@ -363,6 +354,22 @@
                 .attr('y', d => leftAxisScale1(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
                 .attr("height", leftAxisScale1.bandwidth())
                 .attr("width", d => barScale1(Number(d['Freshwater use (m3 / kg edible weight)'])) - barScale1(0))
+
+
+            // chartArea1.data(water_use)
+            //     .append('defs')
+            //     .append('pattern')
+            //     .attr('id', 'fishPic')
+            //     .attr('patternUnits', 'userSpaceOnUse')
+            //     .attr('width', 20-barScale1(0))
+            //     .attr('height', 39.7015)
+            //     .attr("margin", 0)
+            //     .append('svg:image')
+            //     .attr("xlink:href", "images/fish.svg")
+            //     .attr("width", 20-barScale1(0))
+            //     .attr("height", 39.7015)
+            //     .attr("x", 0)
+            //     .attr("y", 0);
 
         }
 
@@ -742,8 +749,6 @@
                 else {
                     return "#f4f1e4"
                 }
-
-
             }
 
 
@@ -761,6 +766,45 @@
                 .datum(countriesMesh)
                 .attr("class", "country-outline")
                 .attr("d", path);
+
+
+            var zoom = d3.zoom()
+                .translateExtent([[-10, -10], [mapWidth + 50, mapHeight + 50]])
+                .on("zoom", plotZoomed);
+            viewport.call(zoom, d3.zoomIdentity);
+
+            // zoom function
+            function plotZoomed({transform}) {
+                viewport.attr("transform", transform.toString());
+                map.selectAll(".marks")
+                    .attr("width", 20*transform.k)
+                    .attr("height", 20*transform.k)
+
+            }
+
+            // map.append("defs").append("clipPath")
+            //     .attr("id", "chartClip")
+            //     .append("rect").attr("x", 0)
+            //     .attr("y", 0)
+            //     .attr("width", mapWidth)
+            //     .attr("height", mapHeight);
+
+            // viewport.attr("clip-path", "url(#chartClip)");
+
+
+
+
+
+            // map.call(zoom.transform, d3.zoomIdentity);
+
+            // function mapZoomed({ transform }) {
+            //     map.attr("transform", transform.toString());
+            //     child.attr("transform", transform.toString());
+            //     map.selectAll("path")
+            //         .style("stroke-width", 2 / transform.k);
+
+            // }
+
 
 
             // making the legend
@@ -821,9 +865,9 @@
                     .attr("x", 0)
                     .attr("y", 0)
                     .attr("height", 25)
-                    .attr("width", function () { 
+                    .attr("width", function () {
                         if (pinCountry.length < 9) {
-                            return pinCountry.length * 10; 
+                            return pinCountry.length * 10;
                         }
                         else if (pinCountry.length === 9) {
                             return 80;
@@ -831,7 +875,7 @@
                         else {
                             return 120;
                         }
-                     } )
+                    })
                     .attr("alignment-baseline", "hanging")
                     .attr("rx", 8)
 
@@ -958,9 +1002,9 @@
             console.log('selectedFish', selectedFish)
             v = v.toLowerCase();
             if (v === selectedFish) {
-                return 'rgb(235, 72, 3)';
+                return '#3b5d78';
             }
-            else { return 'gray' }
+            else { return '#AED5F3' }
         }
 
 

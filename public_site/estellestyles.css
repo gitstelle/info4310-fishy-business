@@ -49,14 +49,14 @@
 
 .hidden {
     /* display: none; */
-    height: 0; 
+    height: 0;
     overflow: hidden;
     opacity: 0;
     /* instead of hiding stuff to prevent scrolling, just disable scrolling until you click */
 }
 
 .hiddenRemove {
-    display:none
+    display: none
 }
 
 .invisible {
@@ -64,7 +64,7 @@
 }
 
 .flexParent {
-    display:flex;
+    display: flex;
     flex-direction: row;
 }
 
@@ -94,7 +94,7 @@ body {
     align-items: top;
 }
 
-#vis{
+#vis {
     display: inline-block;
     position: sticky;
     top: 0px;
@@ -121,6 +121,7 @@ body {
     display: flex;
     flex-direction: column;
 }
+
 .step {
     height: 100vh;
 }
@@ -256,46 +257,51 @@ h1 {
     background-color: rgb(246, 246, 246);
     color: rgb(62, 62, 62);
     box-shadow: 0px 0px 5px rgb(207, 207, 207);
-    width:300px;
-    min-height:400px;
-    padding-top:50px;
-    padding-bottom:50px;
+    width: 300px;
+    min-height: 400px;
+    padding-top: 50px;
+    padding-bottom: 50px;
 }
+
 .receipt table {
-    width:80%;
+    width: 80%;
     margin-left: auto;
-    margin-right:auto;
+    margin-right: auto;
 }
+
 .dashed-line {
     /* margin-top: 20px; */
-    width:80%;
+    width: 80%;
     border: 1px dashed rgb(174, 174, 174);
     /* margin-bottom:20px; */
 }
 
 .receipt h2 {
-    margin:0;
-    font-size:22px;
+    margin: 0;
+    font-size: 22px;
     /* padding-top:20px; */
 }
 
 .receipt h3 {
-    margin:0;
-    margin:3px;
+    margin: 0;
+    margin: 3px;
     font-size: 14px;
 }
 
 .receipt tr {
-    height:60px;
+    height: 60px;
     text-align: left;
 }
+
 .receipt th {
     font-weight: normal;
-    color: rgb(62, 62, 62);}
+    color: rgb(62, 62, 62);
+}
 
 /* graphs */
 
-.y-axis, .x-axis {
+.y-axis,
+.x-axis {
     font-size: 12px;
 
 }
@@ -314,7 +320,7 @@ h1 {
 
 .mark:hover {
     height: 35;
-    
+
 }
 
 /* animations */
@@ -436,11 +442,11 @@ h1 {
     position: fixed;
     width: 600;
     height: 500;
-    top:20%;
-    left:55%;
-    opacity:0;
+    top: 20%;
+    left: 55%;
+    opacity: 0;
     /* margin: 0 auto; */
-  
+
 }
 
 #infoGraphicContainer {
@@ -448,12 +454,12 @@ h1 {
     position: fixed;
     width: 400;
     height: 500;
-    top:20%;
-    left:32%;
-    opacity:0;
+    top: 20%;
+    left: 32%;
+    opacity: 0;
     /* background-color: blue; */
     /* margin: 0 auto; */
-  
+
 }
 
 
@@ -461,4 +467,24 @@ h1 {
 
 .testing {
     height: 500;
+}
+
+
+.progressBar {
+    width: 100%;
+}
+
+
+g.mouseover rect {
+    fill: white;
+    stroke: #222;
+    stroke-width: 1px;
+}
+
+g.mouseover text {
+    font-family: Arial, sans-serif;
+}
+
+g.mouseover text:first-child {
+    font-weight: bold;
 }

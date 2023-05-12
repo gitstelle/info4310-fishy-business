@@ -10,6 +10,10 @@
     <script src="https://cdn.jsdelivr.net/npm/d3-geo-projection@4"></script>
     <script src="scroll.js"></script>
     <title>Fishy Business</title>
+    <div class="progressBar">
+        <!-- 8 sections so 8 rectangles? -->
+        <rect width="auto" height="100" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
+    </div>
 </head>
 
 <body>
@@ -41,7 +45,7 @@
                     </div>
                     <!-- </div> -->
                 </div>
-                
+
 
                 <div class="receipt fancyFont hiddenRemove">
                     <h2 class="textCenter">Fishy Business</h2>
@@ -175,7 +179,7 @@
     const graph_svg = d3.select("#graph");
     const graph_width = graph_svg.attr("width");
     const graph_height = graph_svg.attr("height");
-    const graph_margin = { top: 20, right: 20, bottom: 50, left: 90 };
+    const graph_margin = { top: 20, right: 20, bottom: 60, left: 100 };
     const graphWidth = graph_width - graph_margin.left - graph_margin.right;
     const graphHeight = graph_height - graph_margin.top - graph_margin.bottom;
     const graph = graph_svg.append("g")
@@ -270,9 +274,9 @@
             await d3.select("#infoGraphicContainer").transition().style('opacity', 0).end()
 
             receipt = d3.select(".receipt")
-            receipt.transition().duration(200).style('transform','translateX(0px)');
-            receipt.classed('hiddenRemove',false).classed('fadeIn',true)
-            
+            receipt.transition().duration(200).style('transform', 'translateX(0px)');
+            receipt.classed('hiddenRemove', false).classed('fadeIn', true)
+
 
             d3.select("#chartContainer").style('opacity', 0)
 
@@ -334,7 +338,7 @@
             receipt = d3.select(".receipt")
 
             // move receipt to make room for the infographic
-            await receipt.transition().duration(200).style('transform','translateX(-275px)').end();
+            await receipt.transition().duration(200).style('transform', 'translateX(-275px)').end();
 
             // receiptText = d3.select('.receiptText').style('transform', "translateX(0px)");
             // receiptText.transition().style('opacity', 0).style('transform', "translateX(-200px)");
@@ -486,6 +490,22 @@
                 .curve(d3.curveMonotoneX);
 
 
+            graph.append('text')
+                .text('Year')
+                .attr('x', graphWidth / 2 - 30)
+                .attr('y', graphHeight + graph_margin.bottom - 5)
+                .attr('font-size', '20px')
+                .style('font-weight', 'bold');
+
+
+            graph.append('text').text('Metric Tons')
+                .attr("transform", "rotate(-90)")
+                .attr('x', -graphHeight + 180)
+                .attr('y', -85)
+                .style('font-weight', 'bold')
+                ;
+
+
             // Making area transitions
 
             const capture_area = d3.area()
@@ -576,10 +596,152 @@
                 .delay(1500)
                 .duration(3000)
 
+            // adding line graph markers
+            let mouseGroup = graph.append("g");
+            let xMarker = mouseGroup.append("line")
+                .attr("id", "xMarker")
+                .attr("fill", "none")
+                .attr("stroke", "black")
+                .attr("stroke-width", 1)
+                .attr("y1", 0)
+                .attr("y2", graphHeight)
+                .attr("visibility", "hidden");
+
+            let valueMarker = mouseGroup.append("circle")
+                .attr("id", "valueMarker")
+                .attr("fill", "none")
+                .attr("stroke", "black")
+                .attr("stroke-width", 2)
+                .attr("r", 10)
+                .attr("visibility", "hidden");
+
+
+            let valueMarker2 = mouseGroup.append("circle")
+                .attr("id", "valueMarker")
+                .attr("fill", "none")
+                .attr("stroke", "black")
+                .attr("stroke-width", 2)
+                .attr("r", 10)
+                .attr("visibility", "hidden");
+
+            // let label = mouseGroup.append("text")
+            //     .attr("id", "label")
+            //     .attr("visibility", "hidden");
+
+            let activeRegion = mouseGroup.append("rect")
+                .attr("id", "activeRegion")
+                .attr("width", graphWidth)
+                .attr("height", graphHeight)
+                .attr("fill", "none")
+                .attr("pointer-events", "all");
+
+            // line graph tooltip code
+            const mouseover = graph_svg.append("g").attr("class", "mouseover")
+                .attr("transform", `translate(${graph_margin.left + 15},${graph_margin.top + 15})`);
+
+            function stringLen(str) {
+                const dummytext = mouseover.append("text").attr("class", "legendtext").attr("visibility", "hidden");
+                dummytext.text(str)
+                let len = dummytext.node().getComputedTextLength()
+                dummytext.remove()
+                return len;
+            }
+            console.log(stringLen("hello world"));
+
+            const frame = mouseover.append("rect").attr("class", "frame")
+                .attr("x", 0).attr("y", 0)
+                .attr("rx", 5).attr("ry", 5)  // rx and ry round corners
+                .attr("height", 130)
+                .attr("opacity", 0.6)
+                .attr("pointer-events", "none");  // set width later
+            const textbox = mouseover.append("g").attr("transform", "translate(10,10)");
+            const format = d3.format(',d');
+
+
+            // When the mouse enters, show the annotations
+            activeRegion.on("mouseover", function () {
+                xMarker.attr("visibility", "");
+                valueMarker.attr("visibility", "");
+                valueMarker2.attr("visibility", "");
+                // label.attr("visibility", "");
+
+                mouseover.attr("visibility", "");
+            });
+
+            // When the mouse leaves, hide the annotations
+            activeRegion.on("mouseout", function () {
+                xMarker.attr("visibility", "hidden");
+                valueMarker.attr("visibility", "hidden");
+                valueMarker2.attr("visibility", "hidden");
+                // label.attr("visibility", "hidden");
+                mouseover.attr("visibility", "hidden");
+            });
+
+
+            console.log('compareFishing', compareFishing)
+            let findDate = d3.bisector(d => d.Year).right;
+
+            activeRegion.on("mousemove", function (evt) {
+
+                let location = d3.pointer(evt);
+                let x = location[0];
+                let xDate = dateScale.invert(x);
+                let index = findDate(dataset, xDate);
+                let d = dataset[index];
+
+                let xPos = dateScale(d['Year']);
+                let yPos = combinedScale(d['Capture fisheries production (metric tons)']);
+                let yPos2 = combinedScale(d['Aquaculture production (metric tons)']);
+
+                xMarker.attr("x1", xPos).attr("x2", xPos);
+                valueMarker.attr("cx", xPos).attr("cy", yPos);
+                valueMarker2.attr("cx", xPos).attr("cy", yPos2);
+
+
+
+                textbox.html('');  // shorthand to empty out an element
+
+                let countryName = `${d['Entity']}`;
+                let aqua = `Aquaculture production (metric tons): ${format(d['Aquaculture production (metric tons)'])}`;
+                let capture = `Capture fisheries production (metric tons): ${format(d['Capture fisheries production (metric tons)'])}`;
+
+                let maxWidth = Math.max(stringLen(countryName), stringLen(aqua), stringLen(capture))
+                frame.attr("width", maxWidth + 20);
+
+                textbox.append("text").text(countryName)
+                    .attr("x", 0).attr("y", 10);
+                textbox.append("text").text(capture)
+                    .attr("x", 0).attr("y", 40);
+                textbox.append("text").text(aqua)
+                    .attr("x", 0).attr("y", 80);
+
+
+
+
+                // don't need txt rn because we are putting text in a tooltip instead
+                // let txt1 = d['Capture fisheries production (metric tons)']
+                // let txt2 = d['Aquaculture production (metric tons)']
+
+
+
+
+                // We started with the following line, which has lots of overlaps
+                // label.attr("x",xPos).attr("y",yPos).text(txt); 
+
+                // Here's a simple way to remove overlaps and deliver a consistent user experience
+                // label.text(txt);
+                // if (xPos < chartWidth / 2.0) {
+                //     label.attr("x", xPos + 4).attr("y", 100).attr("text-anchor", "start");
+                // }
+                // else {
+                //     label.attr("x", xPos - 4).attr("y", chartHeight - 100).attr("text-anchor", "end");
+                // }
+
+
+            });
+
 
         }
-
-        // waterbar = async function () 
 
         function createScales() {
             // Setting up scales and axes for the 4 bar charts (do we need 4 separate bar charts or should we update the same one?)
@@ -937,8 +1099,6 @@
 
             combinedScale = d3.scaleLinear().domain(combinedExtent).range([graphHeight, 0]);
             graph_leftAxis = d3.axisLeft(combinedScale)
-
-
         }
 
 

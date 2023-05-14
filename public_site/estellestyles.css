@@ -213,6 +213,16 @@ h1 {
     animation: bounceArrowAnimation 2s ease-in-out infinite;
 }
 
+#AbsScrollInfo{
+    position:fixed;
+    margin-top:85vh;
+    /* transform:translateY(800px); */
+    /* width:300;
+    margin-top:0;
+    margin-bottom:auto; */
+    z-index:1001;
+}
+
 /* menu */
 
 .menu:not(.hidden) {

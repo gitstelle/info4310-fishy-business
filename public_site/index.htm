@@ -136,8 +136,15 @@
                     <section id="text4" class="step" height="100vh">
                         <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                     </section>
+                    <section id="text1000" class="step" height="100vh">
+                        <!-- DO NOT DELETE MUST LEAVE EMPTY -->
+                    </section>
 
                     <section id="text5" class="step" height="100vh">
+                        <!-- DO NOT DELETE MUST LEAVE EMPTY -->
+                    </section>
+                    
+                    <section id="text10" class="step" height="100vh">
                         <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                     </section>
 
@@ -162,30 +169,53 @@
 
             </div>
             <div id="chartContainer">
-                <p id="barchartTitle">Freshwater Consumption</p>
-                <p id="barChartSubtitle">Comparison to Other Seafood</p>
+                <p>Comparison to Other Seafood</p>
                 <svg id="bar1" height="425" width="550"></svg>
-                <p class=cite>Source: <a href='https://ourworldindata.org/grapher/freshwater-use-seafood?tab=table&country=~Salmon+%28farmed%29' target="_blank">Our World in Data.</a> Freshwater use per kilogram of seafood production
+                <p class=cite>Source: <a
+                        href='https://ourworldindata.org/grapher/freshwater-use-seafood?tab=table&country=~Salmon+%28farmed%29'
+                        target="_blank">Our World in Data.</a> Freshwater use per kilogram of seafood production
                     m<sup>3</sup> per kilogram (2021)</p>
             </div>
             <div id="infoGraphicContainer">
                 <!-- append infographic images here -->
-                <div id=freshwaterSalmon class="hidden">
+                <!-- freshwater -->
+                <div id=freshwatersalmon class="freshwater hiddenRemove">
                     <p>For 1 kg of <strong>salmon,</strong> 0.16 m<sup>3</sup> of freshwater is consumed, which is about
-                        <strong>42 gallons.</strong></p>
+                        <strong>42 gallons.</strong>
+                    </p>
                     <img src="images/freshwater-salmon.png" width="350"> </img>
                 </div>
-                <div id=freshwaterTilapia class="hidden">
+                <div id=freshwatertilapia class="freshwater hiddenRemove">
                     <p>For 1 kg of <strong>tilapia,</strong> 1.23 m<sup>3</sup> of freshwater is consumed, which is
                         about <strong>325 gallons.</strong></p>
                     <img src="images/freshwater-tilapia.png" width="350"> </img>
                 </div>
-                <div id=freshwaterShrimp class="hidden">
+                <div id=freshwatershrimp class="freshwater hiddenRemove">
                     <p>For 1 kg of <strong>shrimp,</strong> 0.22 m<sup>3</sup> of freshwater is consumed, which is about
-                        <strong>58 gallons.</strong></p>
+                        <strong>58 gallons.</strong>
+                    </p>
                     <img src="images/freshwater-shrimp.png" width="350"> </img>
                 </div>
+                <!-- land -->
+                <div id=landsalmon class="land hiddenRemove">
+                    <p>For 1 kg of <strong>salmon,</strong> 4.86 m<sup>2</sup> of land is used, which is about
+                        <strong>1.2 king-sized mattresses</strong>
+                    </p>
+                    <img src="images/land-salmon.png" width="350"> </img>
+                </div>
+                <div id=landtilapia class="land hiddenRemove">
+                    <p>For 1 kg of <strong>tilapia,</strong> 15.27 m<sup>2</sup> of land is used, which is
+                        about <strong>3.9 king-sized mattresses.</strong></p>
+                    <img src="images/land-tilapia.png" width="350"> </img>
+                </div>
+                <div id=landshrimp class="land hiddenRemove">
+                    <p>For 1 kg of <strong>shrimp,</strong> 13.18 m<sup>2</sup> of land is used, which is about
+                        <strong>3.4 king-sized mattresses.</strong>
+                    </p>
+                    <img src="images/land-shrimp.png" width="350"> </img>
+                </div>
             </div>
+        </div>
 
         </div>
     </section>
@@ -256,9 +286,6 @@
         tilapia_phos_emissions = phos_emissions.filter(d => d.Entity === 'Tilapia (farmed)')[0]['Phosphorous (kgP / t edible weight)']
         shrimp_phos_emissions = phos_emissions.filter(d => d.Entity === 'Shrimp (farmed)')[0]['Phosphorous (kgP / t edible weight)']
 
-
-
-
         // GLOBAL VARS
         // fish selection: salmon, shrimp, tilapia
         var selectedFish = null
@@ -302,13 +329,13 @@
             // receipt.transition().style('opacity', 1).style('transform', "translateX(0px)")
 
             if (selectedFish == 'salmon') {
-                d3.select('#freshwaterSalmon').classed('hidden', false);
+                d3.select('#freshwaterSalmon').classed('hiddenRemove', false);
             }
             if (selectedFish == 'tilapia') {
-                d3.select('#freshwaterTilapia').classed('hidden', false);
+                d3.select('#freshwaterTilapia').classed('hiddenRemove', false);
             }
             if (selectedFish == 'shrimp') {
-                d3.select('#freshwaterShrimp').classed('hidden', false);
+                d3.select('#freshwaterShrimp').classed('hiddenRemove', false);
             }
 
         }
@@ -376,7 +403,7 @@
 
         }
 
-        addWater = async function () {
+        addWaterInfo = async function () {
 
             // in case user scrolls too fast
 
@@ -398,21 +425,7 @@
             receipt.select("#water").text('Freshwater').classed('fadeIn', true)
             receipt.select("#waterPrice").html(fish_water_use + ' m<sup>3</sup').classed('fadeIn', true)
 
-            await infoCont.transition().duration(500).style('opacity', 1).end()
-            chartCont.transition().duration(500).style('opacity', 1)
-
-
-            // drawChart(water_use, barScale1, leftAxisScale1,'Freshwater use (m3 / kg edible weight)');
-
-            chartArea1.selectAll('rect.bar').data(water_use)
-                .join('rect')
-                .attr('class', 'bar')
-                .attr("fill", d => highlightBar(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
-                .attr('x', d => barScale1(0))
-                .attr('y', d => leftAxisScale1(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
-                .attr("height", leftAxisScale1.bandwidth())
-                .attr("width", d => barScale1(Number(d['Freshwater use (m3 / kg edible weight)'])) - barScale1(0))
-
+            infoCont.transition().duration(500).style('opacity', 1).end()
 
             // chartArea1.data(water_use)
             //     .append('defs')
@@ -431,17 +444,51 @@
 
         }
 
-        addLand = function () {
+        addWaterBar = async function () {
+            chartCont.transition().duration(500).style('opacity', 1)
+
+            // drawChart(water_use, barScale1, leftAxisScale1,'Freshwater use (m3 / kg edible weight)');
+
+            chartArea1.selectAll('rect.bar').data(water_use)
+                .join('rect')
+                .attr('class', 'bar')
+                .attr("fill", d => highlightBar(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
+                .attr('x', d => barScale1(0))
+                .attr('y', d => leftAxisScale1(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
+                .attr("height", leftAxisScale1.bandwidth())
+                .attr("width", d => barScale1(Number(d['Freshwater use (m3 / kg edible weight)'])) - barScale1(0))
+
+        }
+
+        addLandInfo = async function () {
+
             console.log('addLand')
 
-            drawChart(land_use, barScale2, leftAxisScale1, 'Land use (m2 / kg edible weight)')
+            // hide previous infographic
+            await d3.selectAll('.freshwater').transition().duration(100).style('opacity', 0).end();
+            d3.selectAll('.freshwater').classed("hiddenRemove", true)
+
+            await chartCont.transition().duration(200).style('opacity',.3).end();
+
+
+            // unhide land infographic
+            landInfo = d3.select("#land" + selectedFish)
+            landInfo.classed('hiddenRemove', false);
+            await landInfo.transition().duration().classed('fadeIn', true).end();
+
 
             // receipt.select("#water").text('Water').classed('fadeIn', true)
             // receipt.select("#waterPrice").text(fish_water_use).classed('fadeIn', true)
 
             receipt.select("#land").text('Land').classed('fadeIn', true)
             receipt.select("#landPrice").html(fish_land_use + " m<sup>2</sup>").classed('fadeIn', true)
+            
 
+        }
+
+        addLandBar = async function () {
+            await chartCont.transition().duration(200).style('opacity',1).end();
+            drawChart(land_use, barScale2, leftAxisScale1, 'Land use (m2 / kg edible weight)')
         }
 
         addNitrogen = function () {
@@ -1265,7 +1312,7 @@
             console.log('progress', progress)
         })
 
-        let activationFunctions = [initialEstelle, estelle1, addWater, addLand, addNitrogen, addPhos, addMap, addLineGraph]
+        let activationFunctions = [initialEstelle, estelle1, addWaterInfo, addWaterBar, addLandInfo, addLandBar, addNitrogen, addPhos, addMap, addLineGraph]
 
     }
 

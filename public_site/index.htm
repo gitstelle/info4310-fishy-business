@@ -171,10 +171,14 @@
             <div id="chartContainer">
                 <p>Comparison to Other Seafood</p>
                 <svg id="bar1" height="425" width="550"></svg>
-                <p class=cite>Source: <a
+                <p id="cite" class="cite">Source: <a
                         href='https://ourworldindata.org/grapher/freshwater-use-seafood?tab=table&country=~Salmon+%28farmed%29'
                         target="_blank">Our World in Data.</a> Freshwater use per kilogram of seafood production
                     m<sup>3</sup> per kilogram (2021)</p>
+                <p class="cite hiddenRemove">Source: <a
+                        href='https://ourworldindata.org/grapher/land-use-seafood?tab=table&country=~Salmon+%28farmed%29'
+                        target="_blank">Our World in Data.</a> Land use per kilogram of seafood production
+                    m<sup>2</sup> per kilogram (2021)</p>
             </div>
             <div id="infoGraphicContainer">
                 <!-- append infographic images here -->
@@ -489,6 +493,8 @@
         addLandBar = async function () {
             await chartCont.transition().duration(200).style('opacity', 1).end();
             drawChart(land_use, barScale2, leftAxisScale1, 'Land use (m2 / kg edible weight)', 'land')
+            d3.select(".")
+
         }
 
         addNitrogen = function () {
@@ -1242,7 +1248,7 @@
             console.log('v', v)
             console.log('barType', barType)
             console.log('selectedFish', selectedFish)
-            v= v.toLowerCase()
+            v = v.toLowerCase()
 
             if (barType == "freshwater") {
                 if (v === selectedFish) {
@@ -1253,16 +1259,16 @@
                 }
             }
 
-            if (barType == "land") {
+            if (barType == "phosphorous") {
                 if (v === selectedFish) {
                     return '#893B1D';
                 }
                 else {
-                    return '#FF9C76' 
+                    return '#FF9C76'
                 }
             }
 
-            if (barType == "phosphorous") {
+            if (barType == "land") {
                 if (v === selectedFish) {
                     return "#137E37"
                 }

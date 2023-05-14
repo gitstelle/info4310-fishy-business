@@ -210,12 +210,12 @@ h1 {
     border-right: 2px solid #000000;
     margin-left: auto;
     margin-right: auto;
-    animation: bounceArrowAnimation 2s ease-in-out infinite;
+    animation: bounceArrowAnimation 1.5s ease-in-out infinite;
 }
 
 #AbsScrollInfo{
     position:fixed;
-    margin-top:85vh;
+    margin-top:80vh;
     /* transform:translateY(800px); */
     /* width:300;
     margin-top:0;
@@ -441,12 +441,12 @@ h1 {
 /* bounce animation */
 
 .bounce {
-    animation: bounceAnimation 2s ease-in-out infinite;
+    animation: bounceAnimation 1.5s ease-in-out infinite;
 }
 
 @keyframes bounceAnimation {
     0% {
-        transform: translate(0, 5px)
+        transform: translate(0, 10px)
     }
 
     50% {
@@ -454,7 +454,7 @@ h1 {
     }
 
     100% {
-        transform: translate(0, 5px)
+        transform: translate(0, 10px)
     }
 }
 
@@ -462,7 +462,7 @@ h1 {
 
 @keyframes bounceArrowAnimation {
     0% {
-        transform: translate(0, 5px) rotate(45deg)
+        transform: translate(0, 10px) rotate(45deg)
     }
 
     50% {
@@ -470,7 +470,7 @@ h1 {
     }
 
     100% {
-        transform: translate(0, 5px) rotate(45deg)
+        transform: translate(0, 10px) rotate(45deg)
     }
 }
 

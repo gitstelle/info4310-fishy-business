@@ -129,6 +129,10 @@
                         <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                     </section>
 
+                    <section class="step" height="100vh">
+                        <!-- DO NOT DELETE MUST LEAVE EMPTY -->
+                    </section>
+
                     <section id="text3" class="step" height="100vh">
                         <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                     </section>
@@ -169,16 +173,28 @@
 
             </div>
             <div id="chartContainer">
-                <p>Comparison to Other Seafood</p>
+                <p id="titleFreshwater" class="barchartTitle">Freshwater Consumption</p>
+                <p id="titleLand" class="barchartTitle hiddenRemove">Land Use</p>
+                <p id="titleNitrogen" class="barchartTitle hiddenRemove">Nitrogen Emitted</p>
+                <p id="titlePhosphorous" class="barchartTitle hiddenRemove">Phosphorous Emitted</p>
+
+                <p id="barChartSubtitle">Comparison to Other Seafood</p>
                 <svg id="bar1" height="425" width="550"></svg>
-                <p id="cite" class="cite">Source: <a
+                <p id="citeFreshwater" class="cite">Source: <a
                         href='https://ourworldindata.org/grapher/freshwater-use-seafood?tab=table&country=~Salmon+%28farmed%29'
                         target="_blank">Our World in Data.</a> Freshwater use per kilogram of seafood production
                     m<sup>3</sup> per kilogram (2021)</p>
-                <p class="cite hiddenRemove">Source: <a
+
+                <p id="citeLand" class="cite hiddenRemove">Source: <a
                         href='https://ourworldindata.org/grapher/land-use-seafood?tab=table&country=~Salmon+%28farmed%29'
                         target="_blank">Our World in Data.</a> Land use per kilogram of seafood production
                     m<sup>2</sup> per kilogram (2021)</p>
+
+                <p id="citeNitrogen" class="cite hiddenRemove">Source: <a
+                        href='https://ourworldindata.org/grapher/nitrogen-emissions-seafood?tab=table&country=~Salmon+%28farmed%29'
+                        target="_blank">Our World in Data.</a> Nitrogen emissions per tonne of seafood per kilogram
+                    (2021) (calculations were converted from tonne to kg). Conversions were done using <a
+                        href='https://www.aqua-calc.com/' target="_blank">Aqua-Calc.</a></p>
             </div>
             <div id="infoGraphicContainer">
                 <!-- append infographic images here -->
@@ -217,6 +233,24 @@
                         <strong>3.4 king-sized mattresses.</strong>
                     </p>
                     <img src="images/land-shrimp.png" width="350"> </img>
+                </div>
+                <!-- nitrogen -->
+                <div id=nitrogensalmon class="nitrogen hiddenRemove">
+                    <p>For 1 kg of <strong>salmon,</strong> .111 kg of nitrogen is emitted, which is about
+                        <strong>157 cans of Lysol (19 fl oz)</strong>
+                    </p>
+                    <img src="images/nitrogen-salmon.png" width="350"> </img>
+                </div>
+                <div id=nitrogentilapia class="nitrogen hiddenRemove">
+                    <p>For 1 kg of <strong>tilapia,</strong> .200 kg of nitrogen is emitted, which is
+                        about <strong>284 cans of Lysol (19 fl oz).</strong></p>
+                    <img src="images/nitrogen-tilapia.png" width="350"> </img>
+                </div>
+                <div id=nitrogenshrimp class="nitrogen hiddenRemove">
+                    <p>For 1 kg of <strong>shrimp,</strong> .123 kg of nitrogen is emitted, which is about
+                        <strong>180 cans of Lysol (19 fl oz).</strong>
+                    </p>
+                    <img src="images/nitrogen-shrimp.png" width="350"> </img>
                 </div>
             </div>
         </div>
@@ -417,35 +451,10 @@
             // move receipt to make room for the infographic
             await receipt.transition().duration(200).style('transform', 'translateX(-275px)').end();
 
-            // receiptText = d3.select('.receiptText').style('transform', "translateX(0px)");
-            // receiptText.transition().style('opacity', 0).style('transform', "translateX(-200px)");
-
-            // d3.select('.receipt').classed('hidden',false);
-            // we hard coded text opacity here but idk 
-
-            receipt.select("#dishName").text(dish).classed('fadeIn', true)
-            receipt.select("#dishPrice").text(price).classed('fadeIn', true)
-
             receipt.select("#water").text('Freshwater').classed('fadeIn', true)
             receipt.select("#waterPrice").html(fish_water_use + ' m<sup>3</sup').classed('fadeIn', true)
 
             infoCont.transition().duration(500).style('opacity', 1).end()
-
-            // chartArea1.data(water_use)
-            //     .append('defs')
-            //     .append('pattern')
-            //     .attr('id', 'fishPic')
-            //     .attr('patternUnits', 'userSpaceOnUse')
-            //     .attr('width', 20-barScale1(0))
-            //     .attr('height', 39.7015)
-            //     .attr("margin", 0)
-            //     .append('svg:image')
-            //     .attr("xlink:href", "images/fish.svg")
-            //     .attr("width", 20-barScale1(0))
-            //     .attr("height", 39.7015)
-            //     .attr("x", 0)
-            //     .attr("y", 0);
-
         }
 
         addWaterBar = async function () {
@@ -478,11 +487,7 @@
             // unhide land infographic
             landInfo = d3.select("#land" + selectedFish)
             landInfo.classed('hiddenRemove', false);
-            await landInfo.transition().duration().classed('fadeIn', true).end();
-
-
-            // receipt.select("#water").text('Water').classed('fadeIn', true)
-            // receipt.select("#waterPrice").text(fish_water_use).classed('fadeIn', true)
+            landInfo.classed('fadeIn', true);
 
             receipt.select("#land").text('Land').classed('fadeIn', true)
             receipt.select("#landPrice").html(fish_land_use + " m<sup>2</sup>").classed('fadeIn', true)
@@ -493,21 +498,41 @@
         addLandBar = async function () {
             await chartCont.transition().duration(200).style('opacity', 1).end();
             drawChart(land_use, barScale2, leftAxisScale1, 'Land use (m2 / kg edible weight)', 'land')
-            d3.select(".")
+            d3.select("#titleFreshwater").classed('hiddenRemove', true);
+            d3.select("#titleLand").classed('hiddenRemove', false)
+
+            d3.select("#citeFreshwater").classed('hiddenRemove', true);
+            d3.select("#citeLand").classed('hiddenRemove', false)
 
         }
 
-        addNitrogen = function () {
+        addNitrogenInfo = async function () {
             console.log('addNitrogen')
 
-            drawChart(nitrogen_emissions, barScale3, leftAxisScale1, 'Nitrogen (kgN / t edible weight)', 'nitrogen')
+            // hide previous infographic
+            await d3.selectAll('.land').transition().duration(100).style('opacity', 0).end();
+            d3.selectAll('.land').classed("hiddenRemove", true)
 
-            // receipt.select("#land").text('Land').classed('fadeIn', true)
-            // receipt.select("#landPrice").text(fish_land_use).classed('fadeIn', true)
+            await chartCont.transition().duration(200).style('opacity', .3).end();
+
+
+            // unhide nitrogen infographic
+            landInfo = d3.select("#nitrogen" + selectedFish)
+            landInfo.classed('hiddenRemove', false);
+            landInfo.classed('fadeIn', true);
 
             receipt.select("#nitrogen").text('Nitrogen Emitted').classed('fadeIn', true)
             receipt.select("#nitrogenPrice").text(fish_nitrogen_emissions + ' kg').classed('fadeIn', true)
+        }
 
+        addNitrogenBar = async function () {
+            await chartCont.transition().duration(200).style('opacity', 1).end();
+            drawChart(land_use, barScale2, leftAxisScale1, 'Land use (m2 / kg edible weight)', 'nitrogen')
+            d3.select("#titleLand").classed('hiddenRemove', true);
+            d3.select("#titleNitrogen").classed('hiddenRemove', false)
+
+            d3.select("#citeLand").classed('hiddenRemove', true);
+            d3.select("#citeNitrogen").classed('hiddenRemove', false)
 
         }
 
@@ -1279,10 +1304,10 @@
 
             if (barType == "nitrogen") {
                 if (v === selectedFish) {
-                    return "#601C5C"
+                    return "#50408D"
                 }
                 else {
-                    return "#D9A4D6"
+                    return "#B9AAEF"
                 }
             }
         }
@@ -1351,7 +1376,7 @@
             console.log('progress', progress)
         })
 
-        let activationFunctions = [initialEstelle, estelle1, addWaterInfo, addWaterBar, addLandInfo, addLandBar, addNitrogen, addPhos, addMap, addLineGraph]
+        let activationFunctions = [initialEstelle, estelle1, addWaterInfo, addWaterBar, addLandInfo, addLandBar, addNitrogenInfo, addNitrogenBar, addPhos, addMap, addLineGraph]
 
     }
 

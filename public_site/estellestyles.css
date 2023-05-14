@@ -509,14 +509,14 @@ h1 {
     padding-top:0;
 }
 
-/* #barChartTitle {
+.barChartTitle {
     margin-bottom:0;
     font-weight: bold;
 }
 
 #barChartSubtitle {
     margin-top:0;
-} */
+}
 
 .testing {
     height: 500;

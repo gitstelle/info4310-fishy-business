@@ -116,7 +116,7 @@ body {
     display: inline-block;
     position: sticky;
     top: 0px;
-    z-index: 1;
+    z-index: 99;
     height: 100vh;
     width: 65%;
     padding-left: 5%;
@@ -226,7 +226,7 @@ h1 {
     height: 600px;
     padding: 15px;
     text-align: center;
-    z-index: 0;
+    z-index: 100;
 }
 
 .menu h2 {
@@ -464,6 +464,12 @@ h1 {
     }
 }
 
+.cite{
+    font-size:12px;
+    font-style: italic;
+    margin:0;
+}
+
 #chartContainer {
 
     position: fixed;
@@ -493,6 +499,7 @@ h1 {
     opacity: 0;
     /* background-color: blue; */
     /* margin: 0 auto; */
+    z-index: 10;
 }
 
 #infoGraphicContainer p{
@@ -502,7 +509,7 @@ h1 {
     padding-top:0;
 }
 
-#barChartTitle {
+.barChartTitle {
     margin-bottom:0;
     font-weight: bold;
 }

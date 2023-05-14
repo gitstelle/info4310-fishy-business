@@ -171,7 +171,8 @@
                 <!-- append infographic images here -->
                 <div id=freshwaterSalmon class="hidden">
                     <p>For 1 kg of <strong>salmon,</strong> 0.16 m<sup>3</sup> of freshwater is consumed, which is about
-                        <strong>42 gallons.</strong></p>
+                        <strong>42 gallons.</strong>
+                    </p>
                     <img src="images/freshwater-salmon.png" width="350"> </img>
                 </div>
                 <div id=freshwaterTilapia class="hidden">
@@ -181,7 +182,8 @@
                 </div>
                 <div id=freshwaterShrimp class="hidden">
                     <p>For 1 kg of <strong>shrimp,</strong> 0.22 m<sup>3</sup> of freshwater is consumed, which is about
-                        <strong>58 gallons.</strong></p>
+                        <strong>58 gallons.</strong>
+                    </p>
                     <img src="images/freshwater-shrimp.png" width="350"> </img>
                 </div>
             </div>
@@ -232,7 +234,9 @@
 
         // map data
         const world_data = await d3.json("countries-110m.json");
-        const centroid_data = await d3.csv("data/centroids.csv", d3.autotype)
+        const centroid_data = await d3.csv("data/centroids.csv", d3.autotype);
+
+        const bbox_data = await d3.csv("data/country-boundingboxes.csv", d3.autotype);
 
         // line graph data
         let compareFishing = await d3.csv("data/capture-fisheries-vs-aquaculture.csv", d3.autotype);
@@ -915,7 +919,7 @@
 
             salmonCountries = ["Norway", "Sweden", "Denmark", "United Kingdom", "Chile"]
             shrimpCountries = ['India', 'China', 'Vietnam', 'Indonesia', 'Thailand']
-            tilapiaCountries = ['China', 'Indonesia', 'Honduras', 'Mexico', "Taiwan"];
+            tilapiaCountries = ['China', 'Indonesia', 'Honduras', 'Mexico', "Netherlands"];
 
 
             const colors = ["#052132", "#00375E", "#005D8F", "#0978AF", "#1A93CF"];
@@ -939,7 +943,7 @@
                 if (ranking > -1) {
                     return topColorScale(ranking)
                 }
-                else {
+                else { 
                     return "#f4f1e4"
                 }
             }
@@ -959,44 +963,6 @@
                 .datum(countriesMesh)
                 .attr("class", "country-outline")
                 .attr("d", path);
-
-
-            var zoom = d3.zoom()
-                .translateExtent([[-10, -10], [mapWidth + 50, mapHeight + 50]])
-                .on("zoom", plotZoomed);
-            viewport.call(zoom, d3.zoomIdentity);
-
-            // zoom function
-            function plotZoomed({ transform }) {
-                viewport.attr("transform", transform.toString());
-                map.selectAll(".marks")
-                    .attr("width", 20 * transform.k)
-                    .attr("height", 20 * transform.k)
-
-            }
-
-            // map.append("defs").append("clipPath")
-            //     .attr("id", "chartClip")
-            //     .append("rect").attr("x", 0)
-            //     .attr("y", 0)
-            //     .attr("width", mapWidth)
-            //     .attr("height", mapHeight);
-
-            // viewport.attr("clip-path", "url(#chartClip)");
-
-
-
-
-
-            // map.call(zoom.transform, d3.zoomIdentity);
-
-            // function mapZoomed({ transform }) {
-            //     map.attr("transform", transform.toString());
-            //     child.attr("transform", transform.toString());
-            //     map.selectAll("path")
-            //         .style("stroke-width", 2 / transform.k);
-
-            // }
 
 
 
@@ -1065,6 +1031,9 @@
                         else if (pinCountry.length === 9) {
                             return 80;
                         }
+                        else if (pinCountry.length === 11) {
+                            return 95;
+                        }
                         else {
                             return 120;
                         }
@@ -1088,10 +1057,79 @@
                     .attr("y", markPos[1] - 14)
                     .attr("width", 20)
                     .attr("height", 20)
-                    .on("mouseover", function () { textbox.style("visibility", "visible") })
+                    .on("mouseover", function () {
+                        textbox.style("visibility", "visible")
+                        d3.select(this).style("cursor", "pointer");  
+                    })
                     .on("mouseout", function () { textbox.style("visibility", "hidden") })
+                    .on("click", clickedPin);
+
+                function clickedPin() {
+
+                    // d3.selectAll(".countries").remove();
+                    // d3.selectAll(".country-outline").remove();
+                    // d3.selectAll(".legend").remove();
+                    // d3.selectAll(".mark").remove();
+                    // d3.selectAll(".tooltip").remove();
+
+                    //map_svg.style("background", "#f4f1e4")
+
+                    //clickedCountry = countries.features.filter(i => i['properties']['name']===d);
+                   
+                    //console.log(clickedCountry)
+
+                    // console.log(bounds);
+
+                    // console.log(bounds.coordinates)
+
+                    // let widthx = d3.min(bounds.coordinates[0]);
+                    // var pathsMin = d3.min(bounds.coordinates, function(d) { return d3.min(d); });
+                    // var pathsMax = d3.max(bounds.coordinates, function(d) { return d3.max(d); });
+
+                    // var bboxWidth = d3.max(pathsMax, function(d) { return d3.max(d); }) - d3.min(pathsMin, function(d) {return d3.min(d)});
+                    // var bboxHeight = d3.max(pathsMax, function(d) { return d3.max(d); }) - d3.min(pathsMin, function(d) {return d3.min(d)});
+                    // console.log(widthX);
+                    console.log(bbox_data);
+
+                    let clickedCountryBounds = bbox_data.filter(i => i['country'] === d);
+
+                    let countryWidth = Number(clickedCountryBounds.longmax) - Number(clickedCountryBounds.longmin);
+                    let countryHeight = Number(clickedCountryBounds.latmax) - Number(clickedCountryBounds.latmin);
+
+                    console.log(clickedCountryBounds);
+                    console.log(countryWidth);
+                    console.log(countryHeight);
+
+
+
+
+                    var imageLink = "images/"+pinCountry.toLowerCase()+"fishery.jpeg"
+                    imageLink = imageLink.replace(/\s+/g, '');
+
+
+
+                    viewport.append("image")
+                        .attr("class", "fisheryImage")
+                        .attr("xlink:href", imageLink)
+                        .attr("x", 0)
+                        .attr("y", 0)
+                        .attr("transform", "translate(" + map_margin.left + "," + map_margin.top + ")");
+
+                    viewport.append("text")
+                        .attr("class", "fisheryText")
+                        .text('Indonesia fisheries .... statistics ?')
+                        .attr("x", 550)
+                        .attr("y", 50)
+
+                    
+                }
+
+                    
+
 
             })
+
+
 
             // Making line graphs comparing traditional fishing production vs fish farms production
             // Resource for line graph and area animation: https://hackernoon.com/animating-line-charts-with-d3js
@@ -1252,8 +1290,8 @@
             }
 
             scrolledSections.forEach(i => {
-                console.log('i')
-                console.log(i)
+                // console.log('i')
+                //console.log(i)
                 activationFunctions[i]();
             })
             lastIndex = activeIndex;
@@ -1261,7 +1299,7 @@
         scroll.on('progress', function (index, progress) {
             if (index == 2 & progress > 0.7) { }
 
-            console.log('progress', progress)
+            //console.log('progress', progress)
         })
 
         let activationFunctions = [initialEstelle, estelle1, addWater, addLand, addNitrogen, addPhos, addMap, addLineGraph]

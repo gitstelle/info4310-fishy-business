@@ -546,3 +546,12 @@ g.mouseover text {
 g.mouseover text:first-child {
     font-weight: bold;
 }
+
+
+.fisheryImage {
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+    width: 50%;
+    height: 50%;
+}

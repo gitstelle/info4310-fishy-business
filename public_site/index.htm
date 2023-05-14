@@ -12,7 +12,15 @@
     <title>Fishy Business</title>
     <div class="progressBar">
         <!-- 8 sections so 8 rectangles? -->
-        <rect width="auto" height="100" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
+        <svg id = "rectangles">
+            <rect id = "progress" width="0" height="10" style="fill:#2942a5;" />
+        </svg>
+        <!-- <svg id = "rectangles">
+            <rect width="12.5%" height="10" style="fill:#2942a5;" />
+        </svg>
+        <svg id = "rectangles">
+            <rect width="12.5%" height="10" style="fill:#2942a5;" />
+        </svg> -->
     </div>
 </head>
 
@@ -298,7 +306,7 @@
             console.log(selectedFish)
 
             if (addReceipt == true) {
-               infoCont.style("opacity", 0);
+                infoCont.style("opacity", 0);
 
                 menu.classed('hidden', true);
                 menu.attr("height", 0)
@@ -344,7 +352,7 @@
         addWater = async function () {
 
             // in case user scrolls too fast
-            
+
             menu.transition().style('opacity', 0).style('transform', "translateX(-200px)");
             console.log('addWater');
 
@@ -361,7 +369,7 @@
             receipt.select("#dishPrice").text(price).classed('fadeIn', true)
 
             receipt.select("#water").text('Water').classed('fadeIn', true)
-            receipt.select("#waterPrice").html(fish_water_use+' m<sup>3</sup').classed('fadeIn', true)
+            receipt.select("#waterPrice").html(fish_water_use + ' m<sup>3</sup').classed('fadeIn', true)
 
 
             await chartCont.transition().style('opacity', 1).end()
@@ -406,7 +414,7 @@
             // receipt.select("#waterPrice").text(fish_water_use).classed('fadeIn', true)
 
             receipt.select("#land").text('Land').classed('fadeIn', true)
-            receipt.select("#landPrice").html(fish_land_use+" m<sup>2</sup>").classed('fadeIn', true)
+            receipt.select("#landPrice").html(fish_land_use + " m<sup>2</sup>").classed('fadeIn', true)
 
         }
 
@@ -419,7 +427,7 @@
             // receipt.select("#landPrice").text(fish_land_use).classed('fadeIn', true)
 
             receipt.select("#nitrogen").text('Nitrogen Emitted').classed('fadeIn', true)
-            receipt.select("#nitrogenPrice").text(fish_nitrogen_emissions+' kg').classed('fadeIn', true)
+            receipt.select("#nitrogenPrice").text(fish_nitrogen_emissions + ' kg').classed('fadeIn', true)
 
 
         }
@@ -433,7 +441,7 @@
             // receipt.select("#nitrogenPrice").text(fish_nitrogen_emissions).classed('fadeIn', true)
 
             receipt.select("#phos").text('Phosphorous Emitted').classed('fadeIn', true)
-            receipt.select("#phosPrice").text(fish_phos_emissions+' kg').classed('fadeIn', true)
+            receipt.select("#phosPrice").text(fish_phos_emissions + ' kg').classed('fadeIn', true)
 
             // receipt.classed('hidden', false);
             d3.select(".map").classed('hidden', true);
@@ -722,13 +730,14 @@
                 textbox.html('');  // shorthand to empty out an element
 
                 let countryName = `${d['Entity']}`;
+                let year = `${d['year']}`;
                 let aqua = `Aquaculture production (metric tons): ${format(d['Aquaculture production (metric tons)'])}`;
                 let capture = `Capture fisheries production (metric tons): ${format(d['Capture fisheries production (metric tons)'])}`;
 
                 let maxWidth = Math.max(stringLen(countryName), stringLen(aqua), stringLen(capture))
                 frame.attr("width", maxWidth + 20);
 
-                textbox.append("text").text(countryName)
+                textbox.append("text").text(countryName + ' - ' + year)
                     .attr("x", 0).attr("y", 10);
                 textbox.append("text").text(capture)
                     .attr("x", 0).attr("y", 40);
@@ -938,11 +947,11 @@
             viewport.call(zoom, d3.zoomIdentity);
 
             // zoom function
-            function plotZoomed({transform}) {
+            function plotZoomed({ transform }) {
                 viewport.attr("transform", transform.toString());
                 map.selectAll(".marks")
-                    .attr("width", 20*transform.k)
-                    .attr("height", 20*transform.k)
+                    .attr("width", 20 * transform.k)
+                    .attr("height", 20 * transform.k)
 
             }
 
@@ -1068,6 +1077,7 @@
             // Resource for line graph and area animation: https://hackernoon.com/animating-line-charts-with-d3js
             const timeParser = d3.timeParse('%Y');
             compareFishing.forEach(d => {
+                d['year'] = d['Year']
                 d['Year'] = timeParser(d["Year"]);
                 d['Aquaculture production (metric tons)'] = Number(d['Aquaculture production (metric tons)']);
                 d['Capture fisheries production (metric tons)'] = Number(d['Capture fisheries production (metric tons)']);
@@ -1198,7 +1208,6 @@
         let scroll = scroller().container(d3.select('#graphic'))
 
         let lastIndex, activeIndex = 0
-        //This is where most of the magic happens. Every time the user scrolls, we receive a new index. First, we find all the irrelevant sections, and reduce their opacity. 
         scroll.on('active', function (index) {
             d3.selectAll('.step')
                 .transition().duration(500)
@@ -1211,6 +1220,16 @@
             let scrolledSections = d3.range(lastIndex + sign, activeIndex + sign, sign);
             console.log('scrolledSections')
             console.log(scrolledSections)
+
+            //adding a progress bar so users know where they are in the visualization
+            if (isNaN(scrolledSections[0])) {
+                d3.selectAll("#progress").attr("width", "0%")
+            }
+            else {
+                //how do we get the bar to move specifically with where we are on the page?
+                d3.selectAll("#progress").transition().duration(500).attr("width", scrolledSections[0] * 12.5 + "%")
+            }
+
             scrolledSections.forEach(i => {
                 console.log('i')
                 console.log(i)
@@ -1220,6 +1239,8 @@
         })
         scroll.on('progress', function (index, progress) {
             if (index == 2 & progress > 0.7) { }
+
+            console.log('progress', progress)
         })
 
         let activationFunctions = [initialEstelle, estelle1, addWater, addLand, addNitrogen, addPhos, addMap, addLineGraph]

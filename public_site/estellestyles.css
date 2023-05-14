@@ -116,7 +116,7 @@ body {
     display: inline-block;
     position: sticky;
     top: 0px;
-    z-index: 1;
+    z-index: 99;
     height: 100vh;
     width: 65%;
     padding-left: 5%;
@@ -226,7 +226,7 @@ h1 {
     height: 600px;
     padding: 15px;
     text-align: center;
-    z-index: 0;
+    z-index: 100;
 }
 
 .menu h2 {
@@ -499,7 +499,11 @@ h1 {
     opacity: 0;
     /* background-color: blue; */
     /* margin: 0 auto; */
+<<<<<<< HEAD
     /* z-index: 99; */
+=======
+    z-index: 10;
+>>>>>>> ca424cdb14e25de716019725040533f628b3426c
 }
 
 #infoGraphicContainer p{
@@ -509,14 +513,14 @@ h1 {
     padding-top:0;
 }
 
-/* #barChartTitle {
+.barChartTitle {
     margin-bottom:0;
     font-weight: bold;
 }
 
 #barChartSubtitle {
     margin-top:0;
-} */
+}
 
 .testing {
     height: 500;
@@ -554,6 +558,7 @@ g.mouseover text:first-child {
     font-weight: bold;
 }
 
+<<<<<<< HEAD
 .lineGraph {
     /* display: flex;
     flex-direction: column */
@@ -589,3 +594,13 @@ g.mouseover text:first-child {
 #actButton:first-child {
     background-color: lightgray;
 }
+=======
+
+.fisheryImage {
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+    width: 50%;
+    height: 50%;
+}
+>>>>>>> ca424cdb14e25de716019725040533f628b3426c

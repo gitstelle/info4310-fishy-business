@@ -129,25 +129,25 @@
                         <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                     </section>
 
-                    <section class="step" height="100vh">
+                    <section class="step" height="50vh">
                         <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                     </section>
 
-                    <section class="step" height="100vh">
+                    <section class="step" height="50vh">
                         <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                     </section>
-                    <section id="text3" class="step" height="100vh">
-                        <!-- DO NOT DELETE MUST LEAVE EMPTY -->
-                    </section>
-
-                    <section id="text4" class="step" height="100vh">
-                        <!-- DO NOT DELETE MUST LEAVE EMPTY -->
-                    </section>
-                    <section id="text1000" class="step" height="100vh">
+                    <section id="text3" class="step" height="50vh">
                         <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                     </section>
 
-                    <section id="text5" class="step" height="100vh">
+                    <section id="text4" class="step" height="50vh">
+                        <!-- DO NOT DELETE MUST LEAVE EMPTY -->
+                    </section>
+                    <section id="text1000" class="step" height="50vh">
+                        <!-- DO NOT DELETE MUST LEAVE EMPTY -->
+                    </section>
+
+                    <section id="text5" class="step" height="50vh">
                         <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                     </section>
 
@@ -394,16 +394,6 @@
             receipt.classed("hiddenRemove", true);
             // receipt.transition().style('opacity', 1).style('transform', "translateX(0px)")
 
-            if (selectedFish == 'salmon') {
-                d3.select('#freshwaterSalmon').classed('hiddenRemove', false);
-            }
-            if (selectedFish == 'tilapia') {
-                d3.select('#freshwaterTilapia').classed('hiddenRemove', false);
-            }
-            if (selectedFish == 'shrimp') {
-                d3.select('#freshwaterShrimp').classed('hiddenRemove', false);
-            }
-
         }
 
         estelle1 = async function () {
@@ -462,6 +452,14 @@
 
         }
         addWaterInfo = async function () {
+            // hide prev infographics
+            infoCont.selectAll('div').classed("hiddenRemove", true)
+            infoCont.selectAll('div').classed("fadeIn", false)
+
+            // unhide water infographic
+            info = d3.select("#freshwater" + selectedFish)
+            info.classed('hiddenRemove', false);
+            info.classed('fadeIn', true);
 
             // in case user scrolls too fast
 
@@ -497,12 +495,12 @@
 
             console.log('addLand')
 
-            // hide previous infographic
+            // hide previous infographics
             await d3.selectAll('.freshwater').transition().duration(100).style('opacity', 0).end();
-            d3.selectAll('.freshwater').classed("hiddenRemove", true)
+            infoCont.selectAll('div').classed("hiddenRemove", true)
+            infoCont.selectAll('div').classed("fadeIn", false)
 
             await chartCont.transition().duration(200).style('opacity', .3).end();
-
 
             // unhide land infographic
             info = d3.select("#land" + selectedFish)
@@ -529,9 +527,10 @@
         addNitrogenInfo = async function () {
             console.log('addNitrogen')
 
-            // hide previous infographic
+            // hide previous infographics
             await d3.selectAll('.land').transition().duration(100).style('opacity', 0).end();
-            d3.selectAll('.land').classed("hiddenRemove", true)
+            infoCont.selectAll('div').classed("hiddenRemove", true)
+            infoCont.selectAll('div').classed("fadeIn", false)
 
             await chartCont.transition().duration(200).style('opacity', .3).end();
 
@@ -559,13 +558,12 @@
         addPhosInfo = async function () {
             console.log('addPhos')
 
-            // hide previous infographic
+            // hide previous infographics
             await d3.selectAll('.nitrogen').transition().duration(100).style('opacity', 0).end();
-            d3.selectAll('.nitrogen').classed("hiddenRemove", true)
+            infoCont.selectAll('div').classed("hiddenRemove", true)
+            infoCont.selectAll('div').classed("fadeIn", false)
 
             await chartCont.transition().duration(200).style('opacity', .3).end();
-
-
 
             // unhide phos infographic
             info = d3.select("#phos" + selectedFish)
@@ -600,20 +598,14 @@
             // make bar chart invisible
             chartCont.transition().style('opacity', 0)
             // make infographic invisible
+
             infoCont.transition().style('opacity', 0)
 
-
             // make map visible
-
             d3.select(".map").classed('hidden', false);
-
-
 
             //if scrolling backwards
             d3.select(".lineGraph").classed('hidden', true);
-
-
-
         }
 
         addLineGraph = function () {

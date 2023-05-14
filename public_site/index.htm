@@ -12,8 +12,8 @@
     <title>Fishy Business</title>
     <div class="progressBar">
         <!-- 8 sections so 8 rectangles? -->
-        <svg id = "rectangles">
-            <rect id = "progress" width="0" height="10" style="fill:#2942a5;" />
+        <svg id="rectangles">
+            <rect id="progress" width="0" height="10" style="fill:#2942a5;" />
         </svg>
         <!-- <svg id = "rectangles">
             <rect width="12.5%" height="10" style="fill:#2942a5;" />
@@ -162,13 +162,28 @@
 
             </div>
             <div id="chartContainer">
-                <p>Water Consumption comparison to other seafood</p>
+                <p id="barchartTitle">Freshwater Consumption</p>
+                <p id="barChartSubtitle">Comparison to Other Seafood</p>
+
                 <svg id="bar1" height="450" width="550"></svg>
             </div>
             <div id="infoGraphicContainer">
-                <p>For 1 kg of salmon, 0.16 m<sup>3</sup> of freshwater is consumed, which is about 42 gallons.</p>
                 <!-- append infographic images here -->
-                <img src="images/gallons.png" width="300"> </img>
+                <div id=freshwaterSalmon class="hidden">
+                    <p>For 1 kg of <strong>salmon,</strong> 0.16 m<sup>3</sup> of freshwater is consumed, which is about
+                        <strong>42 gallons.</strong></p>
+                    <img src="images/freshwater-salmon.png" width="350"> </img>
+                </div>
+                <div id=freshwaterTilapia class="hidden">
+                    <p>For 1 kg of <strong>tilapia,</strong> 1.23 m<sup>3</sup> of freshwater is consumed, which is
+                        about <strong>325 gallons.</strong></p>
+                    <img src="images/freshwater-tilapia.png" width="350"> </img>
+                </div>
+                <div id=freshwaterShrimp class="hidden">
+                    <p>For 1 kg of <strong>shrimp,</strong> 0.22 m<sup>3</sup> of freshwater is consumed, which is about
+                        <strong>58 gallons.</strong></p>
+                    <img src="images/freshwater-shrimp.png" width="350"> </img>
+                </div>
             </div>
 
         </div>
@@ -215,11 +230,9 @@
         let nitrogen_emissions = await d3.csv("data/nitrogen-use.csv", d3.autotype);
         let phos_emissions = await d3.csv("data/phos-use.csv", d3.autotype);
 
-
         // map data
         const world_data = await d3.json("countries-110m.json");
         const centroid_data = await d3.csv("data/centroids.csv", d3.autotype)
-
 
         // line graph data
         let compareFishing = await d3.csv("data/capture-fisheries-vs-aquaculture.csv", d3.autotype);
@@ -264,6 +277,9 @@
 
 
         initialEstelle = async function () {
+            /*
+            handles receipt, selects infographics
+            */
             console.log('initialEstelle')
 
             // in case user scrolls too fast
@@ -284,6 +300,15 @@
             receipt.classed("hiddenRemove", true);
             // receipt.transition().style('opacity', 1).style('transform', "translateX(0px)")
 
+            if (selectedFish == 'salmon') {
+                d3.select('#freshwaterSalmon').classed('hidden', false);
+            }
+            if (selectedFish == 'tilapia') {
+                d3.select('#freshwaterTilapia').classed('hidden', false);
+            }
+            if (selectedFish == 'shrimp') {
+                d3.select('#freshwaterShrimp').classed('hidden', false);
+            }
 
         }
 
@@ -370,7 +395,7 @@
             receipt.select("#dishPrice").text(price).classed('fadeIn', true)
 
             receipt.select("#water").text('Freshwater').classed('fadeIn', true)
-            receipt.select("#waterPrice").html(fish_water_use+' m<sup>3</sup').classed('fadeIn', true)
+            receipt.select("#waterPrice").html(fish_water_use + ' m<sup>3</sup').classed('fadeIn', true)
 
             await infoCont.transition().duration(500).style('opacity', 1).end()
             chartCont.transition().duration(500).style('opacity', 1)
@@ -828,16 +853,14 @@
 
 
         function orderUp() {
+            selectedFish = this.id;
+
 
             initialEstelle();
-
             scroll()
             console.log('scroll happened')
 
             addReceipt = true;
-
-
-
             // d3.selectAll('p').classed('hidden', false)
 
             orders = d3.selectAll(".order")
@@ -861,7 +884,7 @@
 
             console.log('orderup')
 
-            selectedFish = this.id;
+
 
             // d3.select('.menu').style('display', 'none')
             // d3.select('#menuContainer').style('display', 'none')
@@ -887,9 +910,6 @@
 
             // reveal next section
             dishSection = d3.select('#hiddenSections').classed('hidden', false);
-
-
-
 
             // start of map code
 
@@ -1086,6 +1106,7 @@
             console.log('selectedFish', selectedFish)
 
             //have to implement selectedFish. For now, just use Norway - Salmon as an example.
+
             if (selectedFish === 'salmon') {
                 // Graph for Norway - Salmon
                 norway = compareFishing.filter(d => d.Entity === 'Norway')

@@ -903,11 +903,12 @@
             // adding buttons
             const buttonsdiv = d3.select('.buttons')
             buttons = buttonsdiv.selectAll('button').data(buttonsData).join('button').attr('id', 'actButton')
-                .on('click', function (d, i) { 
-                    [dataset, buttonsData, captureExtent, aquaExtent] = drawGraph(i) 
+                .on('click', function (d, i) {
+                    [dataset, buttonsData, captureExtent, aquaExtent] = drawGraph(i)
                     animateGraph()
                     d3.selectAll("#actButton").style("background-color", "#f0f0f0")
-                    d3.select(this).style("background-color","lightgray")})
+                    d3.select(this).style("background-color", "lightgray")
+                })
 
 
             buttons.append('h3').html(function (d, i) { return d });
@@ -981,7 +982,7 @@
             // sorting by date because Honduras has data out of order, messing up our line animations
             country = country.sort((a, b) => a.Year - b.Year)
 
-            console.log('subsetdata',country)
+            console.log('subsetdata', country)
 
             captureExtent = d3.extent(country, d => d['Capture fisheries production (metric tons)']);
             aquaExtent = d3.extent(country, d => d['Aquaculture production (metric tons)'])
@@ -1015,7 +1016,7 @@
             else if (selectedFish === 'tilapia') {
                 buttonsData = tilapiaCountries;
             }
-            
+
 
             return [dataset, buttonsData, captureExtent, aquaExtent]
         }
@@ -1107,7 +1108,7 @@
                 if (ranking > -1) {
                     return topColorScale(ranking)
                 }
-                else { 
+                else {
                     return "#f4f1e4"
                 }
             }
@@ -1116,7 +1117,7 @@
             // making the map paths
             let viewport = map.append("g");
 
-            viewport.selectAll(".countries").data(countries.features)
+            const mapCountries = viewport.selectAll(".countries").data(countries.features)
                 .join("path")
                 .attr("class", "countries")
                 // .attr('stroke', 'darkgray')
@@ -1223,12 +1224,12 @@
                     .attr("height", 20)
                     .on("mouseover", function () {
                         textbox.style("visibility", "visible")
-                        d3.select(this).style("cursor", "pointer");  
+                        d3.select(this).style("cursor", "pointer");
                     })
                     .on("mouseout", function () { textbox.style("visibility", "hidden") })
                     .on("click", clickedPin);
 
-                function clickedPin() {
+                function clickedPin(event) {
 
                     // d3.selectAll(".countries").remove();
                     // d3.selectAll(".country-outline").remove();
@@ -1236,10 +1237,37 @@
                     // d3.selectAll(".mark").remove();
                     // d3.selectAll(".tooltip").remove();
 
-                    //map_svg.style("background", "#f4f1e4")
+                    clickedCountry = countries.features.filter(i => i['properties']['name'] === d);
 
-                    //clickedCountry = countries.features.filter(i => i['properties']['name']===d);
-                   
+                    console.log(clickedCountry);
+
+                    const zoom = d3.zoom()
+                        .scaleExtent([1, 8])
+
+
+
+                    console.log('bounds')
+                    console.log(path.bounds(clickedCountry[0]['geometry']));
+
+                    const [[x0, y0], [x1, y1]] = path.bounds(clickedCountry[0]['geometry']);
+                    event.stopPropagation();
+                    mapCountries.transition().style("fill", null);
+                    //d3.select(this).transition().style("fill", "red");
+                    svg.transition().duration(750).call(
+                        zoom.transform,
+                        d3.zoomIdentity
+                            .translate(width / 2, height / 2)
+                            .scale(Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height)))
+                            .translate(-(x0 + x1) / 2, -(y0 + y1) / 2),
+                        d3.pointer(event, svg.node())
+                    );
+
+                    // console.log([x0,y0], [x1,y1]);
+
+
+
+
+
                     //console.log(clickedCountry)
 
                     // console.log(bounds);
@@ -1253,47 +1281,56 @@
                     // var bboxWidth = d3.max(pathsMax, function(d) { return d3.max(d); }) - d3.min(pathsMin, function(d) {return d3.min(d)});
                     // var bboxHeight = d3.max(pathsMax, function(d) { return d3.max(d); }) - d3.min(pathsMin, function(d) {return d3.min(d)});
                     // console.log(widthX);
-                    console.log(bbox_data);
+                    // console.log(bbox_data);
 
-                    let clickedCountryBounds = bbox_data.filter(i => i['country'] === d);
+                    //let clickedCountryBounds = bbox_data.filter(i => i['country'] === d);
 
-                    let countryWidth = Number(clickedCountryBounds[0].longmax) - Number(clickedCountryBounds[0].longmin)
-                    let countryHeight = Number(clickedCountryBounds[0].latmax) - Number(clickedCountryBounds[0].latmin);
+                    //projectedLongMax = projection(Number(clickedCountryBounds[0].latmax), Number(clickedCountryBounds[0].longmax));
 
-                    // console.log(clickedCountryBounds);
-                    // console.log(countryWidth);
-                    // console.log(countryHeight);
-
-                    centroid = [countryWidth + countryWidth/2, countryHeight + countryHeight/2],
-                    zoomScaleFactor = baseWidth / bbox.width,
-                    zoomX = -centroid[0],
-                    zoomY = -centroid[1];
+                    //projection([Number(clickedCountryBounds['latmax']), Number(clickedCountryBounds['longmax'])]);
 
 
 
+                    // console.log(projectedLongMax);
 
-                    var imageLink = "images/"+pinCountry.toLowerCase()+"fishery.jpeg"
-                    imageLink = imageLink.replace(/\s+/g, '');
+                    // let countryWidth = Number(clickedCountryBounds[0].longmax) - Number(clickedCountryBounds[0].longmin)
+                    // let countryHeight = Number(clickedCountryBounds[0].latmax) - Number(clickedCountryBounds[0].latmin);
+
+                    // // console.log(clickedCountryBounds);
+                    // // console.log(countryWidth);
+                    // // console.log(countryHeight);
+
+                    // centroid = [countryWidth + countryWidth / 2, countryHeight + countryHeight / 2];
+                    // zoomScaleFactor = mapWidth / countryWidth;
+                    // zoomX = -centroid[0];
+                    // zoomY = -centroid[1];
+
+                    // console.log(zoomScaleFactor);
+
+                    // console.log(zoomX, zoomY)
+
+
+                    // d3.selectAll(".countries").attr("transform", "scale(" + zoomScaleFactor + ")" +
+                    //     "translate(" + zoomX + "," + zoomY + ")");
 
 
 
-                    viewport.append("image")
-                        .attr("class", "fisheryImage")
-                        .attr("xlink:href", imageLink)
-                        .attr("x", 0)
-                        .attr("y", 0)
-                        .attr("transform", "translate(" + map_margin.left + "," + map_margin.top + ")");
+                    // var imageLink = "images/" + pinCountry.toLowerCase() + "fishery.jpeg"
+                    // imageLink = imageLink.replace(/\s+/g, '');
 
-                    viewport.append("text")
-                        .attr("class", "fisheryText")
-                        .text('Indonesia fisheries .... statistics ?')
-                        .attr("x", 550)
-                        .attr("y", 50)
 
-                    
+
+                    // viewport.append("image")
+                    //     .attr("class", "fisheryImage")
+                    //     .attr("xlink:href", imageLink)
+                    //     .attr("x", 0)
+                    //     .attr("y", 0)
+                    //     .attr("transform", "translate(" + map_margin.left + "," + map_margin.top + ")");
+
+
                 }
 
-                    
+
 
 
             })

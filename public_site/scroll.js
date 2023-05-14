@@ -33,6 +33,8 @@ function scroller() {
     //The position function determines where the user is on the page (using window.pageYOffset), and uses that to determine which section of text should currently be in view. It then uses D3’s dispatching tools to signal the 'progress' event, which will be used in the main script, passing along the current section index so that the script knows which stage of the animation/visualisation should be showing. 
     function position() {
         let pos = window.pageYOffset - 300 - containerStart;
+
+        console.log('pos', pos)
         let sectionIndex = d3.bisect(sectionPositions, pos);
         sectionIndex = Math.min(sections.size() - 1, sectionIndex);
         if (currentIndex !== sectionIndex) {

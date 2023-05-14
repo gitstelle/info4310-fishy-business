@@ -501,6 +501,18 @@ h1 {
     width: 100%;
 }
 
+/* #rectangles:first-child {
+    left:0; 
+} */
+
+#rectangles {
+    position:fixed; 
+    top:0; 
+    left:0; 
+    height:100%; 
+    width:100% 
+}
+
 
 g.mouseover rect {
     fill: white;

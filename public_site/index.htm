@@ -1257,12 +1257,17 @@
 
                     let clickedCountryBounds = bbox_data.filter(i => i['country'] === d);
 
-                    let countryWidth = Number(clickedCountryBounds.longmax) - Number(clickedCountryBounds.longmin);
-                    let countryHeight = Number(clickedCountryBounds.latmax) - Number(clickedCountryBounds.latmin);
+                    let countryWidth = Number(clickedCountryBounds[0].longmax) - Number(clickedCountryBounds[0].longmin)
+                    let countryHeight = Number(clickedCountryBounds[0].latmax) - Number(clickedCountryBounds[0].latmin);
 
-                    console.log(clickedCountryBounds);
-                    console.log(countryWidth);
-                    console.log(countryHeight);
+                    // console.log(clickedCountryBounds);
+                    // console.log(countryWidth);
+                    // console.log(countryHeight);
+
+                    centroid = [countryWidth + countryWidth/2, countryHeight + countryHeight/2],
+                    zoomScaleFactor = baseWidth / bbox.width,
+                    zoomX = -centroid[0],
+                    zoomY = -centroid[1];
 
 
 

@@ -464,6 +464,12 @@ h1 {
     }
 }
 
+.cite{
+    font-size:12px;
+    font-style: italic;
+    margin:0;
+}
+
 #chartContainer {
 
     position: fixed;
@@ -493,6 +499,7 @@ h1 {
     opacity: 0;
     /* background-color: blue; */
     /* margin: 0 auto; */
+    z-index: 99;
 }
 
 #infoGraphicContainer p{

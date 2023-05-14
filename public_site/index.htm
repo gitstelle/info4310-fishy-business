@@ -143,7 +143,7 @@
                     <section id="text5" class="step" height="100vh">
                         <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                     </section>
-                    
+
                     <section id="text10" class="step" height="100vh">
                         <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                     </section>
@@ -452,7 +452,7 @@
             chartArea1.selectAll('rect.bar').data(water_use)
                 .join('rect')
                 .attr('class', 'bar')
-                .attr("fill", d => highlightBar(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
+                .attr("fill", d => highlightBar('freshwater', d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
                 .attr('x', d => barScale1(0))
                 .attr('y', d => leftAxisScale1(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
                 .attr("height", leftAxisScale1.bandwidth())
@@ -468,7 +468,7 @@
             await d3.selectAll('.freshwater').transition().duration(100).style('opacity', 0).end();
             d3.selectAll('.freshwater').classed("hiddenRemove", true)
 
-            await chartCont.transition().duration(200).style('opacity',.3).end();
+            await chartCont.transition().duration(200).style('opacity', .3).end();
 
 
             // unhide land infographic
@@ -482,19 +482,19 @@
 
             receipt.select("#land").text('Land').classed('fadeIn', true)
             receipt.select("#landPrice").html(fish_land_use + " m<sup>2</sup>").classed('fadeIn', true)
-            
+
 
         }
 
         addLandBar = async function () {
-            await chartCont.transition().duration(200).style('opacity',1).end();
-            drawChart(land_use, barScale2, leftAxisScale1, 'Land use (m2 / kg edible weight)')
+            await chartCont.transition().duration(200).style('opacity', 1).end();
+            drawChart(land_use, barScale2, leftAxisScale1, 'Land use (m2 / kg edible weight)', 'land')
         }
 
         addNitrogen = function () {
             console.log('addNitrogen')
 
-            drawChart(nitrogen_emissions, barScale3, leftAxisScale1, 'Nitrogen (kgN / t edible weight)')
+            drawChart(nitrogen_emissions, barScale3, leftAxisScale1, 'Nitrogen (kgN / t edible weight)', 'nitrogen')
 
             // receipt.select("#land").text('Land').classed('fadeIn', true)
             // receipt.select("#landPrice").text(fish_land_use).classed('fadeIn', true)
@@ -508,7 +508,7 @@
         addPhos = function () {
             console.log('addPhos')
 
-            drawChart(phos_emissions, barScale4, leftAxisScale1, 'Phosphorous (kgP / t edible weight)')
+            drawChart(phos_emissions, barScale4, leftAxisScale1, 'Phosphorous (kgP / t edible weight)', 'phosphorous')
 
             // receipt.select("#nitrogen").text('Nitrogen').classed('fadeIn', true)
             // receipt.select("#nitrogenPrice").text(fish_nitrogen_emissions).classed('fadeIn', true)
@@ -1237,19 +1237,52 @@
         }
 
 
-        function highlightBar(v) {
+        function highlightBar(barType, v) {
             console.log('highlightBar')
             console.log('v', v)
+            console.log('barType', barType)
             console.log('selectedFish', selectedFish)
-            v = v.toLowerCase();
-            if (v === selectedFish) {
-                return '#3b5d78';
+            v= v.toLowerCase()
+
+            if (barType == "freshwater") {
+                if (v === selectedFish) {
+                    return '#3b5d78';
+                }
+                else {
+                    return '#AED5F3'
+                }
             }
-            else { return '#AED5F3' }
+
+            if (barType == "land") {
+                if (v === selectedFish) {
+                    return '#893B1D';
+                }
+                else {
+                    return '#FF9C76' 
+                }
+            }
+
+            if (barType == "phosphorous") {
+                if (v === selectedFish) {
+                    return "#137E37"
+                }
+                else {
+                    return "#ADEFAA"
+                }
+            }
+
+            if (barType == "nitrogen") {
+                if (v === selectedFish) {
+                    return "#601C5C"
+                }
+                else {
+                    return "#D9A4D6"
+                }
+            }
         }
 
 
-        function drawChart(data, barscale, leftaxisscale, column) {
+        function drawChart(data, barscale, leftaxisscale, column, barType) {
             console.log('drawChart')
 
             chartArea1.selectAll('rect.bar').data(data)
@@ -1263,7 +1296,7 @@
                     .call(enter => enter.transition()
                         .attr('opacity', 1)),
                     update => update.call(update => update.transition()
-                        .attr("fill", d => highlightBar(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
+                        .attr("fill", d => highlightBar(barType, d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))
 
                         .attr("x", d => barscale(0))
                         .attr("y", d => leftaxisscale(d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1)))

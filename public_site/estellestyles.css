@@ -554,6 +554,36 @@ g.mouseover text:first-child {
     font-weight: bold;
 }
 
+.buttons {
+    /* flex-basis: 90px;
+    flex-grow: 0;
+    flex-shrink: 0; */
+    display:flex;
+    flex-direction:row;
+    justify-content: space-between;
+    width: auto;
+    /* height: 110px; */
+    border: .5px solid black;
+    border-radius: 15px;
+    padding:1%;
+    margin:2%;
+    background-color: #f0f0f0;
+}
+
+#actButton {
+    font-family:'Franklin Gothic';
+    text-transform: uppercase;
+    width:150px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+
+#actButton:first-child {
+    background-color: lightgray;
+}
 
 .fisheryImage {
     /* display: flex;

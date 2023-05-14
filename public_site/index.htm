@@ -133,6 +133,9 @@
                         <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                     </section>
 
+                    <section class="step" height="100vh">
+                        <!-- DO NOT DELETE MUST LEAVE EMPTY -->
+                    </section>
                     <section id="text3" class="step" height="100vh">
                         <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                     </section>
@@ -195,6 +198,11 @@
                         target="_blank">Our World in Data.</a> Nitrogen emissions per tonne of seafood per kilogram
                     (2021) (calculations were converted from tonne to kg). Conversions were done using <a
                         href='https://www.aqua-calc.com/' target="_blank">Aqua-Calc.</a></p>
+                <p id="citePhosphorous" class="cite hiddenRemove">Source: <a
+                        href='https://ourworldindata.org/grapher/phosphorous-emissions-seafood?tab=table&country=~Salmon+%28farmed%29'
+                        target="_blank">Our World in Data.</a> Phosphorous emissions per tonne of seafood per kilogram
+                    (2021) (calculations were converted from tonne to kg). Conversions were done using <a
+                        href='https://www.aqua-calc.com/' target="_blank">Aqua-Calc.</a></p>
             </div>
             <div id="infoGraphicContainer">
                 <!-- append infographic images here -->
@@ -251,6 +259,24 @@
                         <strong>180 cans of Lysol (19 fl oz).</strong>
                     </p>
                     <img src="images/nitrogen-shrimp.png" width="350"> </img>
+                </div>
+                <!-- phosphorous -->
+                <div id=phossalmon class="phos hiddenRemove">
+                    <p>For 1 kg of <strong>salmon,</strong> .026 kg of phosphorous is emitted, which is about
+                        <strong>2.9 teaspoons</strong>
+                    </p>
+                    <img src="images/phosphorous-salmon.png" width="350"> </img>
+                </div>
+                <div id=phostilapia class="phos hiddenRemove">
+                    <p>For 1 kg of <strong>tilapia,</strong> .024 kg of phosphorous is emitted, which is
+                        about <strong>2.7 teaspoons</strong></p>
+                    <img src="images/phosphorous-tilapia-shrimp.png" width="350"> </img>
+                </div>
+                <div id=phosshrimp class="phos hiddenRemove">
+                    <p>For 1 kg of <strong>shrimp,</strong> .024 kg of phosphorous is emitted, which is about
+                        <strong>2.7 teaspoons.</strong>
+                    </p>
+                    <img src="images/phosphorous-tilapia-shrimp.png" width="350"> </img>
                 </div>
             </div>
         </div>
@@ -340,6 +366,8 @@
         menu = d3.select(".menu")
         chartCont = d3.select('#chartContainer')
         infoCont = d3.select('#infoGraphicContainer')
+        allCite = d3.selectAll('.cite')
+        allBarTitle = d3.selectAll('.barChartTitle')
 
 
         initialEstelle = async function () {
@@ -429,18 +457,10 @@
                 console.log('executed')
                 addReceipt = false
 
-                // we hard coded text opacity here but idk 
                 d3.select("#text1").transition().style('opacity', 1);
-                // d3.select("#text2").transition().style('opacity', 0);
-
-
-
             }
-            // receiptText = d3.select('.receiptText').classed('fadeIn', false);
-
 
         }
-
         addWaterInfo = async function () {
 
             // in case user scrolls too fast
@@ -485,9 +505,9 @@
 
 
             // unhide land infographic
-            landInfo = d3.select("#land" + selectedFish)
-            landInfo.classed('hiddenRemove', false);
-            landInfo.classed('fadeIn', true);
+            info = d3.select("#land" + selectedFish)
+            info.classed('hiddenRemove', false);
+            info.classed('fadeIn', true);
 
             receipt.select("#land").text('Land').classed('fadeIn', true)
             receipt.select("#landPrice").html(fish_land_use + " m<sup>2</sup>").classed('fadeIn', true)
@@ -498,10 +518,10 @@
         addLandBar = async function () {
             await chartCont.transition().duration(200).style('opacity', 1).end();
             drawChart(land_use, barScale2, leftAxisScale1, 'Land use (m2 / kg edible weight)', 'land')
-            d3.select("#titleFreshwater").classed('hiddenRemove', true);
+            allBarTitle.classed('hiddenRemove', true);
             d3.select("#titleLand").classed('hiddenRemove', false)
 
-            d3.select("#citeFreshwater").classed('hiddenRemove', true);
+            allCite.classed('hiddenRemove', true);
             d3.select("#citeLand").classed('hiddenRemove', false)
 
         }
@@ -515,11 +535,10 @@
 
             await chartCont.transition().duration(200).style('opacity', .3).end();
 
-
             // unhide nitrogen infographic
-            landInfo = d3.select("#nitrogen" + selectedFish)
-            landInfo.classed('hiddenRemove', false);
-            landInfo.classed('fadeIn', true);
+            info = d3.select("#nitrogen" + selectedFish)
+            info.classed('hiddenRemove', false);
+            info.classed('fadeIn', true);
 
             receipt.select("#nitrogen").text('Nitrogen Emitted').classed('fadeIn', true)
             receipt.select("#nitrogenPrice").text(fish_nitrogen_emissions + ' kg').classed('fadeIn', true)
@@ -527,30 +546,46 @@
 
         addNitrogenBar = async function () {
             await chartCont.transition().duration(200).style('opacity', 1).end();
-            drawChart(land_use, barScale2, leftAxisScale1, 'Land use (m2 / kg edible weight)', 'nitrogen')
-            d3.select("#titleLand").classed('hiddenRemove', true);
+
+            drawChart(nitrogen_emissions, barScale3, leftAxisScale1, 'Nitrogen (kgN / t edible weight)', 'nitrogen')
+            allBarTitle.classed('hiddenRemove', true);
             d3.select("#titleNitrogen").classed('hiddenRemove', false)
 
-            d3.select("#citeLand").classed('hiddenRemove', true);
+            allCite.classed('hiddenRemove', true);
             d3.select("#citeNitrogen").classed('hiddenRemove', false)
 
         }
 
-        addPhos = function () {
+        addPhosInfo = async function () {
             console.log('addPhos')
 
-            drawChart(phos_emissions, barScale4, leftAxisScale1, 'Phosphorous (kgP / t edible weight)', 'phosphorous')
+            // hide previous infographic
+            await d3.selectAll('.nitrogen').transition().duration(100).style('opacity', 0).end();
+            d3.selectAll('.nitrogen').classed("hiddenRemove", true)
 
-            // receipt.select("#nitrogen").text('Nitrogen').classed('fadeIn', true)
-            // receipt.select("#nitrogenPrice").text(fish_nitrogen_emissions).classed('fadeIn', true)
+            await chartCont.transition().duration(200).style('opacity', .3).end();
 
+
+
+            // unhide phos infographic
+            info = d3.select("#phos" + selectedFish)
+            info.classed('hiddenRemove', false);
+            info.classed('fadeIn', true);
             receipt.select("#phos").text('Phosphorous Emitted').classed('fadeIn', true)
             receipt.select("#phosPrice").text(fish_phos_emissions + ' kg').classed('fadeIn', true)
 
-            // receipt.classed('hidden', false);
+        }
+
+        addPhosBar = async function () {
+            await chartCont.transition().duration(200).style('opacity', 1).end();
+            drawChart(phos_emissions, barScale4, leftAxisScale1, 'Phosphorous (kgP / t edible weight)', 'phosphorous')
+            allBarTitle.classed('hiddenRemove', true);
+            d3.select("#titlePhosphorous").classed('hiddenRemove', false)
+
+            allCite.classed('hiddenRemove', true);
+            d3.select("#citePhosphorous").classed('hiddenRemove', false)
+
             d3.select(".map").classed('hidden', true);
-            chartCont.style("opacity", 1);
-            infoCont.style("opacity", 1);
 
         }
 
@@ -1376,7 +1411,7 @@
             console.log('progress', progress)
         })
 
-        let activationFunctions = [initialEstelle, estelle1, addWaterInfo, addWaterBar, addLandInfo, addLandBar, addNitrogenInfo, addNitrogenBar, addPhos, addMap, addLineGraph]
+        let activationFunctions = [initialEstelle, estelle1, addWaterInfo, addWaterBar, addLandInfo, addLandBar, addNitrogenInfo, addNitrogenBar, addPhosInfo, addPhosBar, addMap, addLineGraph]
 
     }
 

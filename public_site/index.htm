@@ -32,6 +32,8 @@
                 <!-- <div class="alignVertical"> -->
                 <div class="menu fancyFont alignVertical">
                     <h2>Catch of the Day</h2>
+
+
                     <!-- Salmon Order -->
                     <div class="order alignVertical">
                         <text id=salmon class="menuTitle hover-underline-animation fadeAnimation">Miso
@@ -53,8 +55,6 @@
                     </div>
                     <!-- </div> -->
                 </div>
-
-
 
                 <div class="receipt hiddenRemove">
                     <h2 class="textCenter fancyFont">Fishy Business</h2>
@@ -87,13 +87,13 @@
                     <hr class="dashed-line">
                 </div>
 
-                <div class="map hidden">
+                <div class="map hiddenRemove">
                     <svg id="choropleth" height="600" width="800"
                         style="background: white; border: 1px solid gray"></svg>
                 </div>
 
 
-                <div class="lineGraph hidden">
+                <div class="lineGraph hiddenRemove">
                     <h3 id="lineGraphTitle" class="textCenter">Capture Fisheries vs. Aquaculture Production (1960-2018)
                         in Metric Tons</h3>
                     <div class="buttons"> </div>
@@ -174,7 +174,9 @@
                             voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
                             cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                     </section>
-
+                    <section id="text10" class="step" height="400px">
+                        <!-- DO NOT DELETE MUST LEAVE EMPTY -->
+                    </section>
                 </div>
 
 
@@ -287,10 +289,12 @@
                 <h4 id="scrollText" class="textCenter bounce">scroll to continue</h4>
                 <div class="scroll-down"></div>
             </div>
+            <div id="resetContainer" class="transparent">
+                <!-- append button here -->
+            </div>
+        </div>
         </div>
 
-        </div>
-    </section>
 </body>
 
 <script>
@@ -593,6 +597,16 @@
         }
 
         addPhosBar = async function () {
+
+            await d3.select(".map").transition().duration(100).style('opacity', 0).end();
+            d3.select(".map").classed("hiddenRemove", true);
+
+            // make receipt invisible
+            receipt.classed('hiddenRemove', false);
+
+            // make infographic visible
+            infoCont.transition().style('opacity', 1)
+
             await chartCont.transition().duration(200).style('opacity', 1).end();
             drawChart(phos_emissions, barScale4, leftAxisScale1, 'Phosphorous (kgP / t edible weight)', 'phosphorous', bottomAxis4, bottomAxisG4)
             allBarTitle.classed('hiddenRemove', true);
@@ -601,29 +615,27 @@
             allCite.classed('hiddenRemove', true);
             d3.select("#citePhosphorous").classed('hiddenRemove', false)
 
-            d3.select(".map").classed('hidden', true);
-
         }
 
-        addMap = function () {
+        addMap = async function () {
             // make receipt invisible
             infoCont.style("opacity", 0);
 
             receipt.classed('fadeIn', false);
             receipt.classed('hiddenRemove', true);
-            receipt.attr("height", 0)
 
             // make bar chart invisible
             chartCont.transition().style('opacity', 0)
-            // make infographic invisible
 
+            // make infographic invisible
             infoCont.transition().style('opacity', 0)
 
             // make map visible
-            d3.select(".map").classed('hidden', false);
+            d3.select(".map").classed('hiddenRemove', false);
+            d3.select(".map").transition().duration(100).style("opacity", 1);
 
             //if scrolling backwards
-            d3.select(".lineGraph").classed('hidden', true);
+            d3.select(".lineGraph").classed('hiddenRemove', true);
         }
 
         function animateGraph() {
@@ -896,15 +908,27 @@
             });
         }
 
-        addLineGraph = function () {
+        //reset button
 
+        buttonCont = d3.select('#resetContainer');
+        resetButton = buttonCont.append("button").attr("class", "resetButton")
+        resetButton.append('h3').text("Order Again?")
+        resetButton.on("click", function () {
+            window.location.reload(true);
+        })
+
+        addLineGraph = async function () {
+            d3.select('#AbsScrollInfo').classed('invisible', false)
+            buttonCont.classed('fadeIn',false);
+            buttonCont.classed('transparent', true);
             animateGraph();
 
             // make map invisible
-            d3.select(".map").classed('hidden', true);
+            d3.select(".map").classed('hiddenRemove', true);
 
             // make line graph visible
-            d3.select(".lineGraph").classed('hidden', false);
+            d3.select(".lineGraph").classed('hiddenRemove', false);
+            d3.select('.lineGraph').classed('fadeIn', true)
 
             console.log('dataset', dataset)
             console.log('buttonsData', buttonsData)
@@ -914,20 +938,32 @@
                 addButtons = false;
                 const buttonsdiv = d3.select('.buttons')
                 buttons = buttonsdiv.selectAll('button').data(buttonsData).join('button')
+                // console.log("selected",  buttons.select("button:first-child"))
 
-                    .on('click', function (d, i) {
-                        [dataset, buttonsData, captureExtent, aquaExtent] = drawGraph(i)
-                        animateGraph()
-                        d3.selectAll(".buttons button").classed("selectedButton", false)
-                        d3.select(this).classed('selectedButton', true)
-                    })
+                d3.select(".buttons button:first-child").classed("selectedButton", true);
+
+                // buttons.selectAll("button").select("button:first-child")
+
+                buttons.on('click', function (d, i) {
+                    [dataset, buttonsData, captureExtent, aquaExtent] = drawGraph(i)
+                    animateGraph()
+                    d3.selectAll(".buttons button").classed("selectedButton", false)
+                    d3.select(this).classed('selectedButton', true)
+                })
 
                 buttons.append('h3').html(function (d, i) { return d });
-
             }
+        }
 
+
+        showReset = async function () {
+            d3.select('#AbsScrollInfo').classed('invisible', true)
+            d3.select('.lineGraph').classed("hiddenRemove", true);
+            buttonCont.classed('fadeIn',true);
+            buttonCont.classed('transparent', false);
 
         }
+
 
         function createScales() {
             // Setting up scales and axes for the 4 bar charts (do we need 4 separate bar charts or should we update the same one?)
@@ -1505,7 +1541,7 @@
             //console.log('progress', progress)
         })
 
-        let activationFunctions = [initialEstelle, estelle1, addWaterInfo, addWaterBar, addLandInfo, addLandBar, addNitrogenInfo, addNitrogenBar, addPhosInfo, addPhosBar, addMap, addLineGraph]
+        let activationFunctions = [initialEstelle, estelle1, addWaterInfo, addWaterBar, addLandInfo, addLandBar, addNitrogenInfo, addNitrogenBar, addPhosInfo, addPhosBar, addMap, addLineGraph, showReset]
 
     }
 

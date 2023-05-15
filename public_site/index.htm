@@ -643,7 +643,7 @@
             d3.selectAll(".y-axis").remove();
             d3.selectAll(".x-axis").remove();
 
-            d3.selectAll("path").remove();
+            graph.selectAll("path").remove();
 
             let graph_leftGridlines = d3.axisLeft(combinedScale)
                 .tickSize(-graphWidth - 10)
@@ -836,7 +836,6 @@
                 xMarker.attr("visibility", "hidden");
                 valueMarker.attr("visibility", "hidden");
                 valueMarker2.attr("visibility", "hidden");
-                // label.attr("visibility", "hidden");
                 mouseover.attr("visibility", "hidden");
             });
 
@@ -937,8 +936,7 @@
 
 
         function createScales() {
-            // Setting up scales and axes for the 4 bar charts (do we need 4 separate bar charts or should we update the same one?)
-
+            // Setting up scales and axes for the 4 bar charts
             //removing "(farmed)" from each of the fish entities
             species = water_use.map(d => d.Entity.split('(')[0].substr(0, d.Entity.split('(')[0].length - 1))
 

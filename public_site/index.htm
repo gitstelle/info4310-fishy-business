@@ -988,7 +988,6 @@
             country = country.sort((a, b) => a.Year - b.Year)
 
             console.log('subsetdata', country)
-            console.log('subsetdata', country)
 
             captureExtent = d3.extent(country, d => d['Capture fisheries production (metric tons)']);
             aquaExtent = d3.extent(country, d => d['Aquaculture production (metric tons)'])
@@ -1116,7 +1115,6 @@
                 if (ranking > -1) {
                     return topColorScale(ranking)
                 }
-
                 else {
                     return "#f4f1e4"
                 }
@@ -1232,12 +1230,11 @@
                     .on("mouseover", function () {
                         textbox.style("visibility", "visible")
                         d3.select(this).style("cursor", "pointer");
-                        d3.select(this).style("cursor", "pointer");
                     })
                     .on("mouseout", function () { textbox.style("visibility", "hidden") })
                     .on("click", clickedPin);
 
-                function clickedPin() {
+                function clickedPin(event) {
 
                     // d3.selectAll(".countries").remove();
                     // d3.selectAll(".country-outline").remove();
@@ -1245,9 +1242,38 @@
                     // d3.selectAll(".mark").remove();
                     // d3.selectAll(".tooltip").remove();
 
-                    //map_svg.style("background", "#f4f1e4")
+                    clickedCountry = countries.features.filter(i => i['properties']['name'] === d);
 
                     //clickedCountry = countries.features.filter(i => i['properties']['name']===d);
+
+
+                    console.log(clickedCountry);
+
+                    const zoom = d3.zoom()
+                        .scaleExtent([1, 8])
+
+
+
+                    console.log('bounds')
+                    console.log(path.bounds(clickedCountry[0]['geometry']));
+
+                    const [[x0, y0], [x1, y1]] = path.bounds(clickedCountry[0]['geometry']);
+                    event.stopPropagation();
+                    mapCountries.transition().style("fill", null);
+                    //d3.select(this).transition().style("fill", "red");
+                    svg.transition().duration(750).call(
+                        zoom.transform,
+                        d3.zoomIdentity
+                            .translate(width / 2, height / 2)
+                            .scale(Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height)))
+                            .translate(-(x0 + x1) / 2, -(y0 + y1) / 2),
+                        d3.pointer(event, svg.node())
+                    );
+
+                    // console.log([x0,y0], [x1,y1]);
+
+
+
 
 
                     //console.log(clickedCountry)
@@ -1264,9 +1290,12 @@
                     // var bboxHeight = d3.max(pathsMax, function(d) { return d3.max(d); }) - d3.min(pathsMin, function(d) {return d3.min(d)});
                     // console.log(widthX);
                     // console.log(bbox_data);
+                    // console.log(bbox_data);
 
                     // console.log('country name', countries.features.filter(i => i['properties']['name'] === d))
+                    //let clickedCountryBounds = bbox_data.filter(i => i['country'] === d);
 
+                    //projectedLongMax = projection(Number(clickedCountryBounds[0].latmax), Number(clickedCountryBounds[0].longmax));
                     clickedCountry = countries.features.filter(i => i['properties']['name'] === d);
                     console.log('clickedCountry', clickedCountry)
 
@@ -1340,20 +1369,41 @@
                     // let countryWidth = Number(clickedCountryBounds[0].longmax) - Number(clickedCountryBounds[0].longmin)
                     // let countryHeight = Number(clickedCountryBounds[0].latmax) - Number(clickedCountryBounds[0].latmin);
 
-                    // console.log(clickedCountryBounds);
-                    // console.log(countryWidth);
-                    // console.log(countryHeight);
-
-                    // centroid = [countryWidth + countryWidth / 2, countryHeight + countryHeight / 2],
-                    //     zoomScaleFactor = baseWidth / bbox.width,
-                    //     zoomX = -centroid[0],
-                    //     zoomY = -centroid[1];
+                    //projection([Number(clickedCountryBounds['latmax']), Number(clickedCountryBounds['longmax'])]);
 
 
 
+                    // console.log(projectedLongMax);
 
-                    var imageLink = "images/" + pinCountry.toLowerCase() + "fishery.jpeg"
-                    imageLink = imageLink.replace(/\s+/g, '');
+                    // let countryWidth = Number(clickedCountryBounds[0].longmax) - Number(clickedCountryBounds[0].longmin)
+                    // let countryHeight = Number(clickedCountryBounds[0].latmax) - Number(clickedCountryBounds[0].latmin);
+
+                    // // console.log(clickedCountryBounds);
+                    // // console.log(countryWidth);
+                    // // console.log(countryHeight);
+
+                    // centroid = [countryWidth + countryWidth / 2, countryHeight + countryHeight / 2];
+                    // zoomScaleFactor = mapWidth / countryWidth;
+                    // zoomX = -centroid[0];
+                    // zoomY = -centroid[1];
+
+                    // console.log(zoomScaleFactor);
+
+                    // console.log(zoomX, zoomY)
+
+                    // viewport.append("text")
+                    //     .attr("class", "fisheryText")
+                    //     .text('Indonesia fisheries .... statistics ?')
+                    //     .attr("x", 550)
+                    //     .attr("y", 50)
+
+                    // d3.selectAll(".countries").attr("transform", "scale(" + zoomScaleFactor + ")" +
+                    //     "translate(" + zoomX + "," + zoomY + ")");
+
+
+
+                    // var imageLink = "images/" + pinCountry.toLowerCase() + "fishery.jpeg"
+                    // imageLink = imageLink.replace(/\s+/g, '');
 
 
 
@@ -1363,13 +1413,6 @@
                     //     .attr("x", 0)
                     //     .attr("y", 0)
                     //     .attr("transform", "translate(" + map_margin.left + "," + map_margin.top + ")");
-
-                    // viewport.append("text")
-                    //     .attr("class", "fisheryText")
-                    //     .text('Indonesia fisheries .... statistics ?')
-                    //     .attr("x", 550)
-                    //     .attr("y", 50)
-
 
 
                 }

@@ -573,6 +573,7 @@ g.mouseover text:first-child {
 }
 
 .buttons {
+    z-index:110;
     /* flex-basis: 90px;
     flex-grow: 0;
     flex-shrink: 0; */

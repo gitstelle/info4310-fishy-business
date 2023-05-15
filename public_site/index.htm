@@ -935,6 +935,7 @@
         })
 
         addLineGraph = async function () {
+            buttonCont.style('z-index',104)
             d3.select('#AbsScrollInfo').classed('invisible', false)
             buttonCont.classed('fadeIn', false);
             buttonCont.classed('transparent', true);
@@ -974,6 +975,7 @@
 
 
         showReset = async function () {
+            buttonCont.style('z-index',200)
             d3.select('#AbsScrollInfo').classed('invisible', true)
             d3.select('.lineGraph').classed("hiddenRemove", true);
             buttonCont.classed('fadeIn', true);

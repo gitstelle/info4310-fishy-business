@@ -619,7 +619,7 @@ g.mouseover text:first-child {
 } */
 
 .tooltipTitle {
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-family: 'Roboto';
     margin:0;
     padding:0;

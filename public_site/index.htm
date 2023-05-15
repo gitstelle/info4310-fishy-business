@@ -385,7 +385,6 @@
 
         // buttons for line graph
 
-
         initialEstelle = async function () {
             d3.select('#AbsScrollInfo').classed('invisible', true)
             /*
@@ -414,6 +413,10 @@
         }
 
         estelle1 = async function () {
+            // remove prev Receipt info
+            receipt.select("#water").text('')
+            receipt.select("#waterPrice").text('')
+
             console.log('estelle1')
 
             d3.select('#AbsScrollInfo').classed('invisible', false)
@@ -423,7 +426,8 @@
 
             receipt = d3.select(".receipt")
             receipt.transition().duration(200).style('transform', 'translateX(0px)');
-            receipt.classed('hiddenRemove', false).classed('fadeIn', true)
+            receipt.classed('hiddenRemove', false)
+            receipt.classed('fadeIn', true)
 
             chartCont.style('opacity', 0)
 
@@ -468,6 +472,7 @@
 
         }
         addWaterInfo = async function () {
+
             // hide prev infographics
             infoCont.selectAll('div').classed("hiddenRemove", true)
             infoCont.selectAll('div').classed("fadeIn", false)
@@ -488,11 +493,15 @@
             receipt.select("#water").text('Freshwater').classed('fadeIn', true)
             receipt.select("#waterPrice").html(fish_water_use + ' m<sup>3</sup').classed('fadeIn', true)
 
-            infoCont.transition().duration(500).style('opacity', 1).end()
+            infoCont.transition().duration(200).style('opacity', 1).end()
         }
 
         addWaterBar = async function () {
-            chartCont.transition().duration(500).style('opacity', 1)
+            // remove prev Receipt info
+            receipt.select("#land").text('')
+            receipt.select("#landPrice").text('')
+
+            chartCont.transition().duration(200).style('opacity', 1)
 
             // drawChart(water_use, barScale1, leftAxisScale1,'Freshwater use (m3 / kg edible weight)');
 
@@ -530,6 +539,10 @@
         }
 
         addLandBar = async function () {
+            // remove prev Receipt info
+            receipt.select("#nitrogen").text('')
+            receipt.select("#nitrogenPrice").text('')
+
             await chartCont.transition().duration(200).style('opacity', 1).end();
             drawChart(land_use, barScale2, leftAxisScale1, 'Land use (m2 / kg edible weight)', 'land')
             allBarTitle.classed('hiddenRemove', true);
@@ -560,6 +573,10 @@
         }
 
         addNitrogenBar = async function () {
+            // remove prev Receipt info
+            receipt.select("#phos").text('')
+            receipt.select("#phosPrice").text('')
+
             await chartCont.transition().duration(200).style('opacity', 1).end();
 
             drawChart(nitrogen_emissions, barScale3, leftAxisScale1, 'Nitrogen (kgN / t edible weight)', 'nitrogen')
@@ -913,7 +930,7 @@
 
         addLineGraph = async function () {
             d3.select('#AbsScrollInfo').classed('invisible', false)
-            buttonCont.classed('fadeIn',false);
+            buttonCont.classed('fadeIn', false);
             buttonCont.classed('transparent', true);
             animateGraph();
 
@@ -953,7 +970,7 @@
         showReset = async function () {
             d3.select('#AbsScrollInfo').classed('invisible', true)
             d3.select('.lineGraph').classed("hiddenRemove", true);
-            buttonCont.classed('fadeIn',true);
+            buttonCont.classed('fadeIn', true);
             buttonCont.classed('transparent', false);
 
         }
@@ -1338,26 +1355,26 @@
                         map.selectAll(".imageText").style('display', "none")
 
                     }
-                        
+
                     var imageLink = "images/" + pinCountry.toLowerCase() + "fishery.jpeg"
                     imageLink = imageLink.replace(/\s+/g, '');
 
 
-                    map.append("text").text(d +' is the number ' + (ranking+1) + ' exporter of ' + selectedFish)
+                    map.append("text").text(d + ' is the number ' + (ranking + 1) + ' exporter of ' + selectedFish)
                         .attr("class", "imageText")
-                        .attr('x', mapWidth/2 + 20)
-                        .attr('y', mapHeight/5)
+                        .attr('x', mapWidth / 2 + 20)
+                        .attr('y', mapHeight / 5)
                         .style("font-size", 20)
 
-                       
-                    
+
+
                     map.append("image")
                         .attr("class", "fisheryImage")
                         .attr("xlink:href", imageLink)
-                        .attr("x", mapWidth/2)
-                        .attr("y", mapHeight/3)
+                        .attr("x", mapWidth / 2)
+                        .attr("y", mapHeight / 3)
                         .attr("transform", "translate(" + map_margin.left + "," + map_margin.top + ")")
-                        
+
 
                 }
 

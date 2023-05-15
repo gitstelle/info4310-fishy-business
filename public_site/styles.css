@@ -608,6 +608,7 @@ g.mouseover text:first-child {
     height:50px;
     padding:0;
     margin:5px;
+    transition: all .3s;
 
 }
 .buttons button:not(.selectedButton){

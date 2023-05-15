@@ -1235,82 +1235,12 @@
                     .on("click", clickedPin);
 
                 function clickedPin(event) {
-
-                    // d3.selectAll(".countries").remove();
-                    // d3.selectAll(".country-outline").remove();
-                    // d3.selectAll(".legend").remove();
-                    // d3.selectAll(".mark").remove();
-                    // d3.selectAll(".tooltip").remove();
-
-                    clickedCountry = countries.features.filter(i => i['properties']['name'] === d);
-
-                    //clickedCountry = countries.features.filter(i => i['properties']['name']===d);
-
-
-                    console.log(clickedCountry);
-
-                    const zoom = d3.zoom()
-                        .scaleExtent([1, 8])
-
-
-
-                    console.log('bounds')
-                    console.log(path.bounds(clickedCountry[0]['geometry']));
-
-                    const [[x0, y0], [x1, y1]] = path.bounds(clickedCountry[0]['geometry']);
-                    event.stopPropagation();
-                    mapCountries.transition().style("fill", null);
-                    //d3.select(this).transition().style("fill", "red");
-                    svg.transition().duration(750).call(
-                        zoom.transform,
-                        d3.zoomIdentity
-                            .translate(width / 2, height / 2)
-                            .scale(Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height)))
-                            .translate(-(x0 + x1) / 2, -(y0 + y1) / 2),
-                        d3.pointer(event, svg.node())
-                    );
-
-                    // console.log([x0,y0], [x1,y1]);
-
-
-
-
-
-                    //console.log(clickedCountry)
-
-                    // console.log(bounds);
-
-                    // console.log(bounds.coordinates)
-
-                    // let widthx = d3.min(bounds.coordinates[0]);
-                    // var pathsMin = d3.min(bounds.coordinates, function(d) { return d3.min(d); });
-                    // var pathsMax = d3.max(bounds.coordinates, function(d) { return d3.max(d); });
-
-                    // var bboxWidth = d3.max(pathsMax, function(d) { return d3.max(d); }) - d3.min(pathsMin, function(d) {return d3.min(d)});
-                    // var bboxHeight = d3.max(pathsMax, function(d) { return d3.max(d); }) - d3.min(pathsMin, function(d) {return d3.min(d)});
-                    // console.log(widthX);
-                    // console.log(bbox_data);
-                    // console.log(bbox_data);
-
-                    // console.log('country name', countries.features.filter(i => i['properties']['name'] === d))
-                    //let clickedCountryBounds = bbox_data.filter(i => i['country'] === d);
-
-                    //projectedLongMax = projection(Number(clickedCountryBounds[0].latmax), Number(clickedCountryBounds[0].longmax));
-                    clickedCountry = countries.features.filter(i => i['properties']['name'] === d);
-                    console.log('clickedCountry', clickedCountry)
-
                     countryNodes = d3.selectAll(".countries").nodes()
-
-                    //console.log('idk', countryNodes.filter(i => i.__data__.properties.name === d))
-
-                    // console.log('bbox', countryNodes.filter(i => i.__data__.properties.name === d)[0].getBBox())
 
                     select = countryNodes.filter(i => i.__data__.properties.name === d)[0].__data__
 
                     newcountries = { 'type': 'FeatureCollection', 'features': [select] };
-                    console.log('newcountries', newcountries)
 
-                    // console.log('select', select)
 
                     viewport.selectAll(".countries").style('display', 'none');
                     viewport.selectAll(".country-outline").style('display', 'none');
@@ -1384,7 +1314,7 @@
 
                     map.append("text").text(d +' is the number ' + (ranking+1) + ' exporter of ' + selectedFish)
                         .attr("class", "imageText")
-                        .attr('x', mapWidth/2 + 40)
+                        .attr('x', mapWidth/2 + 35)
                         .attr('y', mapHeight/5)
                         .style("font-size", 20)
 

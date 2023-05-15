@@ -1307,13 +1307,16 @@
 
                 textbox.append("rect")
                     .attr("opacity", 0.8)
-                    .attr("fill", "white")
+                    .attr("fill", "lightgray")
                     .attr("x", 0)
                     .attr("y", 0)
                     .attr("height", 25)
                     .attr("width", function () {
-                        if (pinCountry.length < 9) {
+                        if (pinCountry.length < 8) {
                             return pinCountry.length * 10;
+                        }
+                        else if (pinCountry.length === 8) {
+                            return 70;
                         }
                         else if (pinCountry.length === 9) {
                             return 80;

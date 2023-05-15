@@ -113,7 +113,7 @@
                         <p>Welcome to our restaurant. I'm your server, Fishy Business.</p>
                         <p>Please order any of our specials!</p>
                         <div id='scrollInfo' class="invisible">
-                            <h4 id="scrollText" class="textCenter bounce">Scroll to continue</h4>
+                            <h4 id="scrollText" class="textCenter bounce">scroll to continue</h4>
                             <div class="scroll-down"></div>
                         </div>
 
@@ -131,29 +131,29 @@
                         <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                     </section>
 
-                    <section class="step" height="100vh">
+                    <section class="step" height="50vh">
                         <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                     </section>
 
-                    <section class="step" height="100vh">
+                    <section class="step" height="50vh">
                         <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                     </section>
-                    <section id="text3" class="step" height="100vh">
-                        <!-- DO NOT DELETE MUST LEAVE EMPTY -->
-                    </section>
-
-                    <section id="text4" class="step" height="100vh">
-                        <!-- DO NOT DELETE MUST LEAVE EMPTY -->
-                    </section>
-                    <section id="text1000" class="step" height="100vh">
+                    <section id="text3" class="step" height="50vh">
                         <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                     </section>
 
-                    <section id="text5" class="step" height="100vh">
+                    <section id="text4" class="step" height="50vh">
+                        <!-- DO NOT DELETE MUST LEAVE EMPTY -->
+                    </section>
+                    <section id="text1000" class="step" height="50vh">
                         <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                     </section>
 
-                    <section id="text10" class="step" height="100vh">
+                    <section id="text5" class="step" height="50vh">
+                        <!-- DO NOT DELETE MUST LEAVE EMPTY -->
+                    </section>
+
+                    <section id="text10" class="step" height="50vh">
                         <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                     </section>
 
@@ -178,10 +178,10 @@
 
             </div>
             <div id="chartContainer">
-                <p id="titleFreshwater" class="barchartTitle">Freshwater Consumption</p>
-                <p id="titleLand" class="barchartTitle hiddenRemove">Land Use</p>
-                <p id="titleNitrogen" class="barchartTitle hiddenRemove">Nitrogen Emitted</p>
-                <p id="titlePhosphorous" class="barchartTitle hiddenRemove">Phosphorous Emitted</p>
+                <p id="titleFreshwater" class="barchartTitle">Freshwater Consumption (m<sup>3</sup>)</p>
+                <p id="titleLand" class="barchartTitle hiddenRemove">Land Use (m<sup>2</sup>)</p>
+                <p id="titleNitrogen" class="barchartTitle hiddenRemove">Nitrogen Emitted (kg)</p>
+                <p id="titlePhosphorous" class="barchartTitle hiddenRemove">Phosphorous Emitted (kg)</p>
 
                 <p id="barChartSubtitle">Comparison to Other Seafood</p>
                 <svg id="bar1" height="425" width="550"></svg>
@@ -246,40 +246,44 @@
                 </div>
                 <!-- nitrogen -->
                 <div id=nitrogensalmon class="nitrogen hiddenRemove">
-                    <p>For 1 kg of <strong>salmon,</strong> .111 kg of nitrogen is emitted, which is about
+                    <p>For 1 kg of <strong>salmon,</strong> 0.111 kg of nitrogen is emitted, which is about
                         <strong>157 cans of Lysol (19 fl oz)</strong>
                     </p>
                     <img src="images/nitrogen-salmon.png" width="350"> </img>
                 </div>
                 <div id=nitrogentilapia class="nitrogen hiddenRemove">
-                    <p>For 1 kg of <strong>tilapia,</strong> .200 kg of nitrogen is emitted, which is
+                    <p>For 1 kg of <strong>tilapia,</strong> 0.200 kg of nitrogen is emitted, which is
                         about <strong>284 cans of Lysol (19 fl oz).</strong></p>
                     <img src="images/nitrogen-tilapia.png" width="350"> </img>
                 </div>
                 <div id=nitrogenshrimp class="nitrogen hiddenRemove">
-                    <p>For 1 kg of <strong>shrimp,</strong> .123 kg of nitrogen is emitted, which is about
+                    <p>For 1 kg of <strong>shrimp,</strong> 0.123 kg of nitrogen is emitted, which is about
                         <strong>180 cans of Lysol (19 fl oz).</strong>
                     </p>
                     <img src="images/nitrogen-shrimp.png" width="350"> </img>
                 </div>
                 <!-- phosphorous -->
                 <div id=phossalmon class="phos hiddenRemove">
-                    <p>For 1 kg of <strong>salmon,</strong> .026 kg of phosphorous is emitted, which is about
-                        <strong>2.9 teaspoons</strong>
+                    <p>For 1 kg of <strong>salmon,</strong> 0.026 kg of phosphorous is emitted, which is about
+                        <strong>2.9 teaspoons.</strong>
                     </p>
                     <img src="images/phosphorous-salmon.png" width="350"> </img>
                 </div>
                 <div id=phostilapia class="phos hiddenRemove">
-                    <p>For 1 kg of <strong>tilapia,</strong> .024 kg of phosphorous is emitted, which is
-                        about <strong>2.7 teaspoons</strong></p>
+                    <p>For 1 kg of <strong>tilapia,</strong> 0.024 kg of phosphorous is emitted, which is
+                        about <strong>2.7 teaspoons.</strong></p>
                     <img src="images/phosphorous-tilapia-shrimp.png" width="350"> </img>
                 </div>
                 <div id=phosshrimp class="phos hiddenRemove">
-                    <p>For 1 kg of <strong>shrimp,</strong> .024 kg of phosphorous is emitted, which is about
+                    <p>For 1 kg of <strong>shrimp,</strong> 0.024 kg of phosphorous is emitted, which is about
                         <strong>2.7 teaspoons.</strong>
                     </p>
                     <img src="images/phosphorous-tilapia-shrimp.png" width="350"> </img>
                 </div>
+            </div>
+            <div id='AbsScrollInfo' class="invisible">
+                <h4 id="scrollText" class="textCenter bounce">scroll to continue</h4>
+                <div class="scroll-down"></div>
             </div>
         </div>
 
@@ -377,6 +381,7 @@
 
 
         initialEstelle = async function () {
+            d3.select('#AbsScrollInfo').classed('invisible', true)
             /*
             handles receipt, selects infographics
             */
@@ -400,20 +405,12 @@
             receipt.classed("hiddenRemove", true);
             // receipt.transition().style('opacity', 1).style('transform', "translateX(0px)")
 
-            if (selectedFish == 'salmon') {
-                d3.select('#freshwaterSalmon').classed('hiddenRemove', false);
-            }
-            if (selectedFish == 'tilapia') {
-                d3.select('#freshwaterTilapia').classed('hiddenRemove', false);
-            }
-            if (selectedFish == 'shrimp') {
-                d3.select('#freshwaterShrimp').classed('hiddenRemove', false);
-            }
-
         }
 
         estelle1 = async function () {
             console.log('estelle1')
+
+            d3.select('#AbsScrollInfo').classed('invisible', false)
 
             await menu.transition().style('opacity', 0).style('transform', "translateX(-200px)").end()
             await infoCont.transition().style('opacity', 0).end()
@@ -421,7 +418,6 @@
             receipt = d3.select(".receipt")
             receipt.transition().duration(200).style('transform', 'translateX(0px)');
             receipt.classed('hiddenRemove', false).classed('fadeIn', true)
-
 
             chartCont.style('opacity', 0)
 
@@ -454,10 +450,8 @@
                     price = "$23.00"
                 }
 
-
                 receipt.select("#dishName").text(dish).classed('fadeIn', true)
                 receipt.select("#dishPrice").text(price).classed('fadeIn', true)
-
 
                 // addDish.append('img').attr('src', "images/" + selectedFish + ".jpg").attr('class', 'currentDish').classed('fadeIn', true);
                 console.log('executed')
@@ -468,6 +462,14 @@
 
         }
         addWaterInfo = async function () {
+            // hide prev infographics
+            infoCont.selectAll('div').classed("hiddenRemove", true)
+            infoCont.selectAll('div').classed("fadeIn", false)
+
+            // unhide water infographic
+            info = d3.select("#freshwater" + selectedFish)
+            info.classed('hiddenRemove', false);
+            info.classed('fadeIn', true);
 
             // in case user scrolls too fast
 
@@ -503,12 +505,12 @@
 
             console.log('addLand')
 
-            // hide previous infographic
+            // hide previous infographics
             await d3.selectAll('.freshwater').transition().duration(100).style('opacity', 0).end();
-            d3.selectAll('.freshwater').classed("hiddenRemove", true)
+            infoCont.selectAll('div').classed("hiddenRemove", true)
+            infoCont.selectAll('div').classed("fadeIn", false)
 
             await chartCont.transition().duration(200).style('opacity', .3).end();
-
 
             // unhide land infographic
             info = d3.select("#land" + selectedFish)
@@ -535,9 +537,10 @@
         addNitrogenInfo = async function () {
             console.log('addNitrogen')
 
-            // hide previous infographic
+            // hide previous infographics
             await d3.selectAll('.land').transition().duration(100).style('opacity', 0).end();
-            d3.selectAll('.land').classed("hiddenRemove", true)
+            infoCont.selectAll('div').classed("hiddenRemove", true)
+            infoCont.selectAll('div').classed("fadeIn", false)
 
             await chartCont.transition().duration(200).style('opacity', .3).end();
 
@@ -565,13 +568,12 @@
         addPhosInfo = async function () {
             console.log('addPhos')
 
-            // hide previous infographic
+            // hide previous infographics
             await d3.selectAll('.nitrogen').transition().duration(100).style('opacity', 0).end();
-            d3.selectAll('.nitrogen').classed("hiddenRemove", true)
+            infoCont.selectAll('div').classed("hiddenRemove", true)
+            infoCont.selectAll('div').classed("fadeIn", false)
 
             await chartCont.transition().duration(200).style('opacity', .3).end();
-
-
 
             // unhide phos infographic
             info = d3.select("#phos" + selectedFish)
@@ -606,20 +608,14 @@
             // make bar chart invisible
             chartCont.transition().style('opacity', 0)
             // make infographic invisible
+
             infoCont.transition().style('opacity', 0)
 
-
             // make map visible
-
             d3.select(".map").classed('hidden', false);
-
-
 
             //if scrolling backwards
             d3.select(".lineGraph").classed('hidden', true);
-
-
-
         }
 
         function animateGraph() {
@@ -659,20 +655,20 @@
                 .curve(d3.curveMonotoneX);
 
 
-            graph.append('text')
-                .text('Year')
-                .attr('x', graphWidth / 2 - 30)
-                .attr('y', graphHeight + graph_margin.bottom - 5)
-                .attr('font-size', '20px')
-                .style('font-weight', 'bold');
+            // graph.append('text')
+            //     .text('Year')
+            //     .attr('x', graphWidth / 2 - 30)
+            //     .attr('y', graphHeight + graph_margin.bottom - 5)
+            //     .attr('font-size', '20px')
+            //     .style('font-weight', 'bold');
 
 
-            graph.append('text').text('Metric Tons')
-                .attr("transform", "rotate(-90)")
-                .attr('x', -graphHeight + 180)
-                .attr('y', -85)
-                .style('font-weight', 'bold')
-                ;
+            // graph.append('text').text('Metric Tons')
+            //     .attr("transform", "rotate(-90)")
+            //     .attr('x', -graphHeight + 180)
+            //     .attr('y', -85)
+            //     .style('font-weight', 'bold')
+            //     ;
 
             // Making area transitions
 
@@ -902,11 +898,15 @@
 
             // adding buttons
             const buttonsdiv = d3.select('.buttons')
-            buttons = buttonsdiv.selectAll('button').data(buttonsData).join('button').attr('id', 'actButton')
+            buttons = buttonsdiv.selectAll('button').data(buttonsData).join('button')
+                .on('click', function (d, i) {
+                    [dataset, buttonsData, captureExtent, aquaExtent] = drawGraph(i)
                 .on('click', function (d, i) {
                     [dataset, buttonsData, captureExtent, aquaExtent] = drawGraph(i)
                     animateGraph()
-                    d3.selectAll("#actButton").style("background-color", "#f0f0f0")
+                    d3.selectAll(".buttons button").classed("selectedButton", false)
+                    d3.select(this).classed('selectedButton',true)
+                })
                     d3.select(this).style("background-color", "lightgray")
                 })
 
@@ -970,8 +970,6 @@
         d3.selectAll(".menuTitle")
             .on('click', orderUp)
 
-
-
         function drawGraph(country) {
 
             console.log('country', country)
@@ -1023,7 +1021,6 @@
 
         function orderUp() {
             selectedFish = this.id;
-
 
             initialEstelle();
             scroll()
@@ -1091,8 +1088,10 @@
             const topColorScale = d3.scaleOrdinal(colors).domain([0, 1, 2, 3, 4]);
 
             var countries = topojson.feature(world_data, world_data.objects.countries);
-            var countriesMesh = topojson.mesh(world_data, world_data.objects.countries);
 
+            console.log('countries', countries);
+            var countriesMesh = topojson.mesh(world_data, world_data.objects.countries);
+            console.log('countries original mesh', countriesMesh)
             var projection = d3.geoRobinson().fitSize([mapWidth, mapHeight], countries);
             var path = d3.geoPath().projection(projection);
 
@@ -1113,23 +1112,22 @@
                 }
             }
 
-
             // making the map paths
             let viewport = map.append("g");
 
-            const mapCountries = viewport.selectAll(".countries").data(countries.features)
+            console.log('countries.features', countries.features)
+
+            viewport.selectAll(".countries").data(countries.features)
                 .join("path")
                 .attr("class", "countries")
                 // .attr('stroke', 'darkgray')
                 .attr('fill', d => countryColor(d.properties.name))
-                .attr("d", path);
+                .attr("d", path)
 
             viewport.append("path")
                 .datum(countriesMesh)
                 .attr("class", "country-outline")
                 .attr("d", path);
-
-
 
             // making the legend
             // reference: https://stackoverflow.com/questions/41090920/how-to-position-the-legend-in-a-d3-chart
@@ -1140,7 +1138,6 @@
                 .enter().append("g")
                 .attr("class", "legend")
                 .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
-
 
             legend.append("rect").data(colors)
                 .attr("x", 20)
@@ -1239,6 +1236,9 @@
 
                     clickedCountry = countries.features.filter(i => i['properties']['name'] === d);
 
+                    //clickedCountry = countries.features.filter(i => i['properties']['name']===d);
+
+
                     console.log(clickedCountry);
 
                     const zoom = d3.zoom()
@@ -1282,10 +1282,84 @@
                     // var bboxHeight = d3.max(pathsMax, function(d) { return d3.max(d); }) - d3.min(pathsMin, function(d) {return d3.min(d)});
                     // console.log(widthX);
                     // console.log(bbox_data);
+                    // console.log(bbox_data);
 
+                    // console.log('country name', countries.features.filter(i => i['properties']['name'] === d))
                     //let clickedCountryBounds = bbox_data.filter(i => i['country'] === d);
 
                     //projectedLongMax = projection(Number(clickedCountryBounds[0].latmax), Number(clickedCountryBounds[0].longmax));
+                    clickedCountry = countries.features.filter(i => i['properties']['name'] === d);
+                    console.log('clickedCountry', clickedCountry)
+
+                    countryNodes = d3.selectAll(".countries").nodes()
+
+                    //console.log('idk', countryNodes.filter(i => i.__data__.properties.name === d))
+
+                    // console.log('bbox', countryNodes.filter(i => i.__data__.properties.name === d)[0].getBBox())
+
+                    select = countryNodes.filter(i => i.__data__.properties.name === d)[0].__data__
+
+                    newcountries = { 'type': 'FeatureCollection', 'features': [select] };
+                    console.log('newcountries', newcountries)
+
+                    // console.log('select', select)
+
+                    viewport.selectAll(".countries").remove();
+                    viewport.selectAll(".country-outline").remove()
+
+
+
+
+                    // var countries = topojson.feature(world_data, world_data.objects.countries);
+                    // var countriesMesh = topojson.mesh(world_data, world_data.objects.countries);
+
+                    // var projection = d3.geoRobinson().fitSize([mapWidth, mapHeight], newcountries);
+                    var projection = d3.geoMercator().fitSize([mapWidth, mapHeight], newcountries);
+                    console.log(projection);
+                    var path = d3.geoPath().projection(projection);
+                    console.log(path);
+
+                    // var projection = d3.geoMercator()
+                    //     .center([2, 47])                // GPS of location to zoom on
+                    //     .scale(980)                       // This is like the zoom
+                    //     .translate([mapWidth / 2, mapHeight / 2])
+
+
+                    // // making the map paths
+                    // let viewport = map.append("g");
+
+                    viewport.select(".thiscountry").data(newcountries.features)
+                        .join("path")
+                        .attr("class", "selectedCountry")
+                        .attr('stroke', 'darkgray')
+                        .attr('fill', 'blue')
+                        .attr("d", path);
+
+                    // viewport.append("path")
+                    //     .datum(countriesMesh)
+                    //     .attr("class", "country-outline")
+                    //     .attr("d", path);
+
+
+
+
+
+                    // var baseWidth = 300;
+                    // var bbox = select.getBBox(),
+                    //     centroid = [bbox.x + (bbox.width / 50) - 10, bbox.y + (bbox.height / 50)- 10],
+                    //     zoomScaleFactor = baseWidth / bbox.width,
+                    //     zoomX = -centroid[0],
+                    //     zoomY = -centroid[1];
+
+                    // // set a transform on the parent group element
+                    // viewport
+                    //     .attr("transform", "scale(" + zoomScaleFactor + ")" +
+                    //         "translate(" + zoomX + "," + zoomY + ")");
+
+                    // let clickedCountryBounds = bbox_data.filter(i => i['country'] === d);
+
+                    // let countryWidth = Number(clickedCountryBounds[0].longmax) - Number(clickedCountryBounds[0].longmin)
+                    // let countryHeight = Number(clickedCountryBounds[0].latmax) - Number(clickedCountryBounds[0].latmin);
 
                     //projection([Number(clickedCountryBounds['latmax']), Number(clickedCountryBounds['longmax'])]);
 
@@ -1309,6 +1383,11 @@
 
                     // console.log(zoomX, zoomY)
 
+                    // viewport.append("text")
+                    //     .attr("class", "fisheryText")
+                    //     .text('Indonesia fisheries .... statistics ?')
+                    //     .attr("x", 550)
+                    //     .attr("y", 50)
 
                     // d3.selectAll(".countries").attr("transform", "scale(" + zoomScaleFactor + ")" +
                     //     "translate(" + zoomX + "," + zoomY + ")");
@@ -1334,7 +1413,6 @@
 
 
             })
-
 
 
             // Making line graphs comparing traditional fishing production vs fish farms production
@@ -1464,7 +1542,7 @@
             }
             else {
                 //how do we get the bar to move specifically with where we are on the page?
-                d3.selectAll("#progress").transition().duration(500).attr("width", scrolledSections[0] * 12.5 + "%")
+                d3.selectAll("#progress").transition().duration(500).attr("width", scrolledSections[0] * 8.3 + "%")
             }
 
             scrolledSections.forEach(i => {

@@ -56,6 +56,10 @@
     text-align: center
 }
 
+.textBold {
+    font-weight: bold;
+}
+
 .alignVertical {
     /* align item horizontally */
     justify-content: center;
@@ -610,6 +614,33 @@ g.mouseover text:first-child {
 
 }
 
+/* .tooltip {
+
+} */
+
+.tooltipTitle {
+    /* text-transform: uppercase; */
+    font-family: 'Roboto';
+    margin:0;
+    padding:0;
+}
+
+.aqua {
+    fill:#1786FF;
+    font-family: 'Roboto';
+    margin:0;
+    padding:0;
+
+}
+
+.capture {
+    fill:#FF3B3B;
+    font-family: 'Roboto';
+    margin:0;
+    padding:0;
+
+
+}
 /* #actButton {
     font-family:'Franklin Gothic';
     text-transform: uppercase;

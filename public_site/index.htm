@@ -163,6 +163,8 @@
                    
                         </p>
                         <p class="fadeInOut" style="font-size:22px;">Click on a country pin to find more information about it.</p>
+
+                        <hr style="width:100%;stroke:black;size:5;" class = "hiddenRemove">
                         <p id="lineindia" class="mapImp hiddenRemove"
                             style="font-size:20px;text-align:left;width:100%;">In terms of total fisheries and
                             aquaculture
@@ -1353,6 +1355,8 @@
 
                     d3.selectAll("#text6 .fadeInOut").classed("hiddenRemove", true);
 
+                    d3.selectAll("#text6 hr").classed("hiddenRemove", false);
+
 
 
                     pinCountry = d.toLowerCase().replace(/\s+/g, '')
@@ -1428,6 +1432,9 @@
 
                         d3.select("#line" + pinCountry).classed('hiddenRemove', true);
                         d3.selectAll("#text6 .fadeInOut").classed("hiddenRemove", false);
+
+                        d3.selectAll("#text6 hr").classed("hiddenRemove", true);
+
 
                     }
 

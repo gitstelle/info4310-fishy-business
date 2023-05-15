@@ -153,7 +153,7 @@
                         <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                     </section>
 
-                    <section id="text10" class="step" height="100vh">
+                    <section id="text10" class="step" height="50vh">
                         <!-- DO NOT DELETE MUST LEAVE EMPTY -->
                     </section>
 
@@ -655,20 +655,20 @@
                 .curve(d3.curveMonotoneX);
 
 
-            graph.append('text')
-                .text('Year')
-                .attr('x', graphWidth / 2 - 30)
-                .attr('y', graphHeight + graph_margin.bottom - 5)
-                .attr('font-size', '20px')
-                .style('font-weight', 'bold');
+            // graph.append('text')
+            //     .text('Year')
+            //     .attr('x', graphWidth / 2 - 30)
+            //     .attr('y', graphHeight + graph_margin.bottom - 5)
+            //     .attr('font-size', '20px')
+            //     .style('font-weight', 'bold');
 
 
-            graph.append('text').text('Metric Tons')
-                .attr("transform", "rotate(-90)")
-                .attr('x', -graphHeight + 180)
-                .attr('y', -85)
-                .style('font-weight', 'bold')
-                ;
+            // graph.append('text').text('Metric Tons')
+            //     .attr("transform", "rotate(-90)")
+            //     .attr('x', -graphHeight + 180)
+            //     .attr('y', -85)
+            //     .style('font-weight', 'bold')
+            //     ;
 
             // Making area transitions
 
@@ -898,15 +898,15 @@
 
             // adding buttons
             const buttonsdiv = d3.select('.buttons')
-            buttons = buttonsdiv.selectAll('button').data(buttonsData).join('button').attr('id', 'actButton')
+            buttons = buttonsdiv.selectAll('button').data(buttonsData).join('button')
                 .on('click', function (d, i) {
                     [dataset, buttonsData, captureExtent, aquaExtent] = drawGraph(i)
-                        .on('click', function (d, i) {
-                            [dataset, buttonsData, captureExtent, aquaExtent] = drawGraph(i)
-                            animateGraph()
-                            d3.selectAll("#actButton").style("background-color", "#f0f0f0")
-                            d3.select(this).style("background-color", "lightgray")
-                        })
+                .on('click', function (d, i) {
+                    [dataset, buttonsData, captureExtent, aquaExtent] = drawGraph(i)
+                    animateGraph()
+                    d3.selectAll(".buttons button").classed("selectedButton", false)
+                    d3.select(this).classed('selectedButton',true)
+                })
                     d3.select(this).style("background-color", "lightgray")
                 })
 

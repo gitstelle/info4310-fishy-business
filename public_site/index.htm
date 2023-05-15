@@ -167,12 +167,26 @@
                             cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                     </section>
 
-                    <section id="text7" class="step" height="100vh">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                            cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <section id="lineGraph" class="step" height="100vh">
+                        <p>Aquacultures, or farm-raised fish tend to be a more sustainable option because they reduce
+                            stress on wild fish populations and their involvement in the marine food web. However,
+                            aquacultures can harm the environment with contamination and waste, and can provide less
+                            nutrients than capture fisheries.</p>
+                        <p id="linesalmon" class="lineGraphImp hiddenRemove">For all the top five countries that export
+                            <strong>salmon,</strong> <span class="capture">capture fisheries</span> are much more
+                            prominent than <span class="aqua">aquacultures</span>, though aquaculture production is
+                            generally on the rise.
+                        </p>
+                        <p id="lineshrimp" class="lineGraphImp hiddenRemove">For most of the top five countries that export
+                            <strong>shrimp,</strong> <span class="aqua">aquacultures</span> have recently been
+                            much more prominent than <span class="capture">capture fisheries.</span> The opposite is true for Thailand, the 5th highest exporter.
+                        </p>
+                        <p id="linetilapia" class="lineGraphImp hiddenRemove">For most of the top five countries that export
+                            <strong>tilapia,</strong> <span class="aqua">aquacultures</span> are
+                            much more prominent than <span class="capture">capture fisheries.</span> The opposite is true for Mexico and the Netherlands, the 4th and 5th highest exporters.
+                        </p>
+                        <p class="fadeInOut">Explore other countries and hover over the graph for more precise
+                            information.</p>
                     </section>
                     <section id="text10" class="step" height="400px">
                         <!-- DO NOT DELETE MUST LEAVE EMPTY -->
@@ -935,7 +949,9 @@
         })
 
         addLineGraph = async function () {
-            buttonCont.style('z-index',104)
+            d3.select("#line"+selectedFish).classed('hiddenRemove',false);
+
+            buttonCont.style('z-index', 104)
             d3.select('#AbsScrollInfo').classed('invisible', false)
             buttonCont.classed('fadeIn', false);
             buttonCont.classed('transparent', true);
@@ -975,7 +991,7 @@
 
 
         showReset = async function () {
-            buttonCont.style('z-index',200)
+            buttonCont.style('z-index', 200)
             d3.select('#AbsScrollInfo').classed('invisible', true)
             d3.select('.lineGraph').classed("hiddenRemove", true);
             buttonCont.classed('fadeIn', true);

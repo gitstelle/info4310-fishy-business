@@ -166,10 +166,20 @@ body {
 }
 
 #sections p {
-    font-size: 30px;
     text-align: left;
     width: 100%;
+}
 
+#sections section:not(#lineGraph) p {
+    font-size: 30px;
+}
+
+section#lineGraph p:not(.lineGraphImp){
+    font-size:20px;
+}
+
+.lineGraphImp {
+    font-size:30px;
 }
 
 #author {
@@ -660,6 +670,7 @@ g.mouseover text:first-child {
 
 .aqua {
     fill:#1786FF;
+    color: #1786FF;
     font-family: 'Roboto';
     margin:0;
     padding:0;
@@ -668,6 +679,7 @@ g.mouseover text:first-child {
 
 .capture {
     fill:#FF3B3B;
+    color: #FF3B3B;
     font-family: 'Roboto';
     margin:0;
     padding:0;

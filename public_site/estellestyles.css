@@ -570,17 +570,47 @@ g.mouseover text:first-child {
     flex-shrink: 0; */
     display:flex;
     flex-direction:row;
-    justify-content: space-between;
+    justify-content:space-between;
     width: auto;
+    margin-bottom:5px;
     /* height: 110px; */
-    border: .5px solid black;
-    border-radius: 15px;
-    padding:1%;
-    margin:2%;
-    background-color: #f0f0f0;
+    /* border: .5px solid black; */
+    /* padding:1%; */
+    /* background-color: #f0f0f0; */
 }
 
-#actButton {
+.buttons button {
+    border-radius: 10px;
+    /* border: 1px gray solid; */
+    box-shadow: 0px 0px 5px rgb(183, 183, 183);
+    border:none;
+    cursor:pointer;
+    width:150px;
+    height:50px;
+    padding:0;
+    margin:5px;
+
+}
+.buttons button:not(.selectedButton){
+    background-color:white;
+}
+
+.buttons button:hover{
+    background-color: rgb(227, 227, 227);
+}
+
+.selectedButton {
+    background-color: rgb(227, 227, 227);
+}
+
+.buttons h3 {
+    text-transform: capitalize;
+    font-weight: normal;
+    font-family: Roboto;
+
+}
+
+/* #actButton {
     font-family:'Franklin Gothic';
     text-transform: uppercase;
     width:150px;
@@ -588,7 +618,7 @@ g.mouseover text:first-child {
     margin-bottom: 5px;
     margin-right: auto;
     margin-left: auto;
-}
+} */
 
 
 #actButton:first-child {

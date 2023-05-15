@@ -709,6 +709,16 @@ g.mouseover text:first-child {
     
 }
 
+.fisheryTextDiv {
+    overflow: hidden;
+}
+
+.fisheryImageCaption {
+    overflow: visible;
+}
+
+
+
 #choropleth {
     z-index: -1;
 }

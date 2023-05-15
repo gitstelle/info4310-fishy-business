@@ -1392,6 +1392,7 @@
                         map.selectAll(".buttonText").style('display', "none")
                         map.selectAll(".fisheryImage").style('display', "none")
                         map.selectAll(".imageText").style('display', "none")
+                        map.selectAll("#citeImage").style('display', "none")
 
                     }
 
@@ -1400,27 +1401,42 @@
                     imageLink = imageLink.replace(/\s+/g, '');
 
 
-                    map.append("text").text(d + ' is the Number ' + (ranking + 1) + ' Exporter of ' + selectedFish)
+                    map.append("text").text(d + ' is the number ' + (ranking + 1) + ' exporter of ' + selectedFish + " in the world")
                         .attr("class", "imageText")
-                        .attr('x', mapWidth / 2 + 10)
-                        .attr('y', mapHeight / 5)
-                        .style("font-size", 20)
-
-
+                        .attr('x', mapWidth / 2 + 3)
+                        .attr('y', mapHeight / 7)
+                        .style("font-size", 15)
 
                     map.append("image")
                         .attr("class", "fisheryImage")
                         .attr("xlink:href", imageLink)
                         .attr("x", mapWidth / 2)
-                        .attr("y", mapHeight / 3)
+                        .attr("y", mapHeight / 6)
                         .attr("transform", "translate(" + map_margin.left + "," + map_margin.top + ")")
 
-                    map.append('text')
-                        .attr("id", "citeImage")
-                        .attr("class", "cite")
-                        .text("Fishermen in " + d)
-                        .attr("x", mapWidth / 2)
+                  
+                    if (d === "Denmark") {
+                        caption = "Allan Jorgensen, who has been a fisherman for 44 years, reels in the net of the fishing boat Linette shortly before departing for a two week fishing expedition. Source: Andrew Kelly Photo"
+                    }
+                    else {
+                        caption = "hey"
+                    }
+
+
+                    var fo = map.append('foreignObject')
+                        .attr("width", 360)
+                        .attr("height", 100)
+                        .attr("x", mapWidth/2 + 5)
+                        .attr("y", 375);
+
+                    var div = fo.append('xhtml:div') 
+                        .attr("width", 360)
+                        .attr("height", 100)
+                        .attr("x", mapWidth/2)
                         .attr("y", 400)
+                        .attr("class", "fisheryTextDiv")
+                        .text(caption)
+                   
                 }
             })
 

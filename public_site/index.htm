@@ -1302,41 +1302,14 @@
                         map.selectAll(".imageText").style('display', "none")
 
                     }
-
-                    // // console.log(clickedCountryBounds);
-                    // // console.log(countryWidth);
-                    // // console.log(countryHeight);
-
-                    // centroid = [countryWidth + countryWidth / 2, countryHeight + countryHeight / 2];
-                    // zoomScaleFactor = mapWidth / countryWidth;
-                    // zoomX = -centroid[0];
-                    // zoomY = -centroid[1];
-
-                    map.append("text").text(d +' is the number ' + (ranking+1) + ' exporter of ' + selectedFish)
-                        .attr("class", "imageText")
-                        .attr('x', mapWidth/2 + 35)
-                        .attr('y', mapHeight/5)
-                        .style("font-size", 20)
-
-                       
-                    
-                    map.append("image")
-                        .attr("class", "fisheryImage")
-                        .attr("xlink:href", imageLink)
-                        .attr("x", mapWidth/2)
-                        .attr("y", mapHeight/3)
-                        .attr("transform", "translate(" + map_margin.left + "," + map_margin.top + ")")
                         
-
-
-
                     var imageLink = "images/" + pinCountry.toLowerCase() + "fishery.jpeg"
                     imageLink = imageLink.replace(/\s+/g, '');
 
 
                     map.append("text").text(d +' is the number ' + (ranking+1) + ' exporter of ' + selectedFish)
                         .attr("class", "imageText")
-                        .attr('x', mapWidth/2 + 40)
+                        .attr('x', mapWidth/2 + 20)
                         .attr('y', mapHeight/5)
                         .style("font-size", 20)
 

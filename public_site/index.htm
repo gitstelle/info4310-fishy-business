@@ -901,12 +901,12 @@
             buttons = buttonsdiv.selectAll('button').data(buttonsData).join('button')
                 .on('click', function (d, i) {
                     [dataset, buttonsData, captureExtent, aquaExtent] = drawGraph(i)
-                .on('click', function (d, i) {
-                    [dataset, buttonsData, captureExtent, aquaExtent] = drawGraph(i)
-                    animateGraph()
-                    d3.selectAll(".buttons button").classed("selectedButton", false)
-                    d3.select(this).classed('selectedButton',true)
-                })
+                        .on('click', function (d, i) {
+                            [dataset, buttonsData, captureExtent, aquaExtent] = drawGraph(i)
+                            animateGraph()
+                            d3.selectAll(".buttons button").classed("selectedButton", false)
+                            d3.select(this).classed('selectedButton', true)
+                        })
                     d3.select(this).style("background-color", "lightgray")
                 })
 
@@ -1224,7 +1224,6 @@
                     .on("mouseover", function () {
                         textbox.style("visibility", "visible")
                         d3.select(this).style("cursor", "pointer");
-                        d3.select(this).style("cursor", "pointer");
                     })
                     .on("mouseout", function () { textbox.style("visibility", "hidden") })
                     .on("click", clickedPin);
@@ -1275,94 +1274,86 @@
 
                     // console.log('select', select)
 
-                    viewport.selectAll(".countries").remove();
-                    viewport.selectAll(".country-outline").remove()
+                    viewport.selectAll(".countries").style('display', 'none');
+                    viewport.selectAll(".country-outline").style('display', 'none');
+                    map.selectAll(".legend").style('display', 'none');
+                    map.selectAll(".mark").style('display', 'none');
+                    map.selectAll(".tooltip").style('display', 'none');
 
-
-
-
-                    // var countries = topojson.feature(world_data, world_data.objects.countries);
-                    // var countriesMesh = topojson.mesh(world_data, world_data.objects.countries);
-
-                    // var projection = d3.geoRobinson().fitSize([mapWidth, mapHeight], newcountries);
-                    var projection = d3.geoMercator().fitSize([mapWidth, mapHeight], newcountries);
-                    console.log(projection);
+                    var projection = d3.geoMercator().fitSize([mapWidth / 2, mapHeight], newcountries);
+                    // console.log(projection);
                     var path = d3.geoPath().projection(projection);
-                    console.log(path);
+                    // console.log(path);
 
-                    // var projection = d3.geoMercator()
-                    //     .center([2, 47])                // GPS of location to zoom on
-                    //     .scale(980)                       // This is like the zoom
-                    //     .translate([mapWidth / 2, mapHeight / 2])
-
-
-                    // // making the map paths
-                    // let viewport = map.append("g");
-
-                    viewport.select(".thiscountry").data(newcountries.features)
-                        .join("path")
-                        .attr("class", "selectedCountry")
-                        .attr('stroke', 'darkgray')
-                        .attr('fill', 'blue')
-                        .attr("d", path);
-
-                    // viewport.append("path")
-                    //     .datum(countriesMesh)
-                    //     .attr("class", "country-outline")
-                    //     .attr("d", path);
+                    // Draw the map
+                    map_svg.append("g")
+                        .selectAll("path")
+                        .data(newcountries.features)
+                        .enter()
+                        .append("path")
+                        .attr('class', 'newcountry')
+                        .attr("fill", d => countryColor(d.properties.name))
+                        .attr("d", path)
+                        .style("stroke", "none")
 
 
+                    var backButton = map.append("rect").attr("fill", "lightgrey")
+                        .attr('class', 'backButton')
+                        .attr('height', 50)
+                        .attr('width', 100)
+                        .attr('x', mapWidth - 118)
+                        .attr('y', mapHeight - 65)
+                        .attr("rx", 5)
+                        .attr("ry", 5)
+                        .style("stroke", "black")
+                        .style("stroke-width", 1)
+                        .on("mouseover", function () { d3.select(this).style("cursor", "pointer") });
 
-
-
-                    // var baseWidth = 300;
-                    // var bbox = select.getBBox(),
-                    //     centroid = [bbox.x + (bbox.width / 50) - 10, bbox.y + (bbox.height / 50)- 10],
-                    //     zoomScaleFactor = baseWidth / bbox.width,
-                    //     zoomX = -centroid[0],
-                    //     zoomY = -centroid[1];
-
-                    // // set a transform on the parent group element
-                    // viewport
-                    //     .attr("transform", "scale(" + zoomScaleFactor + ")" +
-                    //         "translate(" + zoomX + "," + zoomY + ")");
-
-                    // let clickedCountryBounds = bbox_data.filter(i => i['country'] === d);
-
-                    // let countryWidth = Number(clickedCountryBounds[0].longmax) - Number(clickedCountryBounds[0].longmin)
-                    // let countryHeight = Number(clickedCountryBounds[0].latmax) - Number(clickedCountryBounds[0].latmin);
-
-                    // console.log(clickedCountryBounds);
-                    // console.log(countryWidth);
-                    // console.log(countryHeight);
-
-                    // centroid = [countryWidth + countryWidth / 2, countryHeight + countryHeight / 2],
-                    //     zoomScaleFactor = baseWidth / bbox.width,
-                    //     zoomX = -centroid[0],
-                    //     zoomY = -centroid[1];
+                    map.append("text").text("Reset Map")
+                        .attr("class", "buttonText")
+                        .attr('x', mapWidth - 105)
+                        .attr('y', mapHeight - 35)
+                        .on("mouseover", function () { d3.select(this).style("cursor", "pointer") })
+                        .on("click", clickMapButton);
 
 
 
+                    backButton.on("click", clickMapButton);
+
+                    function clickMapButton() {
+                        viewport.selectAll(".countries").style('display', 'block');
+                        viewport.selectAll(".country-outline").style('display', 'block');
+                        map.selectAll(".legend").style('display', 'block');
+                        map.selectAll(".mark").style('display', 'block');
+                        map.selectAll(".tooltip").style('display', 'block');
+                        d3.selectAll('.newcountry').style('display', 'none');
+                        map.selectAll('.backButton').style('display', 'none');
+                        map.selectAll('.backButton').style('display', 'none');
+                        map.selectAll(".buttonText").style('display', "none")
+                        map.selectAll(".fisheryImage").style('display', "none")
+                        map.selectAll(".imageText").style('display', "none")
+
+                    }
 
                     var imageLink = "images/" + pinCountry.toLowerCase() + "fishery.jpeg"
                     imageLink = imageLink.replace(/\s+/g, '');
 
 
+                    map.append("text").text(d +' is the number ' + (ranking+1) + ' exporter of ' + selectedFish)
+                        .attr("class", "imageText")
+                        .attr('x', mapWidth/2 + 40)
+                        .attr('y', mapHeight/5)
+                        .style("font-size", 20)
 
-                    // viewport.append("image")
-                    //     .attr("class", "fisheryImage")
-                    //     .attr("xlink:href", imageLink)
-                    //     .attr("x", 0)
-                    //     .attr("y", 0)
-                    //     .attr("transform", "translate(" + map_margin.left + "," + map_margin.top + ")");
-
-                    // viewport.append("text")
-                    //     .attr("class", "fisheryText")
-                    //     .text('Indonesia fisheries .... statistics ?')
-                    //     .attr("x", 550)
-                    //     .attr("y", 50)
-
-
+                       
+                    
+                    map.append("image")
+                        .attr("class", "fisheryImage")
+                        .attr("xlink:href", imageLink)
+                        .attr("x", mapWidth/2)
+                        .attr("y", mapHeight/3)
+                        .attr("transform", "translate(" + map_margin.left + "," + map_margin.top + ")")
+                        
 
                 }
 

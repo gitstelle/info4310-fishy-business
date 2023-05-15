@@ -629,6 +629,10 @@ g.mouseover text:first-child {
     /* display: flex;
     align-items: center;
     justify-content: center; */
-    width: 50%;
-    height: 50%;
+    width: 45%;
+    
+}
+
+#choropleth {
+    z-index: -1;
 }

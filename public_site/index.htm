@@ -1314,7 +1314,8 @@
                         map.selectAll(".buttonText").style('display', "none")
                         map.selectAll(".fisheryImage").style('display', "none")
                         map.selectAll(".imageText").style('display', "none")
-                        map.selectAll("#citeImage").style('display', "none")
+                        map.selectAll(".fisheryFO").style("display", "none")
+                        map.selectAll(".fisheryFOTitle").style("display", "none")
 
                     }
 
@@ -1323,11 +1324,12 @@
                     imageLink = imageLink.replace(/\s+/g, '');
 
 
-                    map.append("text").text(d + ' is the number ' + (ranking + 1) + ' exporter of ' + selectedFish + " in the world")
-                        .attr("class", "imageText")
-                        .attr('x', mapWidth / 2 + 3)
-                        .attr('y', mapHeight / 7)
-                        .style("font-size", 15)
+                    // map.append("text")
+                    //     .text(d + ' is the number ' + (ranking + 1) + ' exporter of ' + selectedFish + " in the world")
+                    //     .attr("class", "imageText")
+                    //     .attr('x', mapWidth / 2 + 3)
+                    //     .attr('y', mapHeight / 7)
+                    //     .style("font-size", 15)
 
                     map.append("image")
                         .attr("class", "fisheryImage")
@@ -1336,6 +1338,19 @@
                         .attr("y", mapHeight / 6)
                         .attr("transform", "translate(" + map_margin.left + "," + map_margin.top + ")")
 
+
+                    var foTitle = map.append('foreignObject')
+                        .attr("class", "fisheryFOTitle")
+                        .attr("width", 360)
+                        .attr("height", 30)
+                        .attr("x", mapWidth/2 + 3)
+                        .attr("y", 40);
+
+                    var divTitle = foTitle.append('xhtml:div') 
+                        .attr("width", 360)
+                        .attr("height", 30)
+                        .attr("class", "fisheryTextDivTitle")
+                        .text(d + ' is the number ' + (ranking + 1) + ' exporter of ' + selectedFish + " in the world")
                   
                     if (d === "Denmark") {
                         caption = "Allan Jorgensen, who has been a fisherman for 44 years, reels in the net of the fishing boat Linette shortly before departing for a two week fishing expedition. Source: Andrew Kelly Photo"
@@ -1350,7 +1365,7 @@
                         caption = "A fisherman hauls in a net full of fish while trawling in the English Channel. Source: Jason Alden, Bloomberg/Getty Images"
                     }
                     else if (d === "Chile") {
-                        caption = "Fishermen cleaning their catch in Chile. Source:: Jeremy Richards"
+                        caption = "Fishermen cleaning their catch in Chile. Source: Jeremy Richards"
                     }
                     else if (d === "India") {
                         caption = "A huge catch of Sardines being loaded into weighing baskets in India. Source: Rudolph A Furtado"
@@ -1379,6 +1394,7 @@
 
 
                     var fo = map.append('foreignObject')
+                        .attr("class", "fisheryFO")
                         .attr("width", 360)
                         .attr("height", 100)
                         .attr("x", mapWidth/2 + 5)

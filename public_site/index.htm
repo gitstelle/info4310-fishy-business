@@ -383,7 +383,7 @@
 
 
         initialEstelle = async function () {
-            d3.select('#AbsScrollInfo').classed('invisible', true)
+            d3.select('#AbsScrollInfo').classed('invisible',  true)
             /*
             handles receipt, selects infographics
             */
@@ -1093,8 +1093,10 @@
             const topColorScale = d3.scaleOrdinal(colors).domain([0, 1, 2, 3, 4]);
 
             var countries = topojson.feature(world_data, world_data.objects.countries);
-            var countriesMesh = topojson.mesh(world_data, world_data.objects.countries);
 
+            console.log('countries', countries);
+            var countriesMesh = topojson.mesh(world_data, world_data.objects.countries);
+            console.log('countries original mesh', countriesMesh)
             var projection = d3.geoRobinson().fitSize([mapWidth, mapHeight], countries);
             var path = d3.geoPath().projection(projection);
 
@@ -1118,6 +1120,8 @@
 
             // making the map paths
             let viewport = map.append("g");
+
+            console.log('countries.features', countries.features)
 
             viewport.selectAll(".countries").data(countries.features)
                 .join("path")
@@ -1255,7 +1259,7 @@
                     // var bboxWidth = d3.max(pathsMax, function(d) { return d3.max(d); }) - d3.min(pathsMin, function(d) {return d3.min(d)});
                     // var bboxHeight = d3.max(pathsMax, function(d) { return d3.max(d); }) - d3.min(pathsMin, function(d) {return d3.min(d)});
                     // console.log(widthX);
-                    console.log(bbox_data);
+                    // console.log(bbox_data);
 
                     // console.log('country name', countries.features.filter(i => i['properties']['name'] === d))
 
@@ -1264,24 +1268,68 @@
 
                     countryNodes = d3.selectAll(".countries").nodes()
 
-                    console.log('idk', countryNodes.filter(i => i.__data__.properties.name === d))
+                    //console.log('idk', countryNodes.filter(i => i.__data__.properties.name === d))
 
-                    console.log('bbox', countryNodes.filter(i => i.__data__.properties.name === d)[0].getBBox())
+                    // console.log('bbox', countryNodes.filter(i => i.__data__.properties.name === d)[0].getBBox())
 
-                    select = countryNodes.filter(i => i.__data__.properties.name === d)[0]
+                    select = countryNodes.filter(i => i.__data__.properties.name === d)[0].__data__
+
+                    newcountries = { 'type': 'FeatureCollection', 'features': [select] };
+                    console.log('newcountries', newcountries)
+
+                    // console.log('select', select)
+
+                    viewport.selectAll(".countries").remove();
+                    viewport.selectAll(".country-outline").remove()
 
 
-                    var baseWidth = 300;
-                    var bbox = select.getBBox(),
-                        centroid = [bbox.x + (bbox.width / 50) - 10, bbox.y + (bbox.height / 50) - 10],
-                        zoomScaleFactor = baseWidth / bbox.width,
-                        zoomX = -centroid[0],
-                        zoomY = -centroid[1];
 
-                    // set a transform on the parent group element
-                    viewport
-                        .attr("transform", "scale(" + zoomScaleFactor + ")" +
-                            "translate(" + zoomX + "," + zoomY + ")");
+
+                    // var countries = topojson.feature(world_data, world_data.objects.countries);
+                    // var countriesMesh = topojson.mesh(world_data, world_data.objects.countries);
+
+                    // var projection = d3.geoRobinson().fitSize([mapWidth, mapHeight], newcountries);
+                    var projection = d3.geoMercator().fitSize([mapWidth, mapHeight], newcountries);
+                    console.log(projection);
+                    var path = d3.geoPath().projection(projection);
+                    console.log(path);
+
+                    // var projection = d3.geoMercator()
+                    //     .center([2, 47])                // GPS of location to zoom on
+                    //     .scale(980)                       // This is like the zoom
+                    //     .translate([mapWidth / 2, mapHeight / 2])
+
+
+                    // // making the map paths
+                    // let viewport = map.append("g");
+
+                    viewport.select(".thiscountry").data(newcountries.features)
+                        .join("path")
+                        .attr("class", "selectedCountry")
+                        .attr('stroke', 'darkgray')
+                        .attr('fill', 'blue')
+                        .attr("d", path);
+
+                    // viewport.append("path")
+                    //     .datum(countriesMesh)
+                    //     .attr("class", "country-outline")
+                    //     .attr("d", path);
+
+
+
+
+
+                    // var baseWidth = 300;
+                    // var bbox = select.getBBox(),
+                    //     centroid = [bbox.x + (bbox.width / 50) - 10, bbox.y + (bbox.height / 50)- 10],
+                    //     zoomScaleFactor = baseWidth / bbox.width,
+                    //     zoomX = -centroid[0],
+                    //     zoomY = -centroid[1];
+
+                    // // set a transform on the parent group element
+                    // viewport
+                    //     .attr("transform", "scale(" + zoomScaleFactor + ")" +
+                    //         "translate(" + zoomX + "," + zoomY + ")");
 
                     // let clickedCountryBounds = bbox_data.filter(i => i['country'] === d);
 

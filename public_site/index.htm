@@ -901,9 +901,13 @@
             buttons = buttonsdiv.selectAll('button').data(buttonsData).join('button')
                 .on('click', function (d, i) {
                     [dataset, buttonsData, captureExtent, aquaExtent] = drawGraph(i)
+                .on('click', function (d, i) {
+                    [dataset, buttonsData, captureExtent, aquaExtent] = drawGraph(i)
                     animateGraph()
                     d3.selectAll(".buttons button").classed("selectedButton", false)
                     d3.select(this).classed('selectedButton',true)
+                })
+                    d3.select(this).style("background-color", "lightgray")
                 })
 
 
@@ -977,6 +981,7 @@
             country = country.sort((a, b) => a.Year - b.Year)
 
             console.log('subsetdata', country)
+            console.log('subsetdata', country)
 
             captureExtent = d3.extent(country, d => d['Capture fisheries production (metric tons)']);
             aquaExtent = d3.extent(country, d => d['Aquaculture production (metric tons)'])
@@ -1010,6 +1015,7 @@
             else if (selectedFish === 'tilapia') {
                 buttonsData = tilapiaCountries;
             }
+
 
             return [dataset, buttonsData, captureExtent, aquaExtent]
         }
@@ -1100,6 +1106,7 @@
                 if (ranking > -1) {
                     return topColorScale(ranking)
                 }
+                
                 else {
                     return "#f4f1e4"
                 }
@@ -1113,7 +1120,7 @@
                 .attr("class", "countries")
                 // .attr('stroke', 'darkgray')
                 .attr('fill', d => countryColor(d.properties.name))
-                .attr("d", path);
+                .attr("d", path)
 
             viewport.append("path")
                 .datum(countriesMesh)
@@ -1213,6 +1220,7 @@
                     .on("mouseover", function () {
                         textbox.style("visibility", "visible")
                         d3.select(this).style("cursor", "pointer");
+                        d3.select(this).style("cursor", "pointer");
                     })
                     .on("mouseout", function () { textbox.style("visibility", "hidden") })
                     .on("click", clickedPin);
@@ -1229,6 +1237,7 @@
 
                     //clickedCountry = countries.features.filter(i => i['properties']['name']===d);
 
+
                     //console.log(clickedCountry)
 
                     // console.log(bounds);
@@ -1244,19 +1253,45 @@
                     // console.log(widthX);
                     console.log(bbox_data);
 
-                    let clickedCountryBounds = bbox_data.filter(i => i['country'] === d);
+                    // console.log('country name', countries.features.filter(i => i['properties']['name'] === d))
 
-                    let countryWidth = Number(clickedCountryBounds[0].longmax) - Number(clickedCountryBounds[0].longmin)
-                    let countryHeight = Number(clickedCountryBounds[0].latmax) - Number(clickedCountryBounds[0].latmin);
+                    clickedCountry = countries.features.filter(i => i['properties']['name'] === d);
+                    console.log('clickedCountry', clickedCountry)
+
+                    countryNodes = d3.selectAll(".countries").nodes()
+
+                    console.log('idk', countryNodes.filter(i => i.__data__.properties.name === d))
+
+                    console.log('bbox', countryNodes.filter(i => i.__data__.properties.name === d)[0].getBBox())
+
+                    select = countryNodes.filter(i => i.__data__.properties.name === d)[0]
+
+
+                    var baseWidth = 300;
+                    var bbox = select.getBBox(),
+                        centroid = [bbox.x + (bbox.width / 50) - 10, bbox.y + (bbox.height / 50)- 10],
+                        zoomScaleFactor = baseWidth / bbox.width,
+                        zoomX = -centroid[0],
+                        zoomY = -centroid[1];
+
+                    // set a transform on the parent group element
+                    viewport
+                        .attr("transform", "scale(" + zoomScaleFactor + ")" +
+                            "translate(" + zoomX + "," + zoomY + ")");
+
+                    // let clickedCountryBounds = bbox_data.filter(i => i['country'] === d);
+
+                    // let countryWidth = Number(clickedCountryBounds[0].longmax) - Number(clickedCountryBounds[0].longmin)
+                    // let countryHeight = Number(clickedCountryBounds[0].latmax) - Number(clickedCountryBounds[0].latmin);
 
                     // console.log(clickedCountryBounds);
                     // console.log(countryWidth);
                     // console.log(countryHeight);
 
-                    centroid = [countryWidth + countryWidth / 2, countryHeight + countryHeight / 2],
-                        zoomScaleFactor = baseWidth / bbox.width,
-                        zoomX = -centroid[0],
-                        zoomY = -centroid[1];
+                    // centroid = [countryWidth + countryWidth / 2, countryHeight + countryHeight / 2],
+                    //     zoomScaleFactor = baseWidth / bbox.width,
+                    //     zoomX = -centroid[0],
+                    //     zoomY = -centroid[1];
 
 
 
@@ -1266,20 +1301,26 @@
 
 
 
-                    viewport.append("image")
-                        .attr("class", "fisheryImage")
-                        .attr("xlink:href", imageLink)
-                        .attr("x", 0)
-                        .attr("y", 0)
-                        .attr("transform", "translate(" + map_margin.left + "," + map_margin.top + ")");
+                    // viewport.append("image")
+                    //     .attr("class", "fisheryImage")
+                    //     .attr("xlink:href", imageLink)
+                    //     .attr("x", 0)
+                    //     .attr("y", 0)
+                    //     .attr("transform", "translate(" + map_margin.left + "," + map_margin.top + ")");
 
-                    viewport.append("text")
-                        .attr("class", "fisheryText")
-                        .text('Indonesia fisheries .... statistics ?')
-                        .attr("x", 550)
-                        .attr("y", 50)
+                    // viewport.append("text")
+                    //     .attr("class", "fisheryText")
+                    //     .text('Indonesia fisheries .... statistics ?')
+                    //     .attr("x", 550)
+                    //     .attr("y", 50)
+
+
 
                 }
+
+
+
+
             })
 
 

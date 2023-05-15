@@ -153,11 +153,20 @@
                     </section>
 
                     <section id="text6" class="step" height="100vh">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                        <h2> Top Five Exporters for <span></span></h2>
+                        <p> Certain types of fish are exported more heavily in some countries compared to others.
+                            Around <b>600 million</b> livelihoods worldwide are estimated to depend at least partially
+                            on
+                            fisheries and aquacultures. This "blue economy" is particularly important in lower-income
+                            countries.
+                            <!--                             
+                            
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                             labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
                             laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
                             voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                            cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. -->
+                        </p>
                     </section>
 
                     <section id="lineGraph" class="step" height="100vh">
@@ -170,13 +179,17 @@
                             prominent than <span class="aqua">aquacultures</span>, though aquaculture production is
                             generally on the rise.
                         </p>
-                        <p id="lineshrimp" class="lineGraphImp hiddenRemove">For most of the top five countries that export
+                        <p id="lineshrimp" class="lineGraphImp hiddenRemove">For most of the top five countries that
+                            export
                             <strong>shrimp,</strong> <span class="aqua">aquacultures</span> have recently been
-                            much more prominent than <span class="capture">capture fisheries.</span> The opposite is true for Thailand, the 5th highest exporter.
+                            much more prominent than <span class="capture">capture fisheries.</span> The opposite is
+                            true for Thailand, the 5th highest exporter.
                         </p>
-                        <p id="linetilapia" class="lineGraphImp hiddenRemove">For most of the top five countries that export
+                        <p id="linetilapia" class="lineGraphImp hiddenRemove">For most of the top five countries that
+                            export
                             <strong>tilapia,</strong> <span class="aqua">aquacultures</span> are
-                            much more prominent than <span class="capture">capture fisheries.</span> The opposite is true for Mexico and the Netherlands, the 4th and 5th highest exporters.
+                            much more prominent than <span class="capture">capture fisheries.</span> The opposite is
+                            true for Mexico and the Netherlands, the 4th and 5th highest exporters.
                         </p>
                         <p class="fadeInOut">Explore other countries and hover over the graph for more precise
                             information.</p>
@@ -537,7 +550,7 @@
             receipt.select("#nitrogenPrice").text('')
 
             await chartCont.transition().duration(200).style('opacity', 1).end();
-            drawChart(land_use, barScale2, leftAxisScale1, 'Land use (m2 / kg edible weight)', 'land', bottomAxis2, bottomAxisG2, annotations1,annotations2, annotations3)
+            drawChart(land_use, barScale2, leftAxisScale1, 'Land use (m2 / kg edible weight)', 'land', bottomAxis2, bottomAxisG2, annotations1, annotations2, annotations3)
             allBarTitle.classed('hiddenRemove', true);
             d3.select("#titleLand").classed('hiddenRemove', false)
 
@@ -815,10 +828,10 @@
 
             const frame = mouseover.append("rect").attr("class", "frame")
                 .attr("x", 0).attr("y", 0)
-                .attr("rx", 5).attr("ry", 5) 
+                .attr("rx", 5).attr("ry", 5)
                 .attr("height", 130)
                 .attr("opacity", 0.8)
-                .attr("pointer-events", "none"); 
+                .attr("pointer-events", "none");
             const textbox = mouseover.append("g").attr("transform", "translate(10,10)");
             const format = d3.format(',d');
 
@@ -856,7 +869,7 @@
                 xMarker.attr("x1", xPos).attr("x2", xPos);
                 valueMarker.attr("cx", xPos).attr("cy", yPos);
                 valueMarker2.attr("cx", xPos).attr("cy", yPos2);
-                textbox.html(''); 
+                textbox.html('');
 
                 let countryName = `${d['Entity']}`;
                 let year = `${d['year']}`;
@@ -890,7 +903,7 @@
         })
 
         addLineGraph = async function () {
-            d3.select("#line"+selectedFish).classed('hiddenRemove',false);
+            d3.select("#line" + selectedFish).classed('hiddenRemove', false);
 
             buttonCont.style('z-index', 104)
             d3.select('#AbsScrollInfo').classed('invisible', false)
@@ -1109,6 +1122,16 @@
             var projection = d3.geoRobinson().fitSize([mapWidth, mapHeight], countries);
             var path = d3.geoPath().projection(projection);
 
+            const firstLetter = selectedFish.charAt(0)
+
+            const firstLetterCap = firstLetter.toUpperCase()
+
+            const remainingLetters = selectedFish.slice(1)
+
+            const capitalizedWord = firstLetterCap + remainingLetters
+
+            d3.selectAll("#text6 h2 span").text(capitalizedWord)
+
             // coloring function for different fish selections
             function countryColor(country) {
                 if (selectedFish === 'salmon') { ranking = salmonCountries.indexOf(country) }
@@ -1290,6 +1313,7 @@
                         map.selectAll(".buttonText").style('display', "none")
                         map.selectAll(".fisheryImage").style('display', "none")
                         map.selectAll(".imageText").style('display', "none")
+                        map.selectAll(".cite").attr('display', 'none');
 
                     }
 
@@ -1316,9 +1340,9 @@
                     map.append('text')
                         .attr("id", "citeImage")
                         .attr("class", "cite")
-                        .text("Fishermen in " + d)
-                        .attr("x", mapWidth / 2)
-                        .attr("y", 400)
+                        .text("Fishermen in the " + d)
+                        .attr("x", mapWidth / 2 + 80)
+                        .attr("y", 420)
                 }
             })
 

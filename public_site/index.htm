@@ -383,7 +383,7 @@
 
 
         initialEstelle = async function () {
-            d3.select('#AbsScrollInfo').classed('invisible',  true)
+            d3.select('#AbsScrollInfo').classed('invisible', true)
             /*
             handles receipt, selects infographics
             */
@@ -904,18 +904,21 @@
             console.log('buttonsData', buttonsData)
 
             // adding buttons
-            const buttonsdiv = d3.select('.buttons')
-            buttons = buttonsdiv.selectAll('button').data(buttonsData).join('button')
+            if (addButtons == true) {
+                addButtons=false;
+                const buttonsdiv = d3.select('.buttons')
+                buttons = buttonsdiv.selectAll('button').data(buttonsData).join('button')
 
-                .on('click', function (d, i) {
-                    [dataset, buttonsData, captureExtent, aquaExtent] = drawGraph(i)
-                    animateGraph()
-                    d3.selectAll(".buttons button").classed("selectedButton", false)
-                    d3.select(this).classed('selectedButton', true)
-                })
+                    .on('click', function (d, i) {
+                        [dataset, buttonsData, captureExtent, aquaExtent] = drawGraph(i)
+                        animateGraph()
+                        d3.selectAll(".buttons button").classed("selectedButton", false)
+                        d3.select(this).classed('selectedButton', true)
+                    })
 
+                buttons.append('h3').html(function (d, i) { return d });
 
-            buttons.append('h3').html(function (d, i) { return d });
+            }
 
 
         }
@@ -1032,6 +1035,7 @@
             console.log('scroll happened')
 
             addReceipt = true;
+            addButtons = true;
             // d3.selectAll('p').classed('hidden', false)
 
             orders = d3.selectAll(".order")

@@ -713,3 +713,9 @@ g.mouseover text:first-child {
 #choropleth {
     z-index: -1;
 }
+
+.mapImp p {
+    font-size:20;
+    text-align:left;
+    width:100%;
+}

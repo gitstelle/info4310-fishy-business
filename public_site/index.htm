@@ -162,7 +162,7 @@
                             countries.
                    
                         </p>
-                        <p class="fadeInOut">Click on a country to find more information about it.</p>
+                        <p class="fadeInOut">Click on a country pin to find more information about it.</p>
                         <p id="lineindia" class="mapImp hiddenRemove"
                             style="font-size:20px;text-align:left;width:100%;">In terms of total fisheries and
                             aquaculture
@@ -1463,6 +1463,8 @@
                         .attr("height", 30)
                         .attr("class", "fisheryTextDivTitle")
                         .text(d + ' is the number ' + (ranking + 1) + ' exporter of ' + selectedFish + " in the world")
+                        .style("font-weight", "bold")
+                        .style("font-size", 19)
 
                     if (d === "Denmark") {
                         caption = "Allan Jorgensen, who has been a fisherman for 44 years, reels in the net of the fishing boat Linette shortly before departing for a two week fishing expedition. Source: Andrew Kelly Photo"

@@ -160,11 +160,12 @@
                             on
                             fisheries and aquacultures. This "blue economy" is particularly important in lower-income
                             countries.
-                   
-                        </p>
-                        <p class="fadeInOut" style="font-size:22px;">Click on a country pin to find more information about it.</p>
 
-                        <hr style="width:100%;stroke:black;size:5;" class = "hiddenRemove">
+                        </p>
+                        <p class="fadeInOut" style="font-size:22px;">Click on a country pin to find more information
+                            about it.</p>
+
+                        <hr style="width:100%;stroke:black;size:5;" class="hiddenRemove">
                         <p id="lineindia" class="mapImp hiddenRemove"
                             style="font-size:20px;text-align:left;width:100%;">In terms of total fisheries and
                             aquaculture
@@ -1462,14 +1463,23 @@
                         .attr("class", "fisheryFOTitle")
                         .attr("width", 360)
                         .attr("height", 50)
-                        .attr("x", mapWidth/2 + 3)
+                        .attr("x", mapWidth / 2 + 3)
                         .attr("y", 40);
+
+
+                    firstL = selectedFish.charAt(0)
+
+                    firstLCap = firstL.toUpperCase()
+
+                    remainingL = selectedFish.slice(1)
+
+                    capitalizedFish = firstLCap + remainingL
 
                     var divTitle = foTitle.append('xhtml:div')
                         .attr("width", 360)
                         .attr("height", 30)
                         .attr("class", "fisheryTextDivTitle")
-                        .text(d + ' is the number ' + (ranking + 1) + ' exporter of ' + selectedFish + " in the world")
+                        .text(d + ' is the Number ' + (ranking + 1) + ' Exporter of ' + capitalizedFish + " in the World")
                         .style("font-weight", "bold")
                         .style("font-size", 19)
 

@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="estellestyles.css">
+    <link rel="stylesheet" href="styles.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://d3js.org/topojson.v3.min.js"></script>
     <script src="https://unpkg.com/scrollama"></script>
@@ -348,10 +348,8 @@
         let phos_emissions = await d3.csv("data/phos-use.csv", d3.autotype);
 
         // map data
-        const world_data = await d3.json("countries-110m.json");
+        const world_data = await d3.json("data/countries-110m.json");
         const centroid_data = await d3.csv("data/centroids.csv", d3.autotype);
-
-        const bbox_data = await d3.csv("data/country-boundingboxes.csv", d3.autotype);
 
         // line graph data
         let compareFishing = await d3.csv("data/capture-fisheries-vs-aquaculture.csv", d3.autotype);
@@ -397,7 +395,7 @@
 
         // buttons for line graph
 
-        initialEstelle = async function () {
+        initial = async function () {
             d3.select('#AbsScrollInfo').classed('invisible', true)
             /*
             handles receipt, selects infographics
@@ -418,7 +416,7 @@
             receipt.classed("hiddenRemove", true);
         }
 
-        estelle1 = async function () {
+        first = async function () {
             // remove prev Receipt info
             receipt.select("#water").text('')
             receipt.select("#waterPrice").text('')
@@ -1050,7 +1048,7 @@
         function orderUp() {
             selectedFish = this.id;
 
-            initialEstelle();
+            initial();
             scroll()
 
             addReceipt = true;
@@ -1460,7 +1458,7 @@
             if (index == 2 & progress > 0.7) { }
         })
 
-        let activationFunctions = [initialEstelle, estelle1, addWaterInfo, addWaterBar, addLandInfo, addLandBar, addNitrogenInfo, addNitrogenBar, addPhosInfo, addPhosBar, addMap, addLineGraph, showReset]
+        let activationFunctions = [initial, first, addWaterInfo, addWaterBar, addLandInfo, addLandBar, addNitrogenInfo, addNitrogenBar, addPhosInfo, addPhosBar, addMap, addLineGraph, showReset]
 
     }
 

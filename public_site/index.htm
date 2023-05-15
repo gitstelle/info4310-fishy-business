@@ -322,6 +322,9 @@
     const chartWidth1 = width1 - margin1.left - margin1.right;
     const chartHeight1 = height1 - margin1.top - margin1.bottom;
     let annotations1 = chart1.append("g").attr("id", "annotations");
+    let annotations2 = chart1.append("g").attr("id", "annotations");
+    let annotations3 = chart1.append("g").attr("id", "annotations");
+    let annotations4 = chart1.append("g").attr("id", "annotations");
     const chartArea1 = chart1.append("g").attr("transform", "translate(" + margin1.left + "," + margin1.top + ")");
 
 
@@ -492,6 +495,9 @@
 
             // drawChart(water_use, barScale1, leftAxisScale1,'Freshwater use (m3 / kg edible weight)');
 
+            bottomAxis1.scale(barScale1);
+            bottomAxisG1.transition().call(bottomAxis1);
+
             chartArea1.selectAll('rect.bar').data(water_use)
                 .join('rect')
                 .attr('class', 'bar')
@@ -527,7 +533,7 @@
 
         addLandBar = async function () {
             await chartCont.transition().duration(200).style('opacity', 1).end();
-            drawChart(land_use, barScale2, leftAxisScale1, 'Land use (m2 / kg edible weight)', 'land')
+            drawChart(land_use, barScale2, leftAxisScale1, 'Land use (m2 / kg edible weight)', 'land', bottomAxis2, bottomAxisG2)
             allBarTitle.classed('hiddenRemove', true);
             d3.select("#titleLand").classed('hiddenRemove', false)
 
@@ -558,7 +564,7 @@
         addNitrogenBar = async function () {
             await chartCont.transition().duration(200).style('opacity', 1).end();
 
-            drawChart(nitrogen_emissions, barScale3, leftAxisScale1, 'Nitrogen (kgN / t edible weight)', 'nitrogen')
+            drawChart(nitrogen_emissions, barScale3, leftAxisScale1, 'Nitrogen (kgN / t edible weight)', 'nitrogen', bottomAxis3, bottomAxisG3)
             allBarTitle.classed('hiddenRemove', true);
             d3.select("#titleNitrogen").classed('hiddenRemove', false)
 
@@ -588,7 +594,7 @@
 
         addPhosBar = async function () {
             await chartCont.transition().duration(200).style('opacity', 1).end();
-            drawChart(phos_emissions, barScale4, leftAxisScale1, 'Phosphorous (kgP / t edible weight)', 'phosphorous')
+            drawChart(phos_emissions, barScale4, leftAxisScale1, 'Phosphorous (kgP / t edible weight)', 'phosphorous', bottomAxis4, bottomAxisG4)
             allBarTitle.classed('hiddenRemove', true);
             d3.select("#titlePhosphorous").classed('hiddenRemove', false)
 
@@ -905,7 +911,7 @@
 
             // adding buttons
             if (addButtons == true) {
-                addButtons=false;
+                addButtons = false;
                 const buttonsdiv = d3.select('.buttons')
                 buttons = buttonsdiv.selectAll('button').data(buttonsData).join('button')
 
@@ -950,8 +956,8 @@
             leftAxis1.scale(leftAxisScale1);
             leftAxisG1.transition().call(leftAxis1);
 
-            let bottomAxis1 = d3.axisBottom();
-            let bottomAxisG1 = annotations1.append("g")
+            bottomAxis1 = d3.axisBottom();
+            bottomAxisG1 = annotations1.append("g")
                 .attr("class", "x-axis")
                 // .attr("opacity", 0)
                 .attr("transform", `translate(${margin1.left - 1},${chartHeight1 + margin1.top})`)
@@ -962,14 +968,29 @@
             //making scales and axes for land
             barvalueExtent2 = d3.extent(land_values)
             barScale2 = d3.scaleLinear().domain([0, barvalueExtent2[1]]).range([0, chartWidth1]);
+            bottomAxis2 = d3.axisBottom();
+            bottomAxisG2 = annotations1.append("g")
+                .attr("class", "x-axis")
+                // .attr("opacity", 0)
+                .attr("transform", `translate(${margin1.left - 1},${chartHeight1 + margin1.top})`)
 
             //making scales and axes for nitrogen
             barvalueExtent3 = d3.extent(nitrogen_values)
             barScale3 = d3.scaleLinear().domain([0, barvalueExtent3[1]]).range([0, chartWidth1]);
+            bottomAxis3 = d3.axisBottom();
+            bottomAxisG3 = annotations1.append("g")
+                .attr("class", "x-axis")
+                // .attr("opacity", 0)
+                .attr("transform", `translate(${margin1.left - 1},${chartHeight1 + margin1.top})`)
 
             //making scales for phos
             barvalueExtent4 = d3.extent(phos_values)
             barScale4 = d3.scaleLinear().domain([0, barvalueExtent4[1]]).range([0, chartWidth1]);
+            bottomAxis4 = d3.axisBottom();
+            bottomAxisG4 = annotations1.append("g")
+                .attr("class", "x-axis")
+                // .attr("opacity", 0)
+                .attr("transform", `translate(${margin1.left - 1},${chartHeight1 + margin1.top})`)
         }
 
         createScales();
@@ -1302,32 +1323,33 @@
                         map.selectAll(".imageText").style('display', "none")
 
                     }
-                        
+
                     var imageLink = "images/" + pinCountry.toLowerCase() + "fishery.jpeg"
                     imageLink = imageLink.replace(/\s+/g, '');
 
 
-                    map.append("text").text(d +' is the number ' + (ranking+1) + ' exporter of ' + selectedFish)
+                    map.append("text").text(d + ' is the Number ' + (ranking + 1) + ' Exporter of ' + selectedFish)
                         .attr("class", "imageText")
-                        .attr('x', mapWidth/2 + 20)
-                        .attr('y', mapHeight/5)
+                        .attr('x', mapWidth / 2 + 10)
+                        .attr('y', mapHeight / 5)
                         .style("font-size", 20)
 
-                       
-                    
+
+
                     map.append("image")
                         .attr("class", "fisheryImage")
                         .attr("xlink:href", imageLink)
-                        .attr("x", mapWidth/2)
-                        .attr("y", mapHeight/3)
+                        .attr("x", mapWidth / 2)
+                        .attr("y", mapHeight / 3)
                         .attr("transform", "translate(" + map_margin.left + "," + map_margin.top + ")")
-                        
 
+                    map.append('text')
+                        .attr("id", "citeImage")
+                        .attr("class", "cite")
+                        .text("Fishermen in " + d)
+                        .attr("x", mapWidth / 2)
+                        .attr("y", 400)
                 }
-
-
-
-
             })
 
 
@@ -1411,8 +1433,17 @@
         }
 
 
-        function drawChart(data, barscale, leftaxisscale, column, barType) {
+        function drawChart(data, barscale, leftaxisscale, column, barType, bottomAxis, bottomAxisG) {
             console.log('drawChart')
+
+            // annotationstohide.selectAll('.x-axis').attr('class', 'hidden')
+            // annotationstoshow.selectAll('.x-axis').attr('visibility', 'visible')
+
+
+            bottomAxis.scale(barscale);
+            bottomAxisG.transition().call(bottomAxis);
+
+
 
             chartArea1.selectAll('rect.bar').data(data)
                 .join(enter => enter.append('rect')

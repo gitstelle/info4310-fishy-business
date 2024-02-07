@@ -30,6 +30,8 @@ Our intended audience is the average consumer. A data article like this would no
 interactive way to provide an overview of the environmental costs of the fish we consume.
 
 ### Data
+[(Back to top)](#table-of-contents)
+
 The data we used was generally simple and didn’t require much cleaning. We had to modify some country names in the dataset to match our JSON file and only used 13 observations from each of the CSV files we used for the 13 unique line charts we made using the Kaggle dataset. Some observations in the CSV files needed to be reordered so that they would animate properly on the line graph animation.
 
 Original data sources:
@@ -49,6 +51,7 @@ Original data sources:
 - [World Map TopoJson](https://github.com/topojson/world-atlas)
 
 ## Acknowledgements/References
+[(Back to top)](#table-of-contents)
 
 Thank you to [Cuthbert Chow's tutorial on implementing a scroller.](https://towardsdatascience.com/how-i-created-an-interactive-scrolling-visualisation-with-d3-js-and-how-you-can-too-e116372e2c73) We used his `scroller.js` in our article.
 
@@ -57,4 +60,6 @@ Thank you to Hannah Ritchie and Max Roser. We were very inspired by their *Our W
 Thank you to Professor Rzeszotarski and the INFO 4310 course staff!
 
 ## License
+[(Back to top)](#table-of-contents)
+
 [MIT License](https://opensource.org/license/mit/)

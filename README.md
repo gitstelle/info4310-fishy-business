@@ -2,19 +2,19 @@
 
 This was a group project authored by Estelle Hooper, Eva Ruse, and Gaby Chu for INFO 4310: Interactive Information Visualization in spring 2023. We were prompted to "develop an interactive news article, guide, or editorial that incorporates visualizations and data... to inform readers about a current issue, provide a data-driven guide on a topic of interest, or make an argument."
 
-# Table of Contents
+## Table of Contents
 
 - [Fishy Business: The Cost of Your Filet from Plate to Sea](#fishy-business-the-cost-of-your-filet-from-plate-to-sea)
-- [Table of Contents](#table-of-contents)
-- [Overview](#overview)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
     - [Techniques](#techniques)
     - [Motivation](#motivation)
     - [Intended Audience](#intended-audience)
     - [Data](#data)
-- [Acknowledgements/References](#acknowledgementsreferences)
-- [License](#license)
+  - [Acknowledgements/References](#acknowledgementsreferences)
+  - [License](#license)
 
-# Overview
+## Overview
 
 You can access our project [here!](https://gitstelle.github.io/info4310-fishy-business/)
 ![Demo](demo.gif)
@@ -48,7 +48,7 @@ Original data sources:
 - [Top Exporters of Tilapia](https://www.researchandmarkets.com/reports/5317038/global-tilapia-market-forecast-by-production?utm_source=GNOM&utm_medium=PressRelease&utm_code=sbtklg&utm_campaign=1537348+-+Global+Tilapia+Market+Report+2021-202+with+Company+Analysis+of+Seatrade%2c+Atlantic+Capes+Fisheries%2c+Inc%2c+Atalanta+Corporation%2c+Ideal+Foods+Ltd%2c+Sea+Delights&utm_exec=chdo54prd)
 - [World Map TopoJson](https://github.com/topojson/world-atlas)
 
-# Acknowledgements/References
+## Acknowledgements/References
 
 Thank you to [Cuthbert Chow's tutorial on implementing a scroller.](https://towardsdatascience.com/how-i-created-an-interactive-scrolling-visualisation-with-d3-js-and-how-you-can-too-e116372e2c73) We used his `scroller.js` in our article.
 
@@ -56,5 +56,5 @@ Thank you to Hannah Ritchie and Max Roser. We were very inspired by their *Our W
 
 Thank you to Professor Rzeszotarski and the INFO 4310 course staff!
 
-# License
+## License
 [MIT License](https://opensource.org/license/mit/)
